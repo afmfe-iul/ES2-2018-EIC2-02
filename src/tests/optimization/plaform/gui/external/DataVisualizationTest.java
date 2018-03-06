@@ -5,10 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JComponent;
 import org.junit.Test;
-
+import javafx.embed.swing.JFXPanel;
 import main.optimization.plaform.gui.external.DataVisualization;
 
-public class DataVisualizationTest {
+public class DataVisualizationTest extends JFXPanel{
+	private static final long serialVersionUID = 1L;
 
 	@Test
 	public void constructorMustReturnAnObjectThatInheritsFromJComponent(){
