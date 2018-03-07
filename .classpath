@@ -14,7 +14,6 @@
 	<classpathentry kind="lib" path="jMetal/jmetal-core-5.3.jar" sourcepath="jMetal/jMetal-jmetal-5.3-sources.zip"/>
 	<classpathentry kind="lib" path="jMetal/jmetal-exec-5.3.jar"/>
 	<classpathentry kind="lib" path="jMetal/jmetal-problem-5.3.jar" sourcepath="jMetal/jMetal-jmetal-5.3-sources.zip"/>
-	<classpathentry kind="lib" path="C:/Program Files/Java/jdk1.8.0_73/jre/lib/ext/jfxrt.jar"/>
 	<classpathentry kind="lib" path="jMetal/jfxrt.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
