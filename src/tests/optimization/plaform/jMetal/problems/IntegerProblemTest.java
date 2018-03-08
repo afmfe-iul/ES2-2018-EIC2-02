@@ -7,6 +7,8 @@ import javax.swing.JComponent;
 import org.junit.Test;
 import org.uma.jmetal.problem.impl.AbstractIntegerProblem;
 
+import main.optimization.plaform.jMetal.problems.IntegerProblem;
+
 public class IntegerProblemTest {
 
 	@Test

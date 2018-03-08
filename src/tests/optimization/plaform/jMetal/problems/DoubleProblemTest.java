@@ -6,6 +6,8 @@ import java.util.List;
 import org.junit.Test;
 import org.uma.jmetal.problem.impl.AbstractDoubleProblem;
 
+import main.optimization.plaform.jMetal.problems.DoubleProblem;
+
 public class DoubleProblemTest {
 
 	@Test
