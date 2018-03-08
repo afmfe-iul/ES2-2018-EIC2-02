@@ -3,6 +3,8 @@ package tests.optimization.plaform.gui;
 import static org.junit.Assert.*;
 import org.junit.Test;
 
+import main.optimization.plaform.gui.MainLayout;
+
 public class MainLayoutTest {
 	
 	@Test
