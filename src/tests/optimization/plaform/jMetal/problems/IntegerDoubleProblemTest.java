@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import org.junit.Test;
 import org.uma.jmetal.problem.impl.AbstractIntegerDoubleProblem;
-
 import main.optimization.plaform.jMetal.problems.IntegerDoubleProblem;
 
 public class IntegerDoubleProblemTest {
