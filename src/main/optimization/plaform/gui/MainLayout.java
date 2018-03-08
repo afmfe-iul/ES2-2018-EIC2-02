@@ -51,6 +51,7 @@ public class MainLayout {
 			public void run() {
 					MainLayout window = new MainLayout();
 					window.initialize();
+					
 					window.frame.setVisible(true);
 
 			}
