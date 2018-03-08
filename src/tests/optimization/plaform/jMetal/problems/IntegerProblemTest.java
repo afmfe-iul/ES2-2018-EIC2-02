@@ -3,10 +3,8 @@ package tests.optimization.plaform.jMetal.problems;
 import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JComponent;
 import org.junit.Test;
 import org.uma.jmetal.problem.impl.AbstractIntegerProblem;
-
 import main.optimization.plaform.jMetal.problems.IntegerProblem;
 
 public class IntegerProblemTest {
