@@ -6,7 +6,7 @@ import javafx.embed.swing.JFXPanel;
 public class DataVisualization  extends JFXPanel{
 	private static final long serialVersionUID = 1L;
 
-	public DataVisualization(List<String> filePaths) {
+	public DataVisualization(List<String> algorithmsNames, List<String> filePaths, List<String> decisionVariables) {
 		// TODO generate data.tsv files based on the .rs an .rf files in the filePaths
 		// the .tsv formats should be: Decision Variable Name (column 1), Algorithm 1 (column 2), Algorithm 2, etc..
 		// and Optimiation Criterium number (column 1), Algorithm 1 (column 2), Algorithm 2, etc..

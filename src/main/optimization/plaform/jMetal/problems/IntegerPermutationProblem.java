@@ -1,11 +1,11 @@
 package main.optimization.plaform.jMetal.problems;
 
 import java.util.List;
-
 import org.uma.jmetal.problem.impl.AbstractIntegerPermutationProblem;
 import org.uma.jmetal.solution.PermutationSolution;
 
 public class IntegerPermutationProblem extends AbstractIntegerPermutationProblem {
+	private static final long serialVersionUID = 1L;
 
 	public IntegerPermutationProblem(List<String> decisionVariables, List<String> jarPaths) {
 		// TODO Auto-generated constructor stub
