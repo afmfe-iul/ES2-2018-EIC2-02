@@ -16,7 +16,7 @@ public class DoubleProblemTest {
 		// The DoubleProblem assumes the input files (ham.log and spam.log)
 		// paths
 		// are hardcoded in the admin xml file
-		DoubleProblem instance = new DoubleProblem(decisionVariables, jarPaths);
+		DoubleProblem instance = new DoubleProblem(decisionVariables, jarPaths, null, 0, 0);
 		assertTrue("DoubleProblem intances should extend the AbstractDoubleProblem class.",
 				instance.getClass().getSuperclass().equals(AbstractDoubleProblem.class));
 	}
