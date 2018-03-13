@@ -5,27 +5,32 @@ import java.util.List;
 import org.uma.jmetal.problem.impl.AbstractDoubleProblem;
 import org.uma.jmetal.solution.DoubleSolution;
 
+@SuppressWarnings("serial")
 public class DoubleProblem extends AbstractDoubleProblem {
-	private static final long serialVersionUID = 1L;
-	private static int NUMBER_OF_OBJECTIVES;
-	private static double LOWER_BOUND;
-	private static double UPPER_BOUND;
-	private static List<String> DECISION_VARIABLES;
-	private static List<String> JAR_PATHS;
+	private int numberOfObjectives;
+	private double lowerBound;
+	private double upperBound;
+	private List<String> decisionVariables;
+	private List<ProblemHelper> problemHelpers;
 
 	/**
 	 * Constructor instantiates a DoubleProblem.
+	 * 
+	 * @throws Exception
 	 */
 	public DoubleProblem(List<String> decisionVariables, List<String> jarPaths, String problemName, double lowerBound,
-			double upperBound) {
-		DECISION_VARIABLES = decisionVariables;
-		JAR_PATHS = jarPaths;
-		NUMBER_OF_OBJECTIVES = decisionVariables.size();
-		LOWER_BOUND = lowerBound;
-		UPPER_BOUND = upperBound;
+			double upperBound) throws Exception {
+		this.decisionVariables = decisionVariables;
+		numberOfObjectives = jarPaths.size();
+		this.lowerBound = lowerBound;
+		this.upperBound = upperBound;
 
-		setNumberOfVariables(DECISION_VARIABLES.size());
-		setNumberOfObjectives(NUMBER_OF_OBJECTIVES);
+		problemHelpers = new ArrayList<ProblemHelper>();
+		for (int i = 0; i < numberOfObjectives; i++) {
+			problemHelpers.add(new ProblemHelper(jarPaths.get(i), this.decisionVariables));
+		}
+		setNumberOfVariables(this.decisionVariables.size());
+		setNumberOfObjectives(numberOfObjectives);
 		setName(problemName);
 
 		// Adds the lower and upper bound to each decision variable
@@ -34,8 +39,8 @@ public class DoubleProblem extends AbstractDoubleProblem {
 		List<Double> lowerLimit = new ArrayList<>(getNumberOfVariables());
 		List<Double> upperLimit = new ArrayList<>(getNumberOfVariables());
 		for (int i = 0; i < getNumberOfVariables(); i++) {
-			lowerLimit.add(LOWER_BOUND);
-			upperLimit.add(UPPER_BOUND);
+			lowerLimit.add(this.lowerBound);
+			upperLimit.add(this.upperBound);
 		}
 		setLowerLimit(lowerLimit);
 		setUpperLimit(upperLimit);
@@ -46,8 +51,8 @@ public class DoubleProblem extends AbstractDoubleProblem {
 	 * Evaluates the fitness of a vector of weights.
 	 */
 	public void evaluate(DoubleSolution solution) {
-		for (int i = 0; i < NUMBER_OF_OBJECTIVES; i++) {
-			ProblemUtils.evaluate(JAR_PATHS.get(i), solution, i);
+		for (int i = 0; i < numberOfObjectives; i++) {
+			problemHelpers.get(i).evaluate(solution);
 		}
 	}
 
