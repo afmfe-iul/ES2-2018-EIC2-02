@@ -50,7 +50,7 @@ public class OptimizationProcess {
 
 	// TODO do the UPPER and LOWER Bounds on constructor of the problem?
 	// TODO name of problem from GUI input??
-	public boolean run(List<String> decisionVariables, List<String> jarPaths, String dataType, String algorithm) {
+	public boolean run(List<String> decisionVariables, List<String> jarPaths, String dataType, String algorithm) throws Exception {
 
 		if (dataType.equals("Double")) {
 			List<ExperimentProblem<DoubleSolution>> problemList = new ArrayList<>();

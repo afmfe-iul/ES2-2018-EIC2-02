@@ -30,7 +30,7 @@ public class OptimizationProcessTest {
 	}
 	
 	@Test
-	public void runShouldInstantiateAProblemObjectAndRunAJMetalExperimentAndReturnTrueIfStartedItSuccessfuly(){
+	public void runShouldInstantiateAProblemObjectAndRunAJMetalExperimentAndReturnTrueIfStartedItSuccessfuly() throws Exception{
 		OptimizationProcess instance = new OptimizationProcess();
 		List<String> decisionVariables = new ArrayList<String>();
 		List<String> jarPaths = new ArrayList<String>();
