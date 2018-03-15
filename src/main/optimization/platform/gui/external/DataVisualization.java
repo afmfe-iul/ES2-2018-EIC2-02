@@ -1,4 +1,4 @@
-package main.optimization.plaform.gui.external;
+package main.optimization.platform.gui.external;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -123,7 +123,7 @@ public class DataVisualization  extends JFXPanel{
 		
 		DataVisualization dv = new DataVisualization(algorithmsNames, filePaths, decisionVariables);
 		JFrame jFrame = new JFrame("Main");
-		jFrame.setSize(950, 750);
+		jFrame.setSize(1300, 750);
 		jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		jFrame.add(dv);
 		dv.run();

@@ -1,11 +1,12 @@
-package tests.optimization.plaform.jMetal.problems;
+package tests.optimization.platform.jMetal.problems;
 
 import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Test;
 import org.uma.jmetal.problem.impl.AbstractIntegerPermutationProblem;
-import main.optimization.plaform.jMetal.problems.IntegerPermutationProblem;
+
+import main.optimization.platform.jMetal.problems.IntegerPermutationProblem;
 
 public class IntegerPermutationProblemTest {
 

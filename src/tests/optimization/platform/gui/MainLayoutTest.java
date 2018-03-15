@@ -1,9 +1,9 @@
-package tests.optimization.plaform.gui;
+package tests.optimization.platform.gui;
 
 import static org.junit.Assert.*;
 import org.junit.Test;
 
-import main.optimization.plaform.gui.MainLayout;
+import main.optimization.platform.gui.MainLayout;
 
 public class MainLayoutTest {
 	

@@ -1,11 +1,12 @@
-package tests.optimization.plaform.gui.external;
+package tests.optimization.platform.gui.external;
 
 import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JComponent;
 import org.junit.Test;
-import main.optimization.plaform.gui.external.DataVisualization;
+
+import main.optimization.platform.gui.external.DataVisualization;
 
 public class DataVisualizationTest {
 

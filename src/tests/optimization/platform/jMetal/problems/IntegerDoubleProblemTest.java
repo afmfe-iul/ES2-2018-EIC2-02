@@ -1,4 +1,4 @@
-package tests.optimization.plaform.jMetal.problems;
+package tests.optimization.platform.jMetal.problems;
 
 import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
@@ -7,7 +7,7 @@ import org.junit.Test;
 import org.uma.jmetal.problem.impl.AbstractIntegerDoubleProblem;
 import org.uma.jmetal.solution.DoubleSolution;
 
-import main.optimization.plaform.jMetal.problems.IntegerDoubleProblem;
+import main.optimization.platform.jMetal.problems.IntegerDoubleProblem;
 
 public class IntegerDoubleProblemTest {
 

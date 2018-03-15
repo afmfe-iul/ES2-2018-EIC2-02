@@ -5,26 +5,29 @@
 <meta name="viewport" content="width=device-width">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.2.3/d3.min.js"></script>
 </head>
-<style>
-	.container {
-	  float: left;
-	}
-</style>
 <body>
-<div class="container" id="chart1"></div>
-<div class="container" id="chart2"></div>
-	<script>
+<!-- 	<div class="contained" id="chart1"></div> -->
+<!-- 	<div class="contained" id="chart2"></div> -->
+<script>
 		var WIDTH = 800;
 		var HEIGTH = 200;
 		var PADDING = 30;
 		var tooltips = [];
-		var svgMain = d3.select("#chart1").append("svg")
+		var svgMain = d3.select("body").append("svg")
 		.attr("width", WIDTH)
 		
+		svgMain.append("rect")
+	    .attr("width", "100%")
+	    .attr("height", "100%")
+	    .attr("fill", "white");
+		
 		// TODO svgBottom will be used to show the FP/FN for example
-		var svgBottom = d3.select("#chart2").append("svg")
-		.attr("width", WIDTH)
-		.attr("heigth", HEIGTH);
+		var svgBottom = d3.select("body").append("svg")
+		.attr("width", WIDTH / 2);
+		svgBottom.append("rect")
+	    .attr("width", "100%")
+	    .attr("height", "100%")
+	    .attr("fill", "white");
 		
 		var xScale = d3.scalePoint().range([0, WIDTH]);
 		var yScale = d3.scaleLinear().range([-HEIGTH/2 + PADDING, HEIGTH/2 - PADDING]);
@@ -38,7 +41,9 @@
 					algorithms.push(d[key]);				
 				}
 			});
-			svgMain.attr("height", HEIGTH * algorithms.length + PADDING * (algorithms.length - 1));
+			var h = HEIGTH * algorithms.length + PADDING * (algorithms.length - 1);
+			svgMain.attr("height", h);
+			svgBottom.attr("heigth", h);
 		});
 		
 		
@@ -65,12 +70,20 @@
 				
 				
 				yScale.domain(extent);
+				// value tooltip
 				tooltips.push(
 						d3.select("body")
 						.append("div")
 						.style("position", "absolute")
 						.style("z-index", "10")
 						.style("top", (HEIGTH + PADDING) * i + "px"));
+				// variable name tooltip
+				tooltips.push(
+						d3.select("body")
+						.append("div")
+						.style("position", "absolute")
+						.style("z-index", "10")
+						.style("top", (HEIGTH + PADDING) * i + 13 + "px"));
 				
 				bars.enter().append("rect")
 					.attr("x", function(d){return xScale(d["variable"]);})
@@ -103,7 +116,19 @@
 			}
 			bars.exit().remove();
 			
-			svgMain.on("mousemove", function(){
+			svgMain
+			.on("mouseenter ", function() {
+				for(i = 0; i < algorithms.length; i++){
+					tooltips[i].style("display", null);
+				}
+			})
+			.on("mouseleave ", function() {
+				d3.select("#id").remove();
+				for(i = 0; i < algorithms.length; i++){
+					tooltips[i].style("display", "none");
+				}
+			})
+			.on("mousemove", function(){
 				var mouseX = d3.event.pageX - 7;
 				d3.select("#id").remove();	
 				svgMain.append("line")
@@ -116,11 +141,13 @@
 				.attr("stroke", "black");
 				
 				for(i = 0; i < algorithms.length; i++){
-					tooltips[i].text(myArray[(mouseX - 2)/w | 0][algorithms[i]])
+					// variable value tooltip
+					tooltips[i*2].text(myArray[(mouseX - 2)/w | 0]["variable"])
+					.style("left", d3.event.pageX + 4 + "px");
+					// variable name tooltip
+					tooltips[i*2 + 1].text(myArray[(mouseX - 2)/w | 0][algorithms[i]])
 					.style("left", d3.event.pageX + 4 + "px");
 				}
-				
-//				console.log(myArray[mouseX/w | 0]["variable"]);
 			});
 		}
 		

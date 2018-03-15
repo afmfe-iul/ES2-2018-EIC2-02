@@ -1,4 +1,4 @@
-package tests.optimization.plaform.jMetal;
+package tests.optimization.platform.jMetal;
 
 import static org.junit.Assert.*;
 import java.util.ArrayList;
@@ -7,7 +7,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import org.junit.Test;
-import main.optimization.plaform.jMetal.OptimizationProcess;
+
+import main.optimization.platform.jMetal.OptimizationProcess;
 
 public class OptimizationProcessTest {
 	
