@@ -1,11 +1,13 @@
 package main.optimization.platform.gui;
 
 import java.awt.EventQueue;
+import java.util.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
@@ -22,29 +24,35 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.JComboBox;
+import javax.swing.JTextArea;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
 
 
 
 public class MainLayout {
 	public JFrame frame;
 	public JTextField txtRules;
-	public JTextField txtHam;
-	public JTextField txtSpam;
-	public JTextField txtManualFPositive;
-	public JTextField txtManualFNegative;
-	public JTextField txtOptimalFPositive;
-	public JTextField txtOptimalFNegative;
 	public JTable tableManualConfig;
-	public JTable tableOptimalConfig;
-	public JButton btnGravarManual;
-	public JButton btnGravarOptimal;
-	public JButton btnEvaluateManual;
-	public JButton btnGenerateOptimal;
 	public JDialog progressDialog;
 	public JScrollPane scrollPaneTabel1;
-	public JScrollPane scrollPaneTabel2;
 	public HashMap<String, Integer> rulesMap = new HashMap<String, Integer>();
-	
+	private JLabel lblEmail;
+	private JLabel lblNameProblem;
+	private JTextField txtProblemName;
+	private JTextField txtEmail;
+	private JLabel lblNameVariables;
+	private JTextField txtVariablesName;
+	private JLabel lblMaximumtime;
+	private JTextField txtMaximumTime;
+	private JLabel lblType;
+	private JLabel lblVariablesNumber;
+	private JTextField txtVariablesNumber;
+	private JTextArea txtProblemDescription;
+	private JComboBox comboBoxType;
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -59,9 +67,10 @@ public class MainLayout {
 	}
 	
 	public void initialize() {
+		FileNameExtensionFilter filterXml = new FileNameExtensionFilter("Xml files", "xml", "xml");
 		frame = new JFrame("AntiSpamConfigurationForLeisureMailbox");
 		frame.setResizable(false);
-		frame.setBounds(100, 100, 450, 667);
+		frame.setBounds(100, 100, 700, 667);
 
 		frame.addWindowListener(new WindowAdapter() {
 			@Override
@@ -74,266 +83,218 @@ public class MainLayout {
 			}
 		});
 
-		JLabel lblRules = new JLabel("Rules");
-		JLabel lblHam = new JLabel("Ham");
-		JLabel lblSpam = new JLabel("Spam");
-
+		JLabel lblRules = new JLabel("Jar");
 		txtRules = new JTextField();
 		txtRules.setEditable(false);
 		txtRules.setColumns(10);
 
-		txtHam = new JTextField();
-		txtHam.setEditable(false);
-		txtHam.setColumns(10);
-
-		txtSpam = new JTextField();
-		txtSpam.setEditable(false);
-		txtSpam.setColumns(10);
-
 		JButton btnRules = new JButton("");
-		//btnRules.setIcon(new ImageIcon(MainLayout.class.getResource("/imageWindowBuilder/foldericon.png")));
-
-		JButton btnHam = new JButton("");
-		//btnHam.setIcon(new ImageIcon(MainLayout.class.getResource("/imageWindowBuilder/foldericon.png")));
-
-		JButton btnSpam = new JButton("");
 		//btnSpam.setIcon(new ImageIcon(MainLayout.class.getResource("/imageWindowBuilder/foldericon.png")));
-		JFileChooser fileChooserRules = new JFileChooser();
-		JFileChooser fileChooserOther = new JFileChooser();
+		JFileChooser fileChooser = new JFileChooser();
+		JFileChooser fileChooserXml= new JFileChooser();
+		 File k= new File("SavedProblems");
+		 fileChooserXml.setCurrentDirectory(k);
+		//JFileChooser fileChooserOther = new JFileChooser();
 		FileNameExtensionFilter filterRules = new FileNameExtensionFilter("CF Files", "cf", "cf");
 		FileNameExtensionFilter filter = new FileNameExtensionFilter("LOG Files", "log", "log");
-		fileChooserRules.setFileFilter(filterRules);
-		fileChooserOther.setFileFilter(filter);
+		fileChooser.setFileFilter(filterRules);
 		
 		btnRules.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				int result = fileChooserRules.showOpenDialog(btnRules);
+				int result = fileChooser.showOpenDialog(btnRules);
 				if (result == JFileChooser.APPROVE_OPTION) {
-					File selectedFile = fileChooserRules.getSelectedFile();
+					File selectedFile = fileChooser.getSelectedFile();
 					if(selectedFile.exists()){
 					txtRules.setText(selectedFile.getAbsolutePath());
 					}
 				}
 			}
 		});
-		btnHam.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				int result = fileChooserOther.showOpenDialog(btnHam);
-				if (result == JFileChooser.APPROVE_OPTION) {
-					File selectedFile = fileChooserOther.getSelectedFile();
-					if(selectedFile.exists()){
-						txtHam.setText(selectedFile.getAbsolutePath());
-						}
-				}
-			}
-		});
-
-		btnSpam.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				int result = fileChooserOther.showOpenDialog(btnSpam);
-				if (result == JFileChooser.APPROVE_OPTION) {
-					File selectedFile = fileChooserOther.getSelectedFile();
-					if(selectedFile.exists()){
-						txtSpam.setText(selectedFile.getAbsolutePath());
-						}
-				}
-			}
-		});
 
 		scrollPaneTabel1 = new JScrollPane();
-		scrollPaneTabel2 = new JScrollPane();
-
-		btnEvaluateManual = new JButton("Evaluate");
-		btnEvaluateManual.setEnabled(false);
-		btnEvaluateManual.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-
-			}
-		});
-
-		btnGravarManual = new JButton("Save");
-		btnGravarManual.setEnabled(false);
-		btnGravarManual.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		txtManualFPositive = new JTextField();
-		txtManualFPositive.setEditable(false);
-		txtManualFPositive.setColumns(10);
-		txtManualFNegative = new JTextField();
-		txtManualFNegative.setEditable(false);
-		txtManualFNegative.setColumns(10);
-		JLabel lblManualFPositive = new JLabel("False Positive:");
-		JLabel lblManualFNegative = new JLabel("False Negative:");
 		
-		btnGenerateOptimal = new JButton("Generate configuration");
-		btnGenerateOptimal.setEnabled(false);
-		btnGenerateOptimal.addActionListener(new ActionListener() {
-			@Override
+		JButton btnJarPath = new JButton("Load Jar");
+		btnJarPath.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new Thread(new Runnable() {
-					@Override
-					public void run() {
-						progressDialog.dispose();
+				//TODO send jar
+			}
+		});
+		
+		comboBoxType = new JComboBox();
+		comboBoxType.addItem("Integer");
+		comboBoxType.addItem("Boolean");
+		comboBoxType.addItem("Double");
+		
+		 txtProblemDescription = new JTextArea();
+		
+		JLabel lblDescrio = new JLabel("Description");
+		
+		lblEmail = new JLabel("Email :");
+		
+		lblNameProblem = new JLabel("Problem name: ");
+		
+		txtProblemName = new JTextField();
+		txtProblemName.setColumns(10);
+		
+		txtEmail = new JTextField();
+		txtEmail.setColumns(10);
+		
+		lblNameVariables = new JLabel("Variables name");
+		
+		txtVariablesName = new JTextField();
+		txtVariablesName.setColumns(10);
+		
+		lblMaximumtime = new JLabel("Maximum waiting time");
+		
+		txtMaximumTime = new JTextField();
+		txtMaximumTime.setColumns(10);
+		
+		lblType = new JLabel("Type");
+		
+		lblVariablesNumber = new JLabel("Variables number");
+		
+		txtVariablesNumber = new JTextField();
+		txtVariablesNumber.setColumns(10);
+		
+		JButton btnLoadTable = new JButton("Load Table");
+		btnLoadTable.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				loadTable();
+			}
+		});
+		
+		JButton btnSaveXmlProblemL = new JButton("Save problem");
+		btnSaveXmlProblemL.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				createXml();
+			}
+		});
+		
+		JButton btnOpenXmlProblem = new JButton("Open problem");
+		btnOpenXmlProblem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				fileChooserXml.setFileFilter(filterXml);
+				int result = fileChooserXml.showOpenDialog(btnOpenXmlProblem);
+				if (result == JFileChooser.APPROVE_OPTION) {
+					File selectedFile = fileChooserXml.getSelectedFile();
+					if(selectedFile.exists()){
+						loadXmlProblem(selectedFile.getAbsolutePath());
 					}
-				}).start();
-				//createProgressPopUp();
+				
+				}
 			}
 		});
-
-		btnGravarOptimal = new JButton("Save");
-		btnGravarOptimal.setEnabled(false);
-		btnGravarOptimal.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-
-		JLabel lblFalsePositive = new JLabel("False Positive:");
-
-		JLabel lblFalseNegative = new JLabel("False Negative:");
-
-		txtOptimalFPositive = new JTextField();
-		txtOptimalFPositive.setEditable(false);
-		txtOptimalFPositive.setColumns(10);
-
-		txtOptimalFNegative = new JTextField();
-		txtOptimalFNegative.setEditable(false);
-		txtOptimalFNegative.setColumns(10);
-		
-		JButton btnFilePaths = new JButton("Carregar ficheiros");
-		btnFilePaths.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(10)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
 						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(18)
-							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addGroup(groupLayout.createSequentialGroup()
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(lblHam, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(txtHam, GroupLayout.PREFERRED_SIZE, 319, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(btnHam, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
-								.addGroup(groupLayout.createSequentialGroup()
-									.addComponent(lblRules)
-									.addPreferredGap(ComponentPlacement.UNRELATED)
-									.addComponent(txtRules, GroupLayout.PREFERRED_SIZE, 319, GroupLayout.PREFERRED_SIZE)
-									.addGap(6)
-									.addComponent(btnRules, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
+								.addComponent(scrollPaneTabel1, GroupLayout.DEFAULT_SIZE, 477, Short.MAX_VALUE)
+								.addComponent(lblDescrio)
 								.addGroup(groupLayout.createSequentialGroup()
 									.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-										.addGroup(groupLayout.createSequentialGroup()
-											.addComponent(lblSpam, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
-											.addPreferredGap(ComponentPlacement.RELATED)
-											.addComponent(txtSpam, GroupLayout.PREFERRED_SIZE, 319, GroupLayout.PREFERRED_SIZE)
-											.addPreferredGap(ComponentPlacement.RELATED))
-										.addGroup(groupLayout.createSequentialGroup()
-											.addComponent(btnFilePaths)
-											.addGap(130)))
-									.addComponent(btnSpam, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addContainerGap()
-							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addComponent(scrollPaneTabel2, GroupLayout.PREFERRED_SIZE, 208, GroupLayout.PREFERRED_SIZE)
-								.addComponent(scrollPaneTabel1, GroupLayout.PREFERRED_SIZE, 208, GroupLayout.PREFERRED_SIZE))
-							.addGap(49)
-							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addGroup(groupLayout.createSequentialGroup()
-									.addGap(39)
+										.addComponent(lblNameProblem)
+										.addComponent(lblEmail))
+									.addPreferredGap(ComponentPlacement.UNRELATED)
 									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-										.addComponent(btnGravarManual, GroupLayout.PREFERRED_SIZE, 84, GroupLayout.PREFERRED_SIZE)
-										.addComponent(btnEvaluateManual, GroupLayout.PREFERRED_SIZE, 84, GroupLayout.PREFERRED_SIZE)))
-								.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
-									.addGroup(groupLayout.createSequentialGroup()
-										.addComponent(lblFalseNegative)
-										.addPreferredGap(ComponentPlacement.RELATED)
-										.addComponent(txtOptimalFNegative, GroupLayout.PREFERRED_SIZE, 51, GroupLayout.PREFERRED_SIZE))
-									.addGroup(groupLayout.createSequentialGroup()
-										.addComponent(lblFalsePositive)
-										.addGap(10)
-										.addComponent(txtOptimalFPositive, 0, 0, Short.MAX_VALUE)))
+										.addComponent(txtEmail, GroupLayout.DEFAULT_SIZE, 371, Short.MAX_VALUE)
+										.addComponent(txtProblemName, GroupLayout.DEFAULT_SIZE, 371, Short.MAX_VALUE)))
+								.addComponent(txtProblemDescription, GroupLayout.PREFERRED_SIZE, 467, GroupLayout.PREFERRED_SIZE))
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addComponent(btnOpenXmlProblem)
+								.addComponent(btnSaveXmlProblemL)))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 								.addGroup(groupLayout.createSequentialGroup()
-									.addGap(6)
-									.addComponent(btnGenerateOptimal))
+									.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
+										.addGroup(groupLayout.createSequentialGroup()
+											.addComponent(comboBoxType, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
+											.addPreferredGap(ComponentPlacement.RELATED)
+											.addComponent(txtVariablesNumber, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+										.addGroup(groupLayout.createSequentialGroup()
+											.addGap(21)
+											.addComponent(lblType)
+											.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+											.addComponent(lblVariablesNumber)))
+									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+										.addGroup(groupLayout.createSequentialGroup()
+											.addPreferredGap(ComponentPlacement.RELATED)
+											.addComponent(txtVariablesName, GroupLayout.PREFERRED_SIZE, 230, GroupLayout.PREFERRED_SIZE))
+										.addGroup(groupLayout.createSequentialGroup()
+											.addGap(74)
+											.addComponent(lblNameVariables))))
 								.addGroup(groupLayout.createSequentialGroup()
-									.addGap(29)
-									.addComponent(btnGravarOptimal, GroupLayout.PREFERRED_SIZE, 84, GroupLayout.PREFERRED_SIZE))
-								.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
-									.addGroup(groupLayout.createSequentialGroup()
-										.addComponent(lblManualFNegative)
-										.addPreferredGap(ComponentPlacement.RELATED)
-										.addComponent(txtManualFNegative, 0, 0, Short.MAX_VALUE))
-									.addGroup(groupLayout.createSequentialGroup()
-										.addComponent(lblManualFPositive)
-										.addPreferredGap(ComponentPlacement.UNRELATED)
-										.addComponent(txtManualFPositive, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE))))))
-					.addContainerGap(28, Short.MAX_VALUE))
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(lblRules)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(txtRules, GroupLayout.PREFERRED_SIZE, 319, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(btnRules)))
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblMaximumtime, GroupLayout.PREFERRED_SIZE, 134, GroupLayout.PREFERRED_SIZE)
+								.addComponent(txtMaximumTime, 92, 92, 92))))
+					.addGap(102))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(131)
+					.addComponent(btnJarPath, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addGap(644))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(57)
+					.addComponent(btnLoadTable)
+					.addContainerGap(706, Short.MAX_VALUE))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(20)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblRules)
-						.addComponent(txtRules, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnRules, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(txtHam, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblHam)
-						.addComponent(btnHam, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblSpam)
-						.addComponent(txtSpam, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnSpam, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
-					.addGap(35)
+					.addGap(9)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addGroup(groupLayout.createSequentialGroup()
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(scrollPaneTabel1, GroupLayout.PREFERRED_SIZE, 217, GroupLayout.PREFERRED_SIZE))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(26)
-							.addComponent(btnEvaluateManual)
-							.addGap(18)
-							.addComponent(btnGravarManual)
-							.addGap(26)
 							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(lblManualFPositive)
-								.addComponent(txtManualFPositive, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE))
+								.addComponent(lblRules)
+								.addComponent(txtRules, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addGap(4)
+							.addComponent(btnJarPath)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(lblManualFNegative)
-								.addComponent(txtManualFNegative, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE))))
-					.addGap(18)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(btnGenerateOptimal)
-							.addGap(18)
-							.addComponent(btnGravarOptimal)
-							.addGap(18)
-							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(lblFalsePositive)
-								.addComponent(txtOptimalFPositive, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(lblFalseNegative)
-								.addComponent(txtOptimalFNegative, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-						.addComponent(scrollPaneTabel2, GroupLayout.PREFERRED_SIZE, 217, GroupLayout.PREFERRED_SIZE))
+								.addComponent(lblVariablesNumber)
+								.addComponent(lblType)
+								.addComponent(lblNameVariables)
+								.addComponent(lblMaximumtime, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+						.addComponent(btnRules, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING))).addGroup(groupLayout.createSequentialGroup()
-					.addGap(118)
-					.addComponent(btnFilePaths))
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(comboBoxType, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(txtVariablesNumber, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(txtVariablesName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(txtMaximumTime, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(btnLoadTable)
+							.addGap(2)
+							.addComponent(scrollPaneTabel1, GroupLayout.PREFERRED_SIZE, 217, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblNameProblem)
+								.addComponent(txtProblemName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+								.addComponent(txtEmail, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblEmail))
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(lblDescrio))
+						.addComponent(btnSaveXmlProblemL))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(txtProblemDescription, GroupLayout.DEFAULT_SIZE, 184, Short.MAX_VALUE)
+						.addComponent(btnOpenXmlProblem))
+					.addGap(26))
 		);
 
 		resetTableModels();
@@ -345,72 +306,166 @@ public class MainLayout {
 		JOptionPane.showMessageDialog(frame, message, title, iconType);
 	}
 	public  void resetTableModels() {
-		tableOptimalConfig = new JTable();
-		tableOptimalConfig.setEnabled(false);
-		tableOptimalConfig.setRowSelectionAllowed(false);
-		
-		tableOptimalConfig.setModel(new DefaultTableModel(
-				new Object[][] {
-				},
-				new String[] {
-						"Rules", "Weights"
-				}
-				){
-			private static final long serialVersionUID = 1L;
-			
-			Class<?>[] columnTypes = new Class[] {
-					String.class, Double.class
-			};
-			public Class<?> getColumnClass(int columnIndex) {
-				return columnTypes[columnIndex];
-			}
-			boolean[] columnEditables = new boolean[] {
-					false, false
-			};
-			public boolean isCellEditable(int row, int column) {
-				return columnEditables[column];
-			}
-		});
-		tableOptimalConfig.getColumnModel().getColumn(0).setResizable(false);
-		tableOptimalConfig.getColumnModel().getColumn(1).setResizable(false);
 		tableManualConfig = new JTable();
 		tableManualConfig.setRowSelectionAllowed(false);
 		tableManualConfig
 		.setModel(new DefaultTableModel(
-				new Object[][] {
-				},
-				new String[] {
-						"Rules", "Weights"
-				}
-				) {
-			private static final long serialVersionUID = 1L;
-			@SuppressWarnings("rawtypes")
+			new Object[][]{},
+			new String[] {
+				"Name", "Rule","Minimum", "Maximum", "Forbidden"}
+		) {
 			Class[] columnTypes = new Class[] {
-					String.class, Double.class
+				String.class,String.class, Integer.class, Integer.class, Integer.class
 			};
-			public Class<?> getColumnClass(int columnIndex) {
+			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
-			}
-			boolean[] columnEditables = new boolean[] {
-					false, true
-			};
-			public boolean isCellEditable(int row, int column) {
-				return columnEditables[column];
 			}
 		});
 		tableManualConfig.getColumnModel().getColumn(0).setResizable(false);
 		tableManualConfig.getColumnModel().getColumn(1).setResizable(false);
 		scrollPaneTabel1.setViewportView(tableManualConfig);
-		scrollPaneTabel2.setViewportView(tableOptimalConfig);
 	}
-
 	
+	private void loadTable(){
+		DefaultTableModel modelManual = null;
+		if(comboBoxType.getSelectedItem().toString()=="Integer"){
+			modelManual = new DefaultTableModel(
+				new Object[][]{},
+				new String[] {
+					"Name","Rule",  "Minimum", "Maximum", "Forbidden"}
+			) {
+			
+				Class[] columnTypes = new Class[] {
+					String.class,String.class, Integer.class, Integer.class, Integer.class
+				};
+				public Class getColumnClass(int columnIndex) {
+					return columnTypes[columnIndex];
+				}
+			};
+		}
+		if(comboBoxType.getSelectedItem().toString()=="Double"){
+			 modelManual = new DefaultTableModel(
+					new Object[][]{},
+					new String[] {
+						"Name","Rule",  "Minimum", "Maximum", "Forbidden"}
+				) {
+				
+					Class[] columnTypes = new Class[] {
+						String.class,String.class, Double.class, Double.class, Double.class
+					};
+					public Class getColumnClass(int columnIndex) {
+						return columnTypes[columnIndex];
+					}
+				};
+			}
+		if(comboBoxType.getSelectedItem().toString()=="Boolean"){
+			 modelManual = new DefaultTableModel(
+					new Object[][]{},
+					new String[] {
+						"Name","Rule",  "Forbidden"}
+				) {
+				
+					Class[] columnTypes = new Class[] {
+						String.class,String.class, Boolean.class
+					};
+					public Class getColumnClass(int columnIndex) {
+						return columnTypes[columnIndex];
+					}
+				};
+			}
+		
+		int counter =  Integer.parseInt(txtVariablesNumber.getText());
+		for(int i=0; i<counter; i++){
+			modelManual.addRow(new Object[]{null, null});
+		}
+		tableManualConfig.setModel(modelManual);
+		}
+	
+	private void loadXmlProblem(String xmlFile){
+		File file = new File(xmlFile);
+		JAXBContext jaxbContext;
+		try {
+			jaxbContext = JAXBContext.newInstance(LayoutProblem.class);
+			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+			LayoutProblem problem = (LayoutProblem) jaxbUnmarshaller.unmarshal(file);
+			//System.out.println(problem);
+			
+			txtVariablesNumber.setText(Integer.toString(problem.getVariablesNumber()));
+			txtProblemDescription.setText(problem.getProblemDescription());
+			txtProblemName.setText(problem.getProblemTitle());
+			txtVariablesName.setText(problem.getVariablesName());
+			txtMaximumTime.setText(Integer.toString(problem.getMaxWaitingTime()));
+			//TODO load combobox and table
+		} catch (JAXBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
+	}
 	private void createXml(){
-		//TODO create xml
+		String tipo=comboBoxType.getSelectedItem().toString();
+		  LayoutProblem problem = new LayoutProblem();
+		  problem.setMaxWaitingTime(Integer.parseInt(txtMaximumTime.getText()));
+		  problem.setVariablesName(txtVariablesName.getText());
+		  problem.setVariablesNumber(Integer.parseInt(txtVariablesNumber.getText()));
+		  problem.setProblemDescription(txtProblemDescription.getText());
+		  problem.setProblemTitle(txtProblemName.getText());
+		  problem.setTipo(comboBoxType.getSelectedItem().toString());
+		  List <tableRow> lista = new ArrayList<tableRow>(2);
+		  
+		  if(tipo=="Integer"){
+			  for (int i=0;i<tableManualConfig.getRowCount();i++){
+				  tableRow m = new tableRow();
+			 m.setName((String) tableManualConfig.getValueAt(i, 0));
+			 m.setRule((String) tableManualConfig.getValueAt(i, 1));
+			  m.setMaximo( Integer.toString((int) tableManualConfig.getValueAt(i, 2)));
+			  m.setMinimo(Integer.toString((int) tableManualConfig.getValueAt(i, 3)));
+			  m.setForbidden(Integer.toString((int) tableManualConfig.getValueAt(i, 4)));
+			  lista.add(m);
+			  }
+		  }
+		  if(tipo=="Double"){
+			  for (int i=0;i<tableManualConfig.getRowCount();i++){
+				  tableRow m = new tableRow();
+			 m.setName((String) tableManualConfig.getValueAt(i, 0));
+			 m.setRule((String) tableManualConfig.getValueAt(i, 1));
+			  m.setMaximo( Double.toString((Double) tableManualConfig.getValueAt(i, 2)));
+			  m.setMinimo(Double.toString((Double) tableManualConfig.getValueAt(i, 3)));
+			  m.setForbidden(Double.toString((Double) tableManualConfig.getValueAt(i, 4)));
+			  lista.add(m);
+			  }
+		  }
+		  if(tipo=="Boolean"){
+			  for (int i=0;i<tableManualConfig.getRowCount();i++){
+				  tableRow m = new tableRow();
+			 m.setName((String) tableManualConfig.getValueAt(i, 0));
+			 m.setRule((String) tableManualConfig.getValueAt(i, 1));
+			  m.setForbidden(Boolean.toString((Boolean) tableManualConfig.getValueAt(i, 2)));
+			  lista.add(m);
+			  }
+		  }
+		  problem.setList(lista);
+		  //String[][] teste = new String[20][4];
+
+		  try {
+
+			File file = new File("SavedProblems/" +txtProblemName.getText() + ".xml");
+			JAXBContext jaxbContext = JAXBContext.newInstance(LayoutProblem.class);
+			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+
+			// output pretty printed
+			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+
+			jaxbMarshaller.marshal(problem, file);
+			jaxbMarshaller.marshal(problem, System.out);
+
+		      } catch (JAXBException e) {
+			e.printStackTrace();
+		      }
+
 	}
 	
 	private void loadJar(){
 		//TODO load jar function
 	}
-
 }
