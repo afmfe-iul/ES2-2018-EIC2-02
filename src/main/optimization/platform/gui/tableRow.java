@@ -4,7 +4,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-public class tableRow {
+public class TableRow {
 	String name;
 	String rule;
 	String minimo;

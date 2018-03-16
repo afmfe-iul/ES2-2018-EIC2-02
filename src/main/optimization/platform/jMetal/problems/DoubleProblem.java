@@ -34,8 +34,7 @@ public class DoubleProblem extends AbstractDoubleProblem {
 		setName(problemName);
 
 		// Adds the lower and upper bound to each decision variable
-		// Assumed that the user restricts every decision variable with the same
-		// interval
+		// Assumed that the user restricts every decision variable with the same interval
 		List<Double> lowerLimit = new ArrayList<>(getNumberOfVariables());
 		List<Double> upperLimit = new ArrayList<>(getNumberOfVariables());
 		for (int i = 0; i < getNumberOfVariables(); i++) {

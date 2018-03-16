@@ -30,13 +30,12 @@ public class ProblemHelper {
 
 			urls = new URL[] { file.toURI().toURL() };
 			URLClassLoader child = new URLClassLoader(urls);
-			Constructor c = Class.forName("optimization.Evaluate").getConstructor(List.class);
 			Class classToLoad = Class.forName("optimization.Evaluate", true, child);
-			method = classToLoad.getDeclaredMethod("evaluate");
+			Constructor c = classToLoad.getConstructor(List.class);
+			method = classToLoad.getDeclaredMethod("evaluate", Solution.class);
 			instance = c.newInstance(decisionVariables);
 			Solution dummySolution = null;
 			method.invoke(instance, dummySolution);
-
 		} catch (MalformedURLException e) {
 			throw new MalformedURLException("Jar path is not valid");
 		} catch (IllegalAccessException e) {
@@ -44,7 +43,7 @@ public class ProblemHelper {
 		} catch (IllegalArgumentException e) {
 			throw new IllegalArgumentException("The arguments passed are illegal or inappropriate");
 		} catch (InvocationTargetException e) {
-			throw new Exception("Method threw an exception");
+			throw new Exception("Evaluate method from the jar threw an exception");
 		} catch (NoSuchMethodException e) {
 			throw new NoSuchMethodException("Method not found");
 		} catch (SecurityException e) {

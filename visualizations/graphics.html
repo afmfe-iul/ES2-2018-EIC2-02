@@ -6,8 +6,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.2.3/d3.min.js"></script>
 </head>
 <body>
-<!-- 	<div class="contained" id="chart1"></div> -->
-<!-- 	<div class="contained" id="chart2"></div> -->
 <script>
 		var WIDTH = 800;
 		var HEIGTH = 200;
@@ -68,16 +66,15 @@
 			      	.style("text-anchor", "middle")
 			      	.text(algorithms[i]);
 				
-				
 				yScale.domain(extent);
-				// value tooltip
+				// variable name tooltip
 				tooltips.push(
 						d3.select("body")
 						.append("div")
 						.style("position", "absolute")
 						.style("z-index", "10")
 						.style("top", (HEIGTH + PADDING) * i + "px"));
-				// variable name tooltip
+				// variable value tooltip
 				tooltips.push(
 						d3.select("body")
 						.append("div")

@@ -31,14 +31,15 @@ public class OptimizationProcessTest {
 	}
 	
 	@Test
-	public void runShouldInstantiateAProblemObjectAndRunAJMetalExperimentAndReturnTrueIfStartedItSuccessfuly() throws Exception{
+	public void runShouldInstantiateAProblemObjectAndRunAJMetalExperimentAndReturnFalseIfItFails() throws Exception{
 		OptimizationProcess instance = new OptimizationProcess();
 		List<String> decisionVariables = new ArrayList<String>();
 		List<String> jarPaths = new ArrayList<String>();
 		String dataType = "Double";
 		String algorithm = "NSGAII";
+		String problemName = "TestProblem";
 		
-		assertTrue("OptimizationProcess run method failed to run successfuly a DoubleProblem with the"
-				+ "NSGAII algorithm", instance.run(decisionVariables, jarPaths, dataType, algorithm));
+		assertFalse("OptimizationProcess run method didn't fail when it should.",
+				instance.run(decisionVariables, jarPaths, dataType, algorithm, problemName));
 	}
 }

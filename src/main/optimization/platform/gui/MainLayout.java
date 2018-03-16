@@ -10,7 +10,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import javax.swing.GroupLayout;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
@@ -31,8 +30,6 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
-
-
 public class MainLayout {
 	public JFrame frame;
 	public JTextField txtRules;
@@ -52,7 +49,7 @@ public class MainLayout {
 	private JLabel lblVariablesNumber;
 	private JTextField txtVariablesNumber;
 	private JTextArea txtProblemDescription;
-	private JComboBox comboBoxType;
+	private JComboBox<String> comboBoxType;
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -89,14 +86,14 @@ public class MainLayout {
 		txtRules.setColumns(10);
 
 		JButton btnRules = new JButton("");
-		//btnSpam.setIcon(new ImageIcon(MainLayout.class.getResource("/imageWindowBuilder/foldericon.png")));
+//		btnSpam.setIcon(new ImageIcon(MainLayout.class.getResource("/imageWindowBuilder/foldericon.png")));
 		JFileChooser fileChooser = new JFileChooser();
 		JFileChooser fileChooserXml= new JFileChooser();
 		 File k= new File("SavedProblems");
 		 fileChooserXml.setCurrentDirectory(k);
-		//JFileChooser fileChooserOther = new JFileChooser();
+//		JFileChooser fileChooserOther = new JFileChooser();
 		FileNameExtensionFilter filterRules = new FileNameExtensionFilter("CF Files", "cf", "cf");
-		FileNameExtensionFilter filter = new FileNameExtensionFilter("LOG Files", "log", "log");
+//		FileNameExtensionFilter filter = new FileNameExtensionFilter("LOG Files", "log", "log");
 		fileChooser.setFileFilter(filterRules);
 		
 		btnRules.addActionListener(new ActionListener() {
@@ -120,7 +117,7 @@ public class MainLayout {
 			}
 		});
 		
-		comboBoxType = new JComboBox();
+		comboBoxType = new JComboBox<String>();
 		comboBoxType.addItem("Integer");
 		comboBoxType.addItem("Boolean");
 		comboBoxType.addItem("Double");
@@ -305,6 +302,8 @@ public class MainLayout {
 		int iconType = error ? JOptionPane.ERROR_MESSAGE : JOptionPane.WARNING_MESSAGE;
 		JOptionPane.showMessageDialog(frame, message, title, iconType);
 	}
+	
+	@SuppressWarnings({"serial", "unchecked", "rawtypes"})
 	public  void resetTableModels() {
 		tableManualConfig = new JTable();
 		tableManualConfig.setRowSelectionAllowed(false);
@@ -325,7 +324,8 @@ public class MainLayout {
 		tableManualConfig.getColumnModel().getColumn(1).setResizable(false);
 		scrollPaneTabel1.setViewportView(tableManualConfig);
 	}
-	
+
+	@SuppressWarnings({"serial", "unchecked", "rawtypes"})
 	private void loadTable(){
 		DefaultTableModel modelManual = null;
 		if(comboBoxType.getSelectedItem().toString()=="Integer"){
@@ -411,11 +411,11 @@ public class MainLayout {
 		  problem.setProblemDescription(txtProblemDescription.getText());
 		  problem.setProblemTitle(txtProblemName.getText());
 		  problem.setTipo(comboBoxType.getSelectedItem().toString());
-		  List <tableRow> lista = new ArrayList<tableRow>(2);
+		  List <TableRow> lista = new ArrayList<TableRow>(2);
 		  
 		  if(tipo=="Integer"){
 			  for (int i=0;i<tableManualConfig.getRowCount();i++){
-				  tableRow m = new tableRow();
+				  TableRow m = new TableRow();
 			 m.setName((String) tableManualConfig.getValueAt(i, 0));
 			 m.setRule((String) tableManualConfig.getValueAt(i, 1));
 			  m.setMaximo( Integer.toString((int) tableManualConfig.getValueAt(i, 2)));
@@ -426,7 +426,7 @@ public class MainLayout {
 		  }
 		  if(tipo=="Double"){
 			  for (int i=0;i<tableManualConfig.getRowCount();i++){
-				  tableRow m = new tableRow();
+				  TableRow m = new TableRow();
 			 m.setName((String) tableManualConfig.getValueAt(i, 0));
 			 m.setRule((String) tableManualConfig.getValueAt(i, 1));
 			  m.setMaximo( Double.toString((Double) tableManualConfig.getValueAt(i, 2)));
@@ -437,7 +437,7 @@ public class MainLayout {
 		  }
 		  if(tipo=="Boolean"){
 			  for (int i=0;i<tableManualConfig.getRowCount();i++){
-				  tableRow m = new tableRow();
+				  TableRow m = new TableRow();
 			 m.setName((String) tableManualConfig.getValueAt(i, 0));
 			 m.setRule((String) tableManualConfig.getValueAt(i, 1));
 			  m.setForbidden(Boolean.toString((Boolean) tableManualConfig.getValueAt(i, 2)));
@@ -463,9 +463,5 @@ public class MainLayout {
 			e.printStackTrace();
 		      }
 
-	}
-	
-	private void loadJar(){
-		//TODO load jar function
 	}
 }

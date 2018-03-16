@@ -1,10 +1,13 @@
 package main.optimization.platform.jMetal;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Scanner;
 import java.util.Set;
 import org.uma.jmetal.algorithm.Algorithm;
 import org.uma.jmetal.algorithm.multiobjective.nsgaii.NSGAIIBuilder;
@@ -27,7 +30,7 @@ import main.optimization.platform.jMetal.problems.DoubleProblem;
 public class OptimizationProcess {
 
 	public static final int INDEPENDENT_RUNS = 5;
-	public static final String EXPERIMENT_BASE_DIRECTORY = "experimentBaseDirectory";
+	public static final String EXPERIMENT_BASE_DIRECTORY = "experimentsBaseDirectory";
 
 	// TODO Do you need to find the Data types dynamicaly or hardcoded?
 	public Set<String> getPossibleDataTypes() {
@@ -51,8 +54,11 @@ public class OptimizationProcess {
 
 	// TODO do the UPPER and LOWER Bounds on constructor of the problem?
 	// TODO name of problem from GUI input??
-	public boolean run(List<String> decisionVariables, List<String> jarPaths, String dataType, String algorithm) throws Exception {
-
+	public boolean run(List<String> decisionVariables, List<String> jarPaths, String dataType, String algorithm, String problemName) throws Exception {
+		if(decisionVariables == null || jarPaths == null || decisionVariables.size() == 0 || jarPaths.size() == 0){
+			return false;
+		}
+		
 		if (dataType.equals("Double")) {
 			List<ExperimentProblem<DoubleSolution>> problemList = new ArrayList<>();
 			DoubleProblem problem = new DoubleProblem(decisionVariables, jarPaths, "DoubleProblem", -5, 5);
@@ -62,10 +68,10 @@ public class OptimizationProcess {
 					problemList, algorithm);
 
 			Experiment<DoubleSolution, List<DoubleSolution>> experiment = new ExperimentBuilder<DoubleSolution, List<DoubleSolution>>(
-					"Whats this?").setAlgorithmList(algorithmList).setProblemList(problemList)
+					problemName).setAlgorithmList(algorithmList).setProblemList(problemList)
 							.setExperimentBaseDirectory(EXPERIMENT_BASE_DIRECTORY).setOutputParetoFrontFileName("FUN")
 							.setOutputParetoSetFileName("VAR")
-							.setReferenceFrontDirectory(EXPERIMENT_BASE_DIRECTORY + "/referenceFronts")
+							.setReferenceFrontDirectory(EXPERIMENT_BASE_DIRECTORY + "/" + problemName)
 							.setIndicatorList(Arrays.asList(new PISAHypervolume<DoubleSolution>()))
 							.setIndependentRuns(INDEPENDENT_RUNS).setNumberOfCores(8).build();
 
@@ -99,6 +105,34 @@ public class OptimizationProcess {
 			algorithms.add(new ExperimentAlgorithm<>(algorithm, problemList.get(i).getTag()));
 		}
 		return algorithms;
+	}
+	
+	// TODO Main method for testing purposes
+	// TODO remove this after the UI is done
+	public static void main(String[] args) {
+		OptimizationProcess op = new OptimizationProcess();
+		List<String> decisionVariables = new ArrayList<String>();
+		List<String> jarPaths = new ArrayList<String>();
+		jarPaths.add("testJars/FalseNegatives.jar");
+		jarPaths.add("testJars/FalsePositives.jar");
+		
+		File file = new File("experimentsBaseDirectory/testResults/rules.cf");
+		
+		try {
+	        Scanner sc = new Scanner(file);
+	        while(sc.hasNextLine()){   
+	            decisionVariables.add(sc.nextLine());
+	        } 
+	        sc.close();
+	    }catch (FileNotFoundException e) {
+	    	e.printStackTrace();
+	    }
+		
+		try {
+			op.run(decisionVariables, jarPaths, "Double", "NSGAII", "AntiSpamFilter");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }

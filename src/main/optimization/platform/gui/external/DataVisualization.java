@@ -22,7 +22,7 @@ public class DataVisualization  extends JFXPanel{
 	// TODO atm this constructor only allows to build from .rs files (decision variables weights)
 	// it must be changed in the future to allow to build .rf files (optimization variables, ex: FP/FN)
 	public DataVisualization(List<String> algorithmsNames, List<String> filePaths, List<String> decisionVariables) {
-		if(algorithmsNames.size() != filePaths.size()){
+		if(algorithmsNames.size() != filePaths.size() || algorithmsNames.size() == 0 || filePaths.size() == 0){
 			dataFileBuiltSuccessfuly = false;
 		}else{
 			String firstLine = "variable";
@@ -123,7 +123,7 @@ public class DataVisualization  extends JFXPanel{
 		
 		DataVisualization dv = new DataVisualization(algorithmsNames, filePaths, decisionVariables);
 		JFrame jFrame = new JFrame("Main");
-		jFrame.setSize(1300, 750);
+		jFrame.setSize(1300, 700);
 		jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		jFrame.add(dv);
 		dv.run();
