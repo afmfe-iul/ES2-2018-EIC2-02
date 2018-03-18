@@ -569,7 +569,7 @@ public class MainLayout {
 		
 		List<String> decisionVariables = new ArrayList<String>();
 		for(int i = 0; i < tableManualConfig.getModel().getRowCount(); i++){
-			decisionVariables.add((String) tableManualConfig.getModel().getValueAt(i, 0));
+			decisionVariables.add((String) tableManualConfig.getModel().getValueAt(i, 1));
 		}
 		DataVisualization dv = new DataVisualization(algorithmsNames, filePaths, decisionVariables);
 	
