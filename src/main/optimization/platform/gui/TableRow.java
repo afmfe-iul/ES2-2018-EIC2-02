@@ -5,11 +5,21 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 public class TableRow {
-	String name;
-	String minimo;
-	String maximo;
-	String forbidden;
+	private String name;
+	private String rule;
+	private String minimo;
+	private String maximo;
+	private String forbidden;
 
+	public String getRule() {
+		return rule;
+	}
+
+	@XmlElement
+	public void setRule(String rule) {
+		this.rule = rule;
+	}
+	
 	public String getName() {
 		return name;
 	}

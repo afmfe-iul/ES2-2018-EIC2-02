@@ -12,6 +12,7 @@ public class LayoutProblem {
 	String variablesName;
 	String problemTitle;
 	String problemDescription;
+	String email;
 	// Integer/Double/Boolean
 	String tipo;
 	List<TableRow> list;
@@ -26,6 +27,14 @@ public class LayoutProblem {
 		this.list = lista;
 	}
 
+	public String getEmail() {
+		return email;
+	}
+
+	@XmlElement
+	public void setEmail(String email) {
+		this.email = email;
+	}
 	public String getTipo() {
 		return tipo;
 	}
