@@ -2,13 +2,15 @@ package main.optimization.platform.gui;
 
 import java.awt.EventQueue;
 import java.util.List;
+import java.util.Scanner;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -29,6 +31,8 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
+import main.optimization.platform.gui.external.DataVisualization;
+import main.optimization.platform.jMetal.OptimizationProcess;
 
 public class MainLayout {
 	public JFrame frame;
@@ -36,7 +40,6 @@ public class MainLayout {
 	public JTable tableManualConfig;
 	public JDialog progressDialog;
 	public JScrollPane scrollPaneTabel1;
-	public HashMap<String, Integer> rulesMap = new HashMap<String, Integer>();
 	private JLabel lblEmail;
 	private JLabel lblNameProblem;
 	private JTextField txtProblemName;
@@ -56,9 +59,7 @@ public class MainLayout {
 			public void run() {
 					MainLayout window = new MainLayout();
 					window.initialize();
-					
 					window.frame.setVisible(true);
-
 			}
 		});
 	}
@@ -67,7 +68,7 @@ public class MainLayout {
 		FileNameExtensionFilter filterXml = new FileNameExtensionFilter("Xml files", "xml", "xml");
 		frame = new JFrame("AntiSpamConfigurationForLeisureMailbox");
 		frame.setResizable(false);
-		frame.setBounds(100, 100, 700, 667);
+		frame.setBounds(320, 30, 700, 667);
 
 		frame.addWindowListener(new WindowAdapter() {
 			@Override
@@ -136,7 +137,7 @@ public class MainLayout {
 		txtEmail = new JTextField();
 		txtEmail.setColumns(10);
 		
-		lblNameVariables = new JLabel("Variables name");
+		lblNameVariables = new JLabel("Variable Group Name");
 		
 		txtVariablesName = new JTextField();
 		txtVariablesName.setColumns(10);
@@ -181,6 +182,33 @@ public class MainLayout {
 				}
 			}
 		});
+		
+		// TODO for demo purposes only
+		JButton btnLoadDemo = new JButton("Load Demo");
+		btnLoadDemo.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				loadDemo();
+			}
+		});
+		
+		JButton btnRunDemo = new JButton("Run Demo");
+		btnRunDemo.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				runDemo();
+			}
+		});
+		
+		JButton btnVisDemo = new JButton("Visualize Demo");
+		btnVisDemo.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				visualizeDemo();
+			}
+		});
+		// TODO END of demo code
+		
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -203,6 +231,11 @@ public class MainLayout {
 								.addComponent(txtProblemDescription, GroupLayout.PREFERRED_SIZE, 467, GroupLayout.PREFERRED_SIZE))
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								// XXX demo
+								.addComponent(btnLoadDemo)
+								.addComponent(btnRunDemo)
+								.addComponent(btnVisDemo)
+								// XXX end of demo
 								.addComponent(btnOpenXmlProblem)
 								.addComponent(btnSaveXmlProblemL)))
 						.addGroup(groupLayout.createSequentialGroup()
@@ -270,6 +303,17 @@ public class MainLayout {
 						.addComponent(txtVariablesNumber, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(txtVariablesName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(txtMaximumTime, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					// XXX demo
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+							.addComponent(btnLoadDemo))
+					.addGap(5)
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+							.addComponent(btnRunDemo))
+					.addGap(5)
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+							.addComponent(btnVisDemo))
+					// XXX end of demo
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
 						.addGroup(groupLayout.createSequentialGroup()
@@ -291,12 +335,14 @@ public class MainLayout {
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(txtProblemDescription, GroupLayout.DEFAULT_SIZE, 184, Short.MAX_VALUE)
 						.addComponent(btnOpenXmlProblem))
-					.addGap(26))
+					.addGap(26)
+					)
 		);
 
 		resetTableModels();
 		frame.getContentPane().setLayout(groupLayout);
 	}
+	
 	public void promptUser(String message, boolean error){
 		String title = error ?  "Error!" : "Warning!";
 		int iconType = error ? JOptionPane.ERROR_MESSAGE : JOptionPane.WARNING_MESSAGE;
@@ -311,7 +357,7 @@ public class MainLayout {
 		.setModel(new DefaultTableModel(
 			new Object[][]{},
 			new String[] {
-				"Name", "Rule","Minimum", "Maximum", "Forbidden"}
+				"Name","Minimum", "Maximum", "Forbidden"}
 		) {
 			Class[] columnTypes = new Class[] {
 				String.class,String.class, Integer.class, Integer.class, Integer.class
@@ -332,7 +378,7 @@ public class MainLayout {
 			modelManual = new DefaultTableModel(
 				new Object[][]{},
 				new String[] {
-					"Name","Rule",  "Minimum", "Maximum", "Forbidden"}
+					"Name", "Minimum", "Maximum", "Forbidden"}
 			) {
 			
 				Class[] columnTypes = new Class[] {
@@ -347,7 +393,7 @@ public class MainLayout {
 			 modelManual = new DefaultTableModel(
 					new Object[][]{},
 					new String[] {
-						"Name","Rule",  "Minimum", "Maximum", "Forbidden"}
+						"Name",  "Minimum", "Maximum", "Forbidden"}
 				) {
 				
 					Class[] columnTypes = new Class[] {
@@ -362,7 +408,7 @@ public class MainLayout {
 			 modelManual = new DefaultTableModel(
 					new Object[][]{},
 					new String[] {
-						"Name","Rule",  "Forbidden"}
+						"Name",  "Forbidden"}
 				) {
 				
 					Class[] columnTypes = new Class[] {
@@ -379,7 +425,7 @@ public class MainLayout {
 			modelManual.addRow(new Object[]{null, null});
 		}
 		tableManualConfig.setModel(modelManual);
-		}
+	}
 	
 	private void loadXmlProblem(String xmlFile){
 		File file = new File(xmlFile);
@@ -402,6 +448,7 @@ public class MainLayout {
 		}
 	
 	}
+	
 	private void createXml(){
 		String tipo=comboBoxType.getSelectedItem().toString();
 		  LayoutProblem problem = new LayoutProblem();
@@ -416,39 +463,35 @@ public class MainLayout {
 		  if(tipo=="Integer"){
 			  for (int i=0;i<tableManualConfig.getRowCount();i++){
 				  TableRow m = new TableRow();
-			 m.setName((String) tableManualConfig.getValueAt(i, 0));
-			 m.setRule((String) tableManualConfig.getValueAt(i, 1));
-			  m.setMaximo( Integer.toString((int) tableManualConfig.getValueAt(i, 2)));
-			  m.setMinimo(Integer.toString((int) tableManualConfig.getValueAt(i, 3)));
-			  m.setForbidden(Integer.toString((int) tableManualConfig.getValueAt(i, 4)));
-			  lista.add(m);
+				  m.setName((String) tableManualConfig.getValueAt(i, 0));
+				  m.setMaximo( Integer.toString((int) tableManualConfig.getValueAt(i, 1)));
+				  m.setMinimo(Integer.toString((int) tableManualConfig.getValueAt(i, 2)));
+				  m.setForbidden(Integer.toString((int) tableManualConfig.getValueAt(i, 3)));
+				  lista.add(m);
 			  }
 		  }
 		  if(tipo=="Double"){
 			  for (int i=0;i<tableManualConfig.getRowCount();i++){
 				  TableRow m = new TableRow();
-			 m.setName((String) tableManualConfig.getValueAt(i, 0));
-			 m.setRule((String) tableManualConfig.getValueAt(i, 1));
-			  m.setMaximo( Double.toString((Double) tableManualConfig.getValueAt(i, 2)));
-			  m.setMinimo(Double.toString((Double) tableManualConfig.getValueAt(i, 3)));
-			  m.setForbidden(Double.toString((Double) tableManualConfig.getValueAt(i, 4)));
-			  lista.add(m);
+				  m.setName((String) tableManualConfig.getValueAt(i, 0));
+				  m.setMaximo( Double.toString((Double) tableManualConfig.getValueAt(i, 1)));
+				  m.setMinimo(Double.toString((Double) tableManualConfig.getValueAt(i, 2)));
+				  m.setForbidden(Double.toString((Double) tableManualConfig.getValueAt(i, 3)));
+				  lista.add(m);
 			  }
 		  }
 		  if(tipo=="Boolean"){
 			  for (int i=0;i<tableManualConfig.getRowCount();i++){
 				  TableRow m = new TableRow();
-			 m.setName((String) tableManualConfig.getValueAt(i, 0));
-			 m.setRule((String) tableManualConfig.getValueAt(i, 1));
-			  m.setForbidden(Boolean.toString((Boolean) tableManualConfig.getValueAt(i, 2)));
-			  lista.add(m);
+				  m.setName((String) tableManualConfig.getValueAt(i, 0));
+				  m.setForbidden(Boolean.toString((Boolean) tableManualConfig.getValueAt(i, 1)));
+				  lista.add(m);
 			  }
 		  }
 		  problem.setList(lista);
 		  //String[][] teste = new String[20][4];
 
 		  try {
-
 			File file = new File("SavedProblems/" +txtProblemName.getText() + ".xml");
 			JAXBContext jaxbContext = JAXBContext.newInstance(LayoutProblem.class);
 			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
@@ -459,9 +502,92 @@ public class MainLayout {
 			jaxbMarshaller.marshal(problem, file);
 			jaxbMarshaller.marshal(problem, System.out);
 
-		      } catch (JAXBException e) {
-			e.printStackTrace();
-		      }
+	      } catch (JAXBException e) {
+	    	  e.printStackTrace();
+	      }
+	}
 
+	@SuppressWarnings({"serial", "unchecked", "rawtypes"})
+	private void loadDemo(){
+		txtProblemName.setText("AntiSpamFilterProblem");
+		txtVariablesName.setText("Anti Spam Rules");
+		comboBoxType.setSelectedItem("Double");
+		txtEmail.setText("demo@email.com");
+		File file = new File("experimentsBaseDirectory/testResults/rules.cf");
+		DefaultTableModel modelManual = new DefaultTableModel(
+			new Object[][]{},
+			new String[] {
+				"Name",  "Minimum", "Maximum", "Forbidden"}
+		) {
+		
+			Class[] columnTypes = new Class[] {
+				String.class,String.class, Integer.class, Integer.class, Integer.class
+			};
+			public Class getColumnClass(int columnIndex) {
+				return columnTypes[columnIndex];
+			}
+		};
+		
+		try {
+	        Scanner sc = new Scanner(file);
+	        while(sc.hasNextLine()){
+	        	modelManual.addRow(new Object[]{sc.nextLine(), -5, 5});
+	        } 
+	        sc.close();
+	        tableManualConfig.setModel(modelManual);
+	    }catch (FileNotFoundException e) {
+	    	e.printStackTrace();
+	    }
+		txtVariablesNumber.setText(String.valueOf(modelManual.getRowCount()));
+	}
+	
+	private void runDemo(){
+		OptimizationProcess op = new OptimizationProcess();
+		List<String> decisionVariables = new ArrayList<String>();
+		for(int i = 0; i < tableManualConfig.getModel().getRowCount(); i++){
+			decisionVariables.add((String) tableManualConfig.getModel().getValueAt(i, 0));
+		}
+		List<String> jarPaths = new ArrayList<String>();
+		jarPaths.add("testJars/FalseNegatives.jar");
+		jarPaths.add("testJars/FalsePositives.jar");
+		Thread t = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				try {
+				op.run(decisionVariables, jarPaths, (String)comboBoxType.getSelectedItem(), "NSGAII", txtProblemName.getText());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		t.start();
+	}
+	
+	private void visualizeDemo(){
+		List<String> algorithmsNames = new ArrayList<String>();
+		algorithmsNames.add("NSGAII");
+		
+		List<String> filePaths = new ArrayList<String>();
+		filePaths.add("experimentsBaseDirectory/" + txtProblemName.getText() + "/" + 
+						(String)comboBoxType.getSelectedItem() + "Problem.rs");
+		
+		List<String> decisionVariables = new ArrayList<String>();
+		for(int i = 0; i < tableManualConfig.getModel().getRowCount(); i++){
+			decisionVariables.add((String) tableManualConfig.getModel().getValueAt(i, 0));
+		}
+		DataVisualization dv = new DataVisualization(algorithmsNames, filePaths, decisionVariables);
+	
+		JFrame frame = new JFrame("Graphical Visualization");
+		frame.getContentPane().add(dv);
+		WindowListener exitListener = new WindowAdapter() {
+		    @Override
+		    public void windowClosing(WindowEvent e) {
+		    	frame.remove(dv);
+		    }
+		};
+		frame.addWindowListener(exitListener);
+		frame.setSize(900, 600);
+		dv.run();
+		frame.setVisible(true);
 	}
 }

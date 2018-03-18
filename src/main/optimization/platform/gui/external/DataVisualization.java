@@ -105,7 +105,7 @@ public class DataVisualization  extends JFXPanel{
 		algorithmsNames.add("NSGAII");
 		
 		List<String> filePaths = new ArrayList<String>();
-		filePaths.add( CURR_DIR+ "experimentsBaseDirectory/testResults/AntiSpamFilterProblem.NSGAII.rs");
+		filePaths.add(CURR_DIR + "experimentsBaseDirectory/testResults/AntiSpamFilterProblem.NSGAII.rs");
 		
 		List<String> decisionVariables = new ArrayList<String>();
 		File file = new File(CURR_DIR + "experimentsBaseDirectory/testResults/rules.cf");
@@ -124,7 +124,7 @@ public class DataVisualization  extends JFXPanel{
 		DataVisualization dv = new DataVisualization(algorithmsNames, filePaths, decisionVariables);
 		JFrame jFrame = new JFrame("Main");
 		jFrame.setSize(1300, 700);
-		jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		jFrame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		jFrame.add(dv);
 		dv.run();
 		jFrame.setVisible(true);

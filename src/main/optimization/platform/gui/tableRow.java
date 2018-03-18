@@ -6,18 +6,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class TableRow {
 	String name;
-	String rule;
 	String minimo;
 	String maximo;
 	String forbidden;
-	public String getRule() {
-		return rule;
-	}
-	
-	@XmlElement
-	public void setRule(String rule) {
-		this.rule = rule;
-	}
 
 	public String getName() {
 		return name;
