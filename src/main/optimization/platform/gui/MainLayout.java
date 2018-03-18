@@ -446,8 +446,8 @@ public class MainLayout {
 				  TableRow m = new TableRow();
 				  m.setName((String) tableManualConfig.getValueAt(i, 0));
 				  m.setRule((String) tableManualConfig.getValueAt(i, 1));
-				  m.setMaximo(Integer.toString((int) tableManualConfig.getValueAt(i, 2)));
-				  m.setMinimo(Integer.toString((int) tableManualConfig.getValueAt(i, 3)));
+				  m.setMinimo(Integer.toString((int) tableManualConfig.getValueAt(i, 2)));
+				  m.setMaximo(Integer.toString((int) tableManualConfig.getValueAt(i, 3)));
 				  m.setForbidden(Integer.toString((int) tableManualConfig.getValueAt(i, 4)));
 				  lista.add(m);
 			  }
@@ -462,8 +462,8 @@ public class MainLayout {
 					  m.setName(null);
 				  }
 				  m.setRule((String) tableManualConfig.getValueAt(i, 1));
-				  m.setMaximo( Double.toString((Double) tableManualConfig.getValueAt(i, 2)));
-				  m.setMinimo(Double.toString((Double) tableManualConfig.getValueAt(i, 3)));
+				  m.setMinimo(Double.toString((Double) tableManualConfig.getValueAt(i, 2)));
+				  m.setMaximo( Double.toString((Double) tableManualConfig.getValueAt(i, 3)));
 				  if( tableManualConfig.getValueAt(i, 4)!=null){
 					  m.setForbidden(Double.toString((Double) tableManualConfig.getValueAt(i, 4)));
 					  }
