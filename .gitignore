@@ -1,12 +1,14 @@
 /build/
 *.class
-jMetal.log
+jMetal.log*
 
 
 # exclude everything
 experimentsBaseDirectory/*
 visualizations/*
 
+
 # exception to the rule
-!experimentsBaseDirectory/gitkeep.txt
+!
+experimentsBaseDirectory/gitkeep.txt
 !visualizations/template.html
