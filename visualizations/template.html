@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.2.3/d3.min.js"></script>
+</head>
+<body>
+<script>
+		var WIDTH = 800;
+		var HEIGTH = 200;
+		var PADDING = 30;
+		var tooltips = [];
+		var svgMain = d3.select("body").append("svg")
+		.attr("width", WIDTH)
+		
+		svgMain.append("rect")
+	    .attr("width", "100%")
+	    .attr("height", "100%")
+	    .attr("fill", "white");
+		
+		// TODO svgBottom will be used to show the FP/FN for example
+		var svgBottom = d3.select("body").append("svg")
+		.attr("width", WIDTH / 2);
+		svgBottom.append("rect")
+	    .attr("width", "100%")
+	    .attr("height", "100%")
+	    .attr("fill", "white");
+		
+		var xScale = d3.scalePoint().range([0, WIDTH]);
+		var yScale = d3.scaleLinear().range([-HEIGTH/2 + PADDING, HEIGTH/2 - PADDING]);
+		var colorScale = d3.scaleOrdinal(d3.schemeCategory10);
+	
+		var algorithms = [];
+		var variableNames = [];
+		d3.tsv("auxiliar.tsv", function (myArray){
+			myArray.forEach(function(d){
+				for(var key in d){
+					algorithms.push(d[key]);				
+				}
+			});
+			var h = HEIGTH * algorithms.length + PADDING * (algorithms.length - 1);
+			svgMain.attr("height", h);
+			svgBottom.attr("heigth", h);
+		});
+		
+		
+		function convert(data){
+			variableNames.push(data["variable"])
+			for(i = 0; i < algorithms.length; i++){
+				data[algorithms[i]] = +data[algorithms[i]];
+			}
+			return data;
+		}
+		
+		function render(myArray){
+			xScale.domain(variableNames);
+			var bars = svgMain.selectAll("rect").data(myArray);
+			var w = WIDTH / variableNames.length;
+			
+			for(i = 0; i < algorithms.length; i++){
+				var extent = d3.extent(myArray, function(d){return d[algorithms[i]]});
+			
+				svgMain.append("text")
+					.attr("transform", "translate(" + (WIDTH/2) + " ," + (HEIGTH + (HEIGTH + PADDING) * i) + ")")
+			      	.style("text-anchor", "middle")
+			      	.text(algorithms[i]);
+				
+				yScale.domain(extent);
+				// variable name tooltip
+				tooltips.push(
+						d3.select("body")
+						.append("div")
+						.style("position", "absolute")
+						.style("z-index", "10")
+						.style("top", (HEIGTH + PADDING) * i + "px"));
+				// variable value tooltip
+				tooltips.push(
+						d3.select("body")
+						.append("div")
+						.style("position", "absolute")
+						.style("z-index", "10")
+						.style("top", (HEIGTH + PADDING) * i + 13 + "px"));
+				
+				bars.enter().append("rect")
+					.attr("x", function(d){return xScale(d["variable"]);})
+					.attr("y", function(d){
+						var value = yScale(d[algorithms[i]]);
+						if(value < 0){
+							return HEIGTH/2 + (HEIGTH + PADDING) * i;
+						}else{
+							return HEIGTH/2 - value + (HEIGTH + PADDING) * i;						
+						}	
+					})
+					.attr("width", w)
+					.attr("height", function(d){
+						var value = yScale(d[algorithms[i]]);
+						if(value > 0){
+							return value;
+						}else{
+							return 0 - value;						
+						}	
+					})
+					.style("fill", colorScale(i));
+				
+				svgMain.append("line")
+				.attr("x1", 0)
+				.attr("y1", HEIGTH/2 + (HEIGTH + PADDING) * i)
+				.attr("x2", WIDTH)
+				.attr("y2",HEIGTH/2 + (HEIGTH + PADDING) * i)
+				.attr("stroke-width", 1)
+				.attr("stroke", "black");
+			}
+			bars.exit().remove();
+			
+			svgMain
+			.on("mouseenter ", function() {
+				for(i = 0; i < algorithms.length; i++){
+					tooltips[i].style("display", null);
+				}
+			})
+			.on("mouseleave ", function() {
+				d3.select("#id").remove();
+				for(i = 0; i < algorithms.length; i++){
+					tooltips[i].style("display", "none");
+				}
+			})
+			.on("mousemove", function(){
+				var mouseX = d3.event.pageX - 7;
+				d3.select("#id").remove();	
+				svgMain.append("line")
+				.attr("id", "id")
+				.attr("x1", mouseX)
+				.attr("y1", 0)
+				.attr("x2", mouseX)
+				.attr("y2", svgMain.node().getBBox().height + PADDING)
+				.attr("stroke-width", 2)
+				.attr("stroke", "black");
+				
+				for(i = 0; i < algorithms.length; i++){
+					// variable value tooltip
+					tooltips[i*2].text(myArray[(mouseX - 2)/w | 0]["variable"])
+					.style("left", d3.event.pageX + 4 + "px");
+					// variable name tooltip
+					tooltips[i*2 + 1].text(myArray[(mouseX - 2)/w | 0][algorithms[i]])
+					.style("left", d3.event.pageX + 4 + "px");
+				}
+			});
+		}
+		
+		d3.tsv("data.tsv", convert, render);
+	</script>
+</body>
+</html>
