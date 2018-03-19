@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE problema SYSTEM "roles.dtd">
-<problema>
-    <MaximumTime>1</MaximumTime>
-    <VariablesName>1</VariablesName>
-    <VariablesNumber>1</VariablesNumber>
-</problema>

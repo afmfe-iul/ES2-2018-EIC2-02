@@ -27,7 +27,6 @@ public class ProblemHelper {
 		File file = new File(jarPath);
 		URL[] urls;
 		try {
-
 			urls = new URL[] { file.toURI().toURL() };
 			URLClassLoader child = new URLClassLoader(urls);
 			Class classToLoad = Class.forName("optimization.Evaluate", true, child);

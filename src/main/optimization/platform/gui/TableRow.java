@@ -50,5 +50,4 @@ public class TableRow {
 	public void setForbidden(String forbidden) {
 		this.forbidden = forbidden;
 	}
-
 }

@@ -2,12 +2,19 @@ package main.optimization.platform.gui.external;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.CookieHandler;
+import java.net.CookieManager;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import javax.swing.JFrame;
+
+import org.apache.commons.io.FileUtils;
+
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.Scene;
@@ -18,6 +25,7 @@ public class DataVisualization  extends JFXPanel{
 	private static final long serialVersionUID = 1L;
 	private static final String CURR_DIR = System.getProperty("curr.dir") == null ? "" : System.getProperty("curr.dir") + "/";
 	private boolean dataFileBuiltSuccessfuly = false;
+	private static int VERSION = 0;
 	
 	// TODO atm this constructor only allows to build from .rs files (decision variables weights)
 	// it must be changed in the future to allow to build .rf files (optimization variables, ex: FP/FN)
@@ -25,6 +33,7 @@ public class DataVisualization  extends JFXPanel{
 		if(algorithmsNames.size() != filePaths.size() || algorithmsNames.size() == 0 || filePaths.size() == 0){
 			dataFileBuiltSuccessfuly = false;
 		}else{
+			VERSION++;
 			String firstLine = "variable";
 			String[] lines = new String[decisionVariables.size()];
 			for(int i = 0; i < lines.length; i++){
@@ -62,21 +71,32 @@ public class DataVisualization  extends JFXPanel{
 
 	public boolean run() {
 		if(dataFileBuiltSuccessfuly){
-			URL url = this.getClass().getResource("/graphics.html");
-			Platform.runLater(() -> {
-			    WebView webView = new WebView();
-			    setScene(new Scene(webView));
-			    WebEngine webEngine = webView.getEngine();
-			    webEngine.load(url.toString());
-			});
+			File f = new File("visualizations/temp" + VERSION + "/graphics.html");
+			try {
+				URL url = f.toURI().toURL();
+				Platform.runLater(() -> {
+					CookieHandler.setDefault(new CookieManager());
+				    WebView webView = new WebView();
+				    setScene(new Scene(webView));
+				    WebEngine webEngine = webView.getEngine();
+				    webEngine.load(url.toString());
+				});
+			} catch (MalformedURLException e) {
+				e.printStackTrace();
+			}
 		}
 		return dataFileBuiltSuccessfuly;
 	}
 	
 	private void writeTemporaryDataFile(String firstLine, String[] lines){
 		try {
+			deleteDirectory(new File(CURR_DIR + "visualizations"));
+			String tempDir = CURR_DIR + "visualizations/temp" + VERSION;
+			FileUtils.copyFile(new File(CURR_DIR + "visualizations/template.html"),
+					new File(tempDir + "/graphics.html"));
+			
 			// Write the data file in tsv format (tab separated values)
-			PrintWriter writer = new PrintWriter(CURR_DIR + "visualizations/data.tsv");
+			PrintWriter writer = new PrintWriter(tempDir + "/data.tsv");
 			writer.println(firstLine);
 			for(int i = 0; i < lines.length; i++){
 				writer.println(lines[i]);
@@ -85,7 +105,7 @@ public class DataVisualization  extends JFXPanel{
 			
 			// Write an auxiliar file so that javascript knows the algorithm names
 			// and use them to loop over map values.
-			writer = new PrintWriter(CURR_DIR + "visualizations/auxiliar.tsv");
+			writer = new PrintWriter(tempDir + "/auxiliar.tsv");
 			String header = new String();
 			for(int i = 0; i < firstLine.split("\t").length -1; i++){
 				header += "\t" + "algorithm" + i;
@@ -94,7 +114,8 @@ public class DataVisualization  extends JFXPanel{
 			writer.println(firstLine.substring("variable".length()).trim());
 			writer.close();
 			dataFileBuiltSuccessfuly = true;
-		} catch (FileNotFoundException e) {
+			Platform.setImplicitExit(false);
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
@@ -128,5 +149,19 @@ public class DataVisualization  extends JFXPanel{
 		jFrame.add(dv);
 		dv.run();
 		jFrame.setVisible(true);
+	}
+	
+	private boolean deleteDirectory(File dir) {
+	    File[] files = dir.listFiles();
+	    if (files != null) {
+	        for (int i = 0; i <files.length; i++) {
+	            deleteDirectory(files[i]);
+	        }
+	    }
+	    if(dir.getName().equals("template.html")){
+	    	return true;
+	    }else{
+	    	return dir.delete();
+	    }
 	}
 }

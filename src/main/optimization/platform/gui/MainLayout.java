@@ -2,14 +2,12 @@ package main.optimization.platform.gui;
 
 import java.awt.EventQueue;
 import java.util.List;
-import java.util.Scanner;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
@@ -69,6 +67,7 @@ public class MainLayout {
 		frame = new JFrame("Optimizer");
 		frame.setResizable(false);
 		frame.setBounds(320, 30, 700, 667);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 //		frame.addWindowListener(new WindowAdapter() {
 //			@Override
@@ -282,14 +281,14 @@ public class MainLayout {
 		frame.getContentPane().setLayout(groupLayout);
 	}
 	
-	public void promptUser(String message, boolean error){
+	private void promptUser(String message, boolean error){
 		String title = error ?  "Error!" : "Warning!";
 		int iconType = error ? JOptionPane.ERROR_MESSAGE : JOptionPane.WARNING_MESSAGE;
 		JOptionPane.showMessageDialog(frame, message, title, iconType);
 	}
 	
 	@SuppressWarnings({"serial", "unchecked", "rawtypes"})
-	public  void resetTableModels() {
+	private  void resetTableModels() {
 		tableManualConfig = new JTable();
 		tableManualConfig.setRowSelectionAllowed(false);
 		tableManualConfig
@@ -500,43 +499,7 @@ public class MainLayout {
 	    	  e.printStackTrace();
 	      }
 	}
-//	
-//
-//	@SuppressWarnings({"serial", "unchecked", "rawtypes"})
-//	private void loadDemo(){
-//		txtProblemName.setText("AntiSpamFilterProblem");
-//		txtVariablesName.setText("Anti Spam Rules");
-//		comboBoxType.setSelectedItem("Double");
-//		txtEmail.setText("demo@email.com");
-//		File file = new File("experimentsBaseDirectory/testResults/rules.cf");
-//		DefaultTableModel modelManual = new DefaultTableModel(
-//			new Object[][]{},
-//			new String[] {
-//				"Name", "Rule", "Minimum", "Maximum", "Forbidden"}
-//		) {
-//		
-//			Class[] columnTypes = new Class[] {
-//				String.class,String.class, Double.class, Double.class, Double.class
-//			};
-//			public Class getColumnClass(int columnIndex) {
-//				return columnTypes[columnIndex];
-//			}
-//		};
-//		
-//		try {
-//	        Scanner sc = new Scanner(file);
-//	        while(sc.hasNextLine()){
-//	        	modelManual.addRow(new Object[]{"",sc.nextLine(), -5.0, 5.0});
-//	        } 
-//	        sc.close();
-//	        tableManualConfig.setModel(modelManual);
-//	    }catch (FileNotFoundException e) {
-//	    	e.printStackTrace();
-//	    }
-//		txtVariablesNumber.setText(String.valueOf(modelManual.getRowCount()));
-//	}
-//	
-//	
+
 	private void runDemo(){
 		OptimizationProcess op = new OptimizationProcess();
 		List<String> decisionVariables = new ArrayList<String>();
@@ -552,7 +515,7 @@ public class MainLayout {
 				try {
 				op.run(decisionVariables, jarPaths, (String)comboBoxType.getSelectedItem(), "NSGAII", txtProblemName.getText());
 				} catch (Exception e) {
-					e.printStackTrace();
+					promptUser(e.getMessage(), true);
 				}
 			}
 		});
@@ -579,6 +542,7 @@ public class MainLayout {
 		    @Override
 		    public void windowClosing(WindowEvent e) {
 		    	frame.remove(dv);
+		    	dv.setEnabled(false);
 		    }
 		};
 		frame.addWindowListener(exitListener);
