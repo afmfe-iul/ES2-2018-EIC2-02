@@ -97,6 +97,7 @@ public class OptimizationProcess {
 		// if we do this if we can use the getAlgorithmsFor() for only UI proposes
 		if (algorithmSelected.equals("NSGAII"))
 			;
+		//TODO o tempo é igual ao numero de iteraçoes (setMaxEvaluations(2500))
 		for (int i = 0; i < problemList.size(); i++) {
 			Algorithm<List<DoubleSolution>> algorithm = new NSGAIIBuilder<>(problemList.get(i).getProblem(),
 					new SBXCrossover(1.0, 5),

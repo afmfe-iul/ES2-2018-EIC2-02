@@ -102,6 +102,7 @@ public class LayoutFAQPage {
 		answer1.setBackground(SystemColor.menu);
 		answer1.setBounds(10, 39, 561, 46);
 		frame.getContentPane().add(answer1);
+		frame.setVisible(true);
 	}
 }
 
