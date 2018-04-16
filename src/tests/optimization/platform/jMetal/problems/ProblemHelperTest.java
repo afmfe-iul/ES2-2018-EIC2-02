@@ -10,6 +10,7 @@ import main.optimization.platform.jMetal.problems.ProblemHelper;
 
 public class ProblemHelperTest {
 
+	@SuppressWarnings("unused")
 	@Test
 	public void testConstructorThrowsException(){
 		try {

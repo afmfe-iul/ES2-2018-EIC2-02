@@ -1,13 +1,7 @@
 package main.optimization.platform.gui;
 
 import javax.swing.JFrame;
-import javax.swing.JTextField;
-import java.awt.BorderLayout;
-import javax.swing.DropMode;
-import javax.swing.SwingConstants;
-import javax.swing.JTextArea;
 import javax.swing.JTextPane;
-import java.awt.Color;
 import javax.swing.UIManager;
 import java.awt.Font;
 

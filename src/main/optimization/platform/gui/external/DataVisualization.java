@@ -12,15 +12,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import javax.swing.JFrame;
-
 import org.apache.commons.io.FileUtils;
-
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.Scene;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 
+@SuppressWarnings("restriction")
 public class DataVisualization  extends JFXPanel{
 	private static final long serialVersionUID = 1L;
 	private static final String CURR_DIR = System.getProperty("curr.dir") == null ? "" : System.getProperty("curr.dir") + "/";

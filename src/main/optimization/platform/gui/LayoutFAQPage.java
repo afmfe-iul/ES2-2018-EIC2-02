@@ -1,12 +1,9 @@
 package main.optimization.platform.gui;
 
-import java.awt.Font;
-
 import javax.swing.JFrame;
 import javax.swing.JTextPane;
 import javax.swing.UIManager;
 import javax.swing.JTextField;
-import javax.swing.JTextArea;
 import java.awt.Color;
 import java.awt.SystemColor;
 
