@@ -1,26 +1,43 @@
 package main.optimization.platform.jMetal.problems;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.uma.jmetal.problem.impl.AbstractIntegerPermutationProblem;
+import org.uma.jmetal.solution.DoubleSolution;
 import org.uma.jmetal.solution.PermutationSolution;
 
 public class IntegerPermutationProblem extends AbstractIntegerPermutationProblem {
+	
 	private static final long serialVersionUID = 1L;
+	private int numberOfCities ;
+	private List<String> decisionVariables;
+	private List<ProblemHelper> problemHelpers;
+	private int numberOfObjectives;
 
-	public IntegerPermutationProblem(List<String> decisionVariables, List<String> jarPaths) {
-		// TODO Auto-generated constructor stub
+	
+	public IntegerPermutationProblem(List<String> decisionVariables, List<String> jarPaths, String name) throws Exception {
+		numberOfObjectives = jarPaths.size();
+		this.decisionVariables = decisionVariables;
+		setNumberOfVariables(numberOfCities);
+	    setNumberOfObjectives(numberOfObjectives);
+	    setName(name);
+	    
+	    problemHelpers = new ArrayList<ProblemHelper>();
+		for (int i = 0; i < numberOfObjectives; i++) {
+			problemHelpers.add(new ProblemHelper(jarPaths.get(i), this.decisionVariables));
+		}
 	}
 
 	@Override
 	public int getPermutationLength() {
-		// TODO Auto-generated method stub
-		return 0;
+		return numberOfCities;
 	}
 
 	@Override
 	public void evaluate(PermutationSolution<Integer> solution) {
-		// TODO Auto-generated method stub
-
+			for (int i = 0; i < numberOfObjectives; i++) {
+				problemHelpers.get(i).evaluate(solution);
+			}
 	}
 
 }

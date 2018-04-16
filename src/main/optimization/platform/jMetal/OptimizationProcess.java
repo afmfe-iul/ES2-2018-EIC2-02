@@ -61,6 +61,7 @@ public class OptimizationProcess {
 		
 		if (dataType.equals("Double")) {
 			List<ExperimentProblem<DoubleSolution>> problemList = new ArrayList<>();
+			//Constructor was updated
 			DoubleProblem problem = new DoubleProblem(decisionVariables, jarPaths, "DoubleProblem", -5, 5);
 			problemList.add(new ExperimentProblem<>(problem));
 
