@@ -2,6 +2,8 @@ package main.optimization.platform.gui;
 
 import java.awt.EventQueue;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -308,9 +310,21 @@ public class MainLayout {
 	}
 	
 	public void promptUser(String message, boolean error){
+
 		String title = error ?  "Error!" : "Warning!";
 		int iconType = error ? JOptionPane.ERROR_MESSAGE : JOptionPane.WARNING_MESSAGE;
 		JOptionPane.showMessageDialog(frame, message, title, iconType);
+	}
+	
+	public boolean validateProblemFields() {
+		//If problem name contains spaces or special characters
+		Pattern p = Pattern.compile("[^a-z0-9 ]", Pattern.CASE_INSENSITIVE);
+		Matcher m = p.matcher(txtProblemName.getText());
+		if (m.find() || txtProblemName.getText().contains(" ")) {
+			return false;
+		}
+		
+		return true;
 	}
 	private void loadCriteriaTable() {
 		// TODO Auto-generated method stub
@@ -319,10 +333,10 @@ public class MainLayout {
 		
 			new Object[][]{},
 			new String[] {
-				"Nome","Path", "Add Path"}
+			"Solution known","Nome","Path", "Add Path"}
 		) {
 			Class[] columnTypes = new Class[] {
-				String.class,String.class, ButtonColumn.class
+				Integer.class,String.class,String.class, ButtonColumn.class
 			};
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
@@ -330,12 +344,12 @@ public class MainLayout {
 		});
 		int i = Integer.parseInt(txtCriteria.getText());
 		for (;i>0;i--){
-		modelTableButton.addRow(new Object[]{null, null,null});
+		modelTableButton.addRow(new Object[]{null,null, null,null});
 		}
 		tableManualConfig.getColumnModel().getColumn(0).setResizable(false);
 		tableManualConfig.getColumnModel().getColumn(1).setResizable(false);
 		scrollPaneTabel2.setViewportView(tableControl);
-		Action delete = new AbstractAction()
+		Action insertPath = new AbstractAction()
 		{
 		    public void actionPerformed(ActionEvent e)
 		    {
@@ -345,7 +359,7 @@ public class MainLayout {
 		        //((DefaultTableModel)table.getModel()).removeRow(modelRow);
 		    }
 		};
-		ButtonColumn buttonColumn = new ButtonColumn(tableControl, delete, 2);
+		ButtonColumn buttonColumn = new ButtonColumn(tableControl, insertPath, 3);
 	}
 	
 	@SuppressWarnings({"serial", "unchecked", "rawtypes"})
@@ -373,7 +387,7 @@ public class MainLayout {
 		if (result == JFileChooser.APPROVE_OPTION) {
 			File selectedFile = fileChooserJar.getSelectedFile();
 			if(selectedFile.exists()){
-				modelTableButton.setValueAt(selectedFile.getAbsolutePath(), m, 1);
+				modelTableButton.setValueAt(selectedFile.getAbsolutePath(), m, 2);
 			}
 		}
 	}
@@ -492,6 +506,7 @@ public class MainLayout {
 	}
 	
 	private void createXml(){
+		if(validateProblemFields()) {
 		String tipo=comboBoxType.getSelectedItem().toString();
 		  LayoutProblem problem = new LayoutProblem();
 		  if(txtMaximumTime.getText().isEmpty()){
@@ -572,6 +587,8 @@ public class MainLayout {
 	      } catch (JAXBException e) {
 	    	  e.printStackTrace();
 	      }
+		}
+
 	}
 
 
