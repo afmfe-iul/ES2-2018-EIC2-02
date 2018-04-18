@@ -26,5 +26,7 @@ public class LayoutDataAgreement {
 		txtpnThisOptimizationProblem.setBounds(10, 11, 441, 138);
 		frame.getContentPane().add(txtpnThisOptimizationProblem);
 		frame.setVisible(true);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
 	}
 }

@@ -100,6 +100,7 @@ public class LayoutFAQPage {
 		answer1.setBounds(10, 39, 561, 46);
 		frame.getContentPane().add(answer1);
 		frame.setVisible(true);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
 }
 
