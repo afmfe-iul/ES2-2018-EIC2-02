@@ -14,8 +14,15 @@ public class IntegerPermutationProblemTest {
 	public void constructorMustReturnAnObjectThatInheritsFromIntegerProblem() {
 		List<String> decisionVariables = new ArrayList<String>();
 		List<String> jarPaths = new ArrayList<String>();
-		IntegerPermutationProblem instance = new IntegerPermutationProblem(decisionVariables, jarPaths);
-		assertTrue("IntegerPermutationProblem intances should extend the AbstractIntegerPermutationProblem class.",
-				instance.getClass().getSuperclass().equals(AbstractIntegerPermutationProblem.class));
+		IntegerPermutationProblem instance;
+		try {
+			instance = new IntegerPermutationProblem(decisionVariables, jarPaths, null);
+			assertTrue("IntegerPermutationProblem intances should extend the AbstractIntegerPermutationProblem class.",
+					instance.getClass().getSuperclass().equals(AbstractIntegerPermutationProblem.class));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 }

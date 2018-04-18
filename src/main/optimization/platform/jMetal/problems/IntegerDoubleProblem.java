@@ -1,25 +1,42 @@
 package main.optimization.platform.jMetal.problems;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.uma.jmetal.problem.impl.AbstractIntegerDoubleProblem;
+import org.uma.jmetal.solution.Solution;
+import org.uma.jmetal.solution.impl.DefaultIntegerDoubleSolution;
 
 public class IntegerDoubleProblem<S> extends AbstractIntegerDoubleProblem<S> {
 	private static final long serialVersionUID = 1L;
+	private int numberOfObjectives;
+	private List<String> decisionVariables;
+	private List<ProblemHelper> problemHelpers;
 
-	public IntegerDoubleProblem(List<String> decisionVariables, List<String> jarPaths) {
-		// TODO Auto-generated constructor stub
+	public IntegerDoubleProblem(List<String> decisionVariables,List<Number>lowerBounds, List<Number>upperBounds  ,List<String> jarPaths,String problemName) throws Exception {
+		setLowerLimit(lowerBounds);
+		setUpperLimit(upperBounds);
+		this.decisionVariables = decisionVariables;
+		numberOfObjectives=jarPaths.size();
+		setName(problemName);
+		setNumberOfVariables(this.decisionVariables.size());
+		setNumberOfObjectives(numberOfObjectives);
+		problemHelpers = new ArrayList<ProblemHelper>();
+		for (int i = 0; i < numberOfObjectives; i++) {
+			problemHelpers.add(new ProblemHelper(jarPaths.get(i), this.decisionVariables));
+		}
+		
 	}
 
 	@Override
 	public void evaluate(S solution) {
-		// TODO Auto-generated method stub
-
+		for (int i = 0; i < numberOfObjectives; i++) {
+			problemHelpers.get(i).evaluate((Solution) solution);
+		}
 	}
 
 	@Override
 	public S createSolution() {
-		// TODO Auto-generated method stub
-		return null;
+		return (S) new DefaultIntegerDoubleSolution(this) ;
 	}
 
 }

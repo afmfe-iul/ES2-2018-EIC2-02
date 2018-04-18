@@ -15,8 +15,15 @@ public class IntegerDoubleProblemTest {
 	public void constructorMustReturnAnObjectThatInheritsFromIntegerProblem() {
 		List<String> decisionVariables = new ArrayList<String>();
 		List<String> jarPaths = new ArrayList<String>();
-		IntegerDoubleProblem<DoubleSolution> instance = new IntegerDoubleProblem<DoubleSolution>(decisionVariables, jarPaths);
-		assertTrue("IntegerDoubleProblem intances should extend the AbstractIntegerDoubleProblem class.",
-				instance.getClass().getSuperclass().equals(AbstractIntegerDoubleProblem.class));
+		List<Number> lowerBound = new ArrayList<Number>();
+		List<Number> upperBound = new ArrayList<Number>();
+		IntegerDoubleProblem<DoubleSolution> instance;
+		try {
+			instance = new IntegerDoubleProblem<DoubleSolution>(decisionVariables, lowerBound, upperBound, jarPaths, null);
+			assertTrue("IntegerDoubleProblem intances should extend the AbstractIntegerDoubleProblem class.",
+					instance.getClass().getSuperclass().equals(AbstractIntegerDoubleProblem.class));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

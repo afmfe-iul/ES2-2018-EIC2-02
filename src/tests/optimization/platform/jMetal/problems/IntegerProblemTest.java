@@ -14,8 +14,15 @@ public class IntegerProblemTest {
 	public void constructorMustReturnAnObjectThatInheritsFromIntegerProblem() {
 		List<String> decisionVariables = new ArrayList<String>();
 		List<String> jarPaths = new ArrayList<String>();
-		IntegerProblem instance = new IntegerProblem(decisionVariables, jarPaths);
-		assertTrue("IntegerProblem intances should extend the AbstractIntegerProblem class.",
-				instance.getClass().getSuperclass().equals(AbstractIntegerProblem.class));
+		IntegerProblem instance;
+		try {
+			instance = new IntegerProblem(decisionVariables, null, null, null, jarPaths);
+			assertTrue("IntegerProblem intances should extend the AbstractIntegerProblem class.",
+					instance.getClass().getSuperclass().equals(AbstractIntegerProblem.class));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 }

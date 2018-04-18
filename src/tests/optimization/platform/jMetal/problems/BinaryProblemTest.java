@@ -14,8 +14,15 @@ public class BinaryProblemTest {
 	public void constructorMustReturnAnObjectThatInheritsFromIntegerProblem() {
 		List<String> decisionVariables = new ArrayList<String>();
 		List<String> jarPaths = new ArrayList<String>();
-		BinaryProblem instance = new BinaryProblem(decisionVariables, jarPaths);
-		assertTrue("BinaryProblem intances should extend the AbstractBinaryProblem class.",
-				instance.getClass().getSuperclass().equals(AbstractBinaryProblem.class));
+		BinaryProblem instance;
+		try {
+			instance = new BinaryProblem(decisionVariables, jarPaths, null, 0);
+			assertTrue("BinaryProblem intances should extend the AbstractBinaryProblem class.",
+					instance.getClass().getSuperclass().equals(AbstractBinaryProblem.class));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 }

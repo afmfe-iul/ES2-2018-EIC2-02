@@ -22,6 +22,7 @@ public class IntegerPermutationProblem extends AbstractIntegerPermutationProblem
 	    setNumberOfObjectives(numberOfObjectives);
 	    setName(name);
 	    
+	    
 	    problemHelpers = new ArrayList<ProblemHelper>();
 		for (int i = 0; i < numberOfObjectives; i++) {
 			problemHelpers.add(new ProblemHelper(jarPaths.get(i), this.decisionVariables));

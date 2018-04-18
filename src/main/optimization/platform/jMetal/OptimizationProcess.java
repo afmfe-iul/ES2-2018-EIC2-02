@@ -62,7 +62,9 @@ public class OptimizationProcess {
 		if (dataType.equals("Double")) {
 			List<ExperimentProblem<DoubleSolution>> problemList = new ArrayList<>();
 			//Constructor was updated
-			DoubleProblem problem = new DoubleProblem(decisionVariables, jarPaths, "DoubleProblem", -5, 5);
+			//TODO trocar as listas bounds pelas recebidas pelo interface gráfico
+			List<Double>bounds = new ArrayList<Double>();
+			DoubleProblem problem = new DoubleProblem(decisionVariables, bounds, bounds, jarPaths, "DoubleProblem");
 			problemList.add(new ExperimentProblem<>(problem));
 
 			List<ExperimentAlgorithm<DoubleSolution, List<DoubleSolution>>> algorithmList = configureAlgorithmList(
