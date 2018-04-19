@@ -43,8 +43,12 @@ import javax.xml.bind.Unmarshaller;
 import main.optimization.platform.gui.external.DataVisualization;
 import main.optimization.platform.jMetal.OptimizationProcess;
 import java.awt.ScrollPane;
+import javax.swing.JCheckBox;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
 
 public class MainLayout {
+
 	public JFrame frame;
 	public JTable tableManualConfig;
 	public JTable tableControl;
@@ -67,7 +71,9 @@ public class MainLayout {
 	JFileChooser fileChooserJar;
 	private DefaultTableModel modelTableButton;
 	private JTextField txtCriteria;
-
+	private JCheckBox chckbxManual;
+	private JCheckBox chckbxAutomatic;
+	private JLabel lblOptimizationImpliesMinimizing;
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -186,6 +192,30 @@ public class MainLayout {
 			
 		});
 		
+		 chckbxAutomatic = new JCheckBox("Automatic");
+		chckbxAutomatic.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent arg0) {
+				if(chckbxAutomatic.isSelected()) {
+					chckbxManual.setSelected(false);
+					
+				}
+			}
+		});
+		
+		 chckbxManual = new JCheckBox("Manual");
+		chckbxManual.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				if(chckbxManual.isSelected()) {
+					chckbxAutomatic.setSelected(false);
+					
+				}
+			}
+		});
+		
+		JLabel lblAlgorithms = new JLabel("Algorithms");
+		
+		lblOptimizationImpliesMinimizing = new JLabel("Optimization implies minimizing jars results");
+		
 		
 		
 		// TODO END of demo code
@@ -197,19 +227,46 @@ public class MainLayout {
 					.addContainerGap()
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addGroup(groupLayout.createSequentialGroup()
-							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
+							.addGap(42)
+							.addComponent(btnLoadTable))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addComponent(txtProblemDescription, GroupLayout.PREFERRED_SIZE, 467, GroupLayout.PREFERRED_SIZE)
+								.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
+									.addComponent(lblDescrio)
+									.addGroup(groupLayout.createSequentialGroup()
+										.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+											.addComponent(lblNameProblem)
+											.addComponent(lblEmail))
+										.addPreferredGap(ComponentPlacement.UNRELATED)
+										.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+											.addComponent(txtEmail, GroupLayout.DEFAULT_SIZE, 371, Short.MAX_VALUE)
+											.addComponent(txtProblemName, GroupLayout.DEFAULT_SIZE, 371, Short.MAX_VALUE)))))
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 								.addGroup(groupLayout.createSequentialGroup()
+									.addPreferredGap(ComponentPlacement.RELATED)
 									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+										.addComponent(btnOpenXmlProblem)
+										.addComponent(btnSaveXmlProblemL)))
+								.addGroup(groupLayout.createSequentialGroup()
+									.addGap(41)
+									.addComponent(lblOptimizationImpliesMinimizing))))
+						.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
+							.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+								.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
+									.addComponent(scrollPanelTableVariable, GroupLayout.PREFERRED_SIZE, 446, GroupLayout.PREFERRED_SIZE)
+									.addGap(18)
+									.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
+										.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+											.addComponent(chckbxAutomatic)
+											.addComponent(chckbxManual)
+											.addComponent(btnRunDemo)
+											.addComponent(btnVisDemo))
 										.addGroup(groupLayout.createSequentialGroup()
-											.addGap(42)
-											.addComponent(btnLoadTable))
-										.addGroup(groupLayout.createSequentialGroup()
-											.addComponent(scrollPanelTableVariable, GroupLayout.DEFAULT_SIZE, 477, Short.MAX_VALUE)
-											.addPreferredGap(ComponentPlacement.RELATED)))
-									.addGap(38)
-									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-										.addComponent(btnRunDemo)
-										.addComponent(btnVisDemo)))
+											.addComponent(lblAlgorithms)
+											.addGap(41)))
+									.addGap(18)
+									.addComponent(scrollPanelTableCriteria, GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE))
 								.addGroup(groupLayout.createSequentialGroup()
 									.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
 										.addGroup(groupLayout.createSequentialGroup()
@@ -231,31 +288,12 @@ public class MainLayout {
 									.addPreferredGap(ComponentPlacement.RELATED)
 									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 										.addComponent(lblMaximumtime, GroupLayout.PREFERRED_SIZE, 134, GroupLayout.PREFERRED_SIZE)
-										.addComponent(txtMaximumTime, 92, 92, 92))))
-							.addGap(30)
-							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addGroup(groupLayout.createSequentialGroup()
+										.addComponent(txtMaximumTime, 92, 92, 92))
+									.addPreferredGap(ComponentPlacement.RELATED, 72, Short.MAX_VALUE)
 									.addComponent(txtCriteria, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 									.addPreferredGap(ComponentPlacement.UNRELATED)
-									.addComponent(btnCriteria))
-								.addComponent(scrollPanelTableCriteria, GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE)))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addComponent(txtProblemDescription, GroupLayout.PREFERRED_SIZE, 467, GroupLayout.PREFERRED_SIZE)
-								.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
-									.addComponent(lblDescrio)
-									.addGroup(groupLayout.createSequentialGroup()
-										.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-											.addComponent(lblNameProblem)
-											.addComponent(lblEmail))
-										.addPreferredGap(ComponentPlacement.UNRELATED)
-										.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-											.addComponent(txtEmail, GroupLayout.DEFAULT_SIZE, 371, Short.MAX_VALUE)
-											.addComponent(txtProblemName, GroupLayout.DEFAULT_SIZE, 371, Short.MAX_VALUE)))))
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addComponent(btnOpenXmlProblem)
-								.addComponent(btnSaveXmlProblemL))))
+									.addComponent(btnCriteria)))
+							.addGap(173)))
 					.addContainerGap())
 		);
 		groupLayout.setVerticalGroup(
@@ -276,17 +314,25 @@ public class MainLayout {
 						.addComponent(txtCriteria, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnCriteria))
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(btnLoadTable)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-						.addComponent(scrollPanelTableCriteria, Alignment.LEADING, 0, 0, Short.MAX_VALUE)
-						.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
-							.addComponent(scrollPanelTableVariable, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 217, Short.MAX_VALUE)
-							.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
-								.addComponent(btnRunDemo)
-								.addPreferredGap(ComponentPlacement.RELATED)
-								.addComponent(btnVisDemo))))
-					.addGap(18)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
+							.addComponent(btnRunDemo)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(btnVisDemo)
+							.addGap(17)
+							.addComponent(lblAlgorithms)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(chckbxAutomatic)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(chckbxManual)
+							.addGap(60))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(btnLoadTable)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addComponent(scrollPanelTableCriteria, Alignment.TRAILING, 0, 0, Short.MAX_VALUE)
+								.addComponent(scrollPanelTableVariable, GroupLayout.PREFERRED_SIZE, 217, GroupLayout.PREFERRED_SIZE))
+							.addGap(18)))
 					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
@@ -302,8 +348,11 @@ public class MainLayout {
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(txtProblemDescription, GroupLayout.PREFERRED_SIZE, 160, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnOpenXmlProblem))
-					.addGap(69))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(btnOpenXmlProblem)
+							.addGap(34)
+							.addComponent(lblOptimizationImpliesMinimizing)))
+					.addGap(66))
 		);
 
 		resetTableModels();
