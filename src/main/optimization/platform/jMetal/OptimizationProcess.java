@@ -12,12 +12,16 @@ import java.util.Scanner;
 import java.util.Set;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
+
 import org.uma.jmetal.algorithm.Algorithm;
 import org.uma.jmetal.algorithm.multiobjective.nsgaii.NSGAIIBuilder;
 import org.uma.jmetal.operator.impl.crossover.SBXCrossover;
 import org.uma.jmetal.operator.impl.mutation.PolynomialMutation;
 import org.uma.jmetal.qualityindicator.impl.hypervolume.PISAHypervolume;
+import org.uma.jmetal.solution.BinarySolution;
 import org.uma.jmetal.solution.DoubleSolution;
+import org.uma.jmetal.solution.IntegerSolution;
+import org.uma.jmetal.solution.PermutationSolution;
 import org.uma.jmetal.util.experiment.Experiment;
 import org.uma.jmetal.util.experiment.ExperimentBuilder;
 import org.uma.jmetal.util.experiment.component.ComputeQualityIndicators;
@@ -27,7 +31,12 @@ import org.uma.jmetal.util.experiment.component.GenerateLatexTablesWithStatistic
 import org.uma.jmetal.util.experiment.component.GenerateReferenceParetoSetAndFrontFromDoubleSolutions;
 import org.uma.jmetal.util.experiment.util.ExperimentAlgorithm;
 import org.uma.jmetal.util.experiment.util.ExperimentProblem;
+
+import main.optimization.platform.jMetal.problems.BinaryProblem;
 import main.optimization.platform.jMetal.problems.DoubleProblem;
+import main.optimization.platform.jMetal.problems.IntegerDoubleProblem;
+import main.optimization.platform.jMetal.problems.IntegerPermutationProblem;
+import main.optimization.platform.jMetal.problems.IntegerProblem;
 
 public class OptimizationProcess {
 
@@ -61,7 +70,7 @@ public class OptimizationProcess {
 		zip = new ZipInputStream(new FileInputStream("C:/Users/" + System.getProperty("user.name")
 				+ "/.m2/repository/org/uma/jmetal/jmetal-algorithm/5.5.1/jmetal-algorithm-5.5.1-sources.jar"));
 
-		if (dataType.equals("Double")) {
+		if (dataType.equals("Double") || dataType.equals("IntegerDouble")) {
 			ArrayList<String> doubleAlgorithms = new ArrayList<String>();
 
 			for (ZipEntry entry = zip.getNextEntry(); entry != null; entry = zip.getNextEntry()) {
@@ -136,17 +145,46 @@ public class OptimizationProcess {
 	}
 
 	// TODO do the UPPER and LOWER Bounds on constructor of the problem?
-	// TODO name of problem from GUI input??
 	public boolean run(List<String> decisionVariables, List<String> jarPaths, String dataType, String algorithm,
 			String problemName) throws Exception {
 		if (decisionVariables == null || jarPaths == null || decisionVariables.size() == 0 || jarPaths.size() == 0) {
 			return false;
 		}
 
-		if (dataType.equals("Double")) {
+		if (dataType.equals("Integer")) {
+			// TODO trocar as listas bounds pelas recebidas pelo interface gráfico
+			List<ExperimentProblem<IntegerSolution>> problemList = new ArrayList<>();
+			List<Integer> bounds = new ArrayList<Integer>();
+			IntegerProblem problem = new IntegerProblem(decisionVariables, bounds, bounds, "DoubleProblem",jarPaths);
+			problemList.add(new ExperimentProblem<>(problem));
+
+		}
+
+		if (dataType.equals("IntegerPermutation")) {
+			List<ExperimentProblem<PermutationSolution<Integer>>> problemList = new ArrayList<>();
+			IntegerPermutationProblem problem = new IntegerPermutationProblem(decisionVariables, jarPaths, "IntegerPermutationProblem");
+			problemList.add(new ExperimentProblem<>(problem));
+		}
+		//TODO raw data type?
+		if (dataType.equals("IntegerDouble")) {
 			List<ExperimentProblem<DoubleSolution>> problemList = new ArrayList<>();
+			List<Double> bounds = new ArrayList<Double>();
+			IntegerDoubleProblem<DoubleSolution> problem = new IntegerDoubleProblem(decisionVariables, bounds, bounds, jarPaths, "IntegerDoubleProblem");
+			problemList.add(new ExperimentProblem<>(problem));
+		}
+
+		if (dataType.equals("Binary")) {
+			//TODO constructor bit?
+			List<ExperimentProblem<BinarySolution>> problemList = new ArrayList<>();
+			BinaryProblem problem = new BinaryProblem(decisionVariables, jarPaths, "BinaryProblem", 0);
+			problemList.add(new ExperimentProblem<>(problem));
+		}
+
+		if (dataType.equals("Double")) {
+
 			// Constructor was updated
 			// TODO trocar as listas bounds pelas recebidas pelo interface gráfico
+			List<ExperimentProblem<DoubleSolution>> problemList = new ArrayList<>();
 			List<Double> bounds = new ArrayList<Double>();
 			DoubleProblem problem = new DoubleProblem(decisionVariables, bounds, bounds, jarPaths, "DoubleProblem");
 			problemList.add(new ExperimentProblem<>(problem));
