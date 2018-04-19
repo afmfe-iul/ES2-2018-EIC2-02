@@ -12,3 +12,4 @@ visualizations/*
 !
 experimentsBaseDirectory/gitkeep.txt
 !visualizations/template.html
+/target/

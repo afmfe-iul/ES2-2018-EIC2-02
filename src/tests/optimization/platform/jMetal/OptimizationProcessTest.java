@@ -22,7 +22,7 @@ public class OptimizationProcessTest {
 	}
 	
 	@Test
-	public void getAlgorithmsForShouldReturnANonEmptyListWithTheApllicableAlgorithmsForAGivenDataType(){
+	public void getAlgorithmsForShouldReturnANonEmptyListWithTheApllicableAlgorithmsForAGivenDataType() throws Exception{
 		OptimizationProcess instance = new OptimizationProcess();
 		String dataType = "Double";
 		List<String> results = instance.getAlgorithmsFor(dataType);
