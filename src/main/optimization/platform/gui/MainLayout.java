@@ -11,6 +11,7 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -48,7 +49,7 @@ public class MainLayout {
 	public JTable tableManualConfig;
 	public JTable tableControl;
 	public JDialog progressDialog;
-	public JScrollPane scrollPaneTabel1;
+	public JScrollPane scrollPanelTableVariable;
 	private JLabel lblEmail;
 	private JLabel lblNameProblem;
 	private JTextField txtProblemName;
@@ -62,7 +63,7 @@ public class MainLayout {
 	private JTextField txtVariablesNumber;
 	private JTextArea txtProblemDescription;
 	private JComboBox<String> comboBoxType;
-	private JScrollPane scrollPaneTabel2;
+	private JScrollPane scrollPanelTableCriteria;
 	JFileChooser fileChooserJar;
 	private DefaultTableModel modelTableButton;
 	private JTextField txtCriteria;
@@ -103,8 +104,8 @@ public class MainLayout {
 		FileNameExtensionFilter filterJar = new FileNameExtensionFilter("jar Files", "jar", "jar");
 //		FileNameExtensionFilter filter = new FileNameExtensionFilter("LOG Files", "log", "log");
 		fileChooserJar.setFileFilter(filterJar);
-		scrollPaneTabel1 = new JScrollPane();
-		scrollPaneTabel2 = new JScrollPane();
+		scrollPanelTableVariable = new JScrollPane();
+		scrollPanelTableCriteria = new JScrollPane();
 
 		comboBoxType = new JComboBox<String>();
 		comboBoxType.addItem("Integer");
@@ -203,7 +204,7 @@ public class MainLayout {
 											.addGap(42)
 											.addComponent(btnLoadTable))
 										.addGroup(groupLayout.createSequentialGroup()
-											.addComponent(scrollPaneTabel1, GroupLayout.DEFAULT_SIZE, 477, Short.MAX_VALUE)
+											.addComponent(scrollPanelTableVariable, GroupLayout.DEFAULT_SIZE, 477, Short.MAX_VALUE)
 											.addPreferredGap(ComponentPlacement.RELATED)))
 									.addGap(38)
 									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
@@ -237,7 +238,7 @@ public class MainLayout {
 									.addComponent(txtCriteria, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 									.addPreferredGap(ComponentPlacement.UNRELATED)
 									.addComponent(btnCriteria))
-								.addComponent(scrollPaneTabel2, GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE)))
+								.addComponent(scrollPanelTableCriteria, GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE)))
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 								.addComponent(txtProblemDescription, GroupLayout.PREFERRED_SIZE, 467, GroupLayout.PREFERRED_SIZE)
@@ -278,9 +279,9 @@ public class MainLayout {
 					.addComponent(btnLoadTable)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-						.addComponent(scrollPaneTabel2, Alignment.LEADING, 0, 0, Short.MAX_VALUE)
+						.addComponent(scrollPanelTableCriteria, Alignment.LEADING, 0, 0, Short.MAX_VALUE)
 						.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
-							.addComponent(scrollPaneTabel1, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 217, Short.MAX_VALUE)
+							.addComponent(scrollPanelTableVariable, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 217, Short.MAX_VALUE)
 							.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
 								.addComponent(btnRunDemo)
 								.addPreferredGap(ComponentPlacement.RELATED)
@@ -316,6 +317,17 @@ public class MainLayout {
 		JOptionPane.showMessageDialog(frame, message, title, iconType);
 	}
 	
+	public void clearProblem() {
+		resetTableModels();
+		txtCriteria.setText("");
+		txtEmail.setText("");
+		txtMaximumTime.setText("");
+		txtProblemDescription.setText("");
+		txtProblemName.setText("");
+		txtVariablesName.setText("");
+		txtVariablesNumber.setText("");
+	}
+	
 	public boolean validateProblemFields() {
 		//If problem name contains spaces or special characters
 		Pattern p = Pattern.compile("[^a-z0-9 ]", Pattern.CASE_INSENSITIVE);
@@ -348,7 +360,7 @@ public class MainLayout {
 		}
 		tableManualConfig.getColumnModel().getColumn(0).setResizable(false);
 		tableManualConfig.getColumnModel().getColumn(1).setResizable(false);
-		scrollPaneTabel2.setViewportView(tableControl);
+		scrollPanelTableCriteria.setViewportView(tableControl);
 		Action insertPath = new AbstractAction()
 		{
 		    public void actionPerformed(ActionEvent e)
@@ -381,6 +393,12 @@ public class MainLayout {
 				return columnTypes[columnIndex];
 			}
 		});	 
+		
+		scrollPanelTableVariable.setViewportView(null);
+		scrollPanelTableCriteria.setViewportView(null);
+
+		
+		
 	}
 	private void chooseFileTable(int m){
 		int result = fileChooserJar.showOpenDialog(null);
@@ -445,7 +463,7 @@ public class MainLayout {
 		for(int i=0; i<counter; i++){
 			modelManual.addRow(new Object[]{null, null});
 		}
-		scrollPaneTabel1.setViewportView(tableManualConfig);
+		scrollPanelTableVariable.setViewportView(tableManualConfig);
 		tableManualConfig.setModel(modelManual);
 	}
 	
@@ -498,9 +516,10 @@ public class MainLayout {
 					 
 				 }
 			//TODO load combobox and table
-		} catch (JAXBException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (Exception  e) {
+			// TODO clean tables
+			System.out.println("ERRO AO LER FICHEIRO");
+			clearProblem();
 		}
 	
 	}
@@ -626,19 +645,19 @@ public class MainLayout {
 		for(int i = 0; i < tableManualConfig.getModel().getRowCount(); i++){
 			decisionVariables.add((String) tableManualConfig.getModel().getValueAt(i, 1));
 		}
-		DataVisualization dv = new DataVisualization(algorithmsNames, filePaths, decisionVariables);
+	//	DataVisualization dv = new DataVisualization(algorithmsNames, filePaths, decisionVariables);
 	
 		JFrame frame = new JFrame("Graphical Visualization");
-		frame.getContentPane().add(dv);
+	//	frame.getContentPane().add(dv);
 		WindowListener exitListener = new WindowAdapter() {
 		    @Override
 		    public void windowClosing(WindowEvent e) {
-		    	frame.remove(dv);
+		   // 	frame.remove(dv);
 		    }
 		};
 		frame.addWindowListener(exitListener);
 		frame.setSize(900, 600);
-		dv.run();
+		//dv.run();
 		frame.setVisible(true);
 	}
 }
