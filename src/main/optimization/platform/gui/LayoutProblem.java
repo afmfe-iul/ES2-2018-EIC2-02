@@ -8,6 +8,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class LayoutProblem {
 	private int maxWaitingTime;
+	
 	private int numberVariables;
 	private int numberCriteria;
 	private String variablesName;
