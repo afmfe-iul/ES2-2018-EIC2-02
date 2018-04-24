@@ -9,6 +9,7 @@ import org.uma.jmetal.solution.PermutationSolution;
 public class IntegerPermutationProblem extends AbstractIntegerPermutationProblem {
 	
 	private static final long serialVersionUID = 1L;
+	
 	private int numberOfCities ;
 	private List<String> decisionVariables;
 	private List<ProblemHelper> problemHelpers;
@@ -18,6 +19,7 @@ public class IntegerPermutationProblem extends AbstractIntegerPermutationProblem
 	public IntegerPermutationProblem(List<String> decisionVariables, List<String> jarPaths, String name) throws Exception {
 		numberOfObjectives = jarPaths.size();
 		this.decisionVariables = decisionVariables;
+		numberOfCities=this.decisionVariables.size();
 		setNumberOfVariables(numberOfCities);
 	    setNumberOfObjectives(numberOfObjectives);
 	    setName(name);

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.junit.Test;
 import org.uma.jmetal.problem.impl.AbstractDoubleProblem;
+import org.uma.jmetal.solution.DoubleSolution;
 
 import main.optimization.platform.jMetal.problems.DoubleProblem;
 
@@ -16,15 +17,21 @@ public class DoubleProblemTest {
 		List<String> jarPaths = new ArrayList<String>();
 		List<Double> upperbounds = new ArrayList<Double>();
 		List<Double> lowerbounds = new ArrayList<Double>();
-
-		// The DoubleProblem assumes the input files (ham.log and spam.log)
-		// paths
-		// are hardcoded in the admin xml file
+		for(int i = 0; i<2;i++) {
+			decisionVariables.add(""+i);
+			jarPaths.add("testJars/FalseNegatives.jar");
+		}
 		DoubleProblem instance;
+		DoubleSolution solution =null;
 		try {
 			instance = new DoubleProblem(decisionVariables, upperbounds, lowerbounds, jarPaths, null);
 			assertTrue("DoubleProblem intances should extend the AbstractDoubleProblem class.",
 			instance.getClass().getSuperclass().equals(AbstractDoubleProblem.class));
+			
+			assertTrue("Number of variables to optimize are correct", 
+			instance.getNumberOfObjectives()==jarPaths.size());
+			
+			instance.evaluate(solution);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
