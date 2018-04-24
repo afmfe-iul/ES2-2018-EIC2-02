@@ -50,8 +50,8 @@ import javax.swing.event.ChangeEvent;
 public class MainLayout {
 
 	public JFrame frame;
-	public JTable tableManualConfig;
-	public JTable tableControl;
+	public JTable tableVariable;
+	public JTable tableCriteria;
 	public JDialog progressDialog;
 	public JScrollPane scrollPanelTableVariable;
 	private JLabel lblEmail;
@@ -64,13 +64,13 @@ public class MainLayout {
 	private JTextField txtMaximumTime;
 	private JLabel lblType;
 	private JLabel lblVariablesNumber;
-	private JTextField txtVariablesNumber;
+	private JTextField txtNumberVariables;
 	private JTextArea txtProblemDescription;
 	private JComboBox<String> comboBoxType;
 	private JScrollPane scrollPanelTableCriteria;
-	JFileChooser fileChooserJar;
+	private JFileChooser fileChooserJar;
 	private DefaultTableModel modelTableButton;
-	private JTextField txtCriteria;
+	private JTextField txtNumberCriteria;
 	private JCheckBox chckbxManual;
 	private JCheckBox chckbxAutomatic;
 	private JLabel lblOptimizationImpliesMinimizing;
@@ -86,6 +86,7 @@ public class MainLayout {
 	}
 	
 	public void initialize() {
+
 		FileNameExtensionFilter filterXml = new FileNameExtensionFilter("Xml files", "xml", "xml");
 		frame = new JFrame("Optimizer");
 		frame.setResizable(false);
@@ -133,12 +134,12 @@ public class MainLayout {
 		txtMaximumTime.setColumns(10);
 		lblType = new JLabel("Type");
 		lblVariablesNumber = new JLabel("Variables number");
-		txtVariablesNumber = new JTextField();
-		txtVariablesNumber.setColumns(10);
-		JButton btnLoadTable = new JButton("Load Table");
-		btnLoadTable.addActionListener(new ActionListener() {
+		txtNumberVariables = new JTextField();
+		txtNumberVariables.setColumns(10);
+		JButton btnloadTableVariable = new JButton("Load Table");
+		btnloadTableVariable.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				loadTable();
+				loadTableVariable();
 			}
 		});
 		
@@ -180,13 +181,13 @@ public class MainLayout {
 			}
 		});
 		
-		txtCriteria = new JTextField();
-		txtCriteria.setColumns(10);
+		txtNumberCriteria = new JTextField();
+		txtNumberCriteria.setColumns(10);
 		
 		JButton btnCriteria = new JButton("Load Table");
 		btnCriteria.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				loadCriteriaTable();
+				loadTableCriteria();
 			}
 
 			
@@ -228,7 +229,7 @@ public class MainLayout {
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGap(42)
-							.addComponent(btnLoadTable))
+							.addComponent(btnloadTableVariable))
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 								.addComponent(txtProblemDescription, GroupLayout.PREFERRED_SIZE, 467, GroupLayout.PREFERRED_SIZE)
@@ -272,7 +273,7 @@ public class MainLayout {
 										.addGroup(groupLayout.createSequentialGroup()
 											.addComponent(comboBoxType, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
 											.addPreferredGap(ComponentPlacement.RELATED)
-											.addComponent(txtVariablesNumber, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+											.addComponent(txtNumberVariables, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 										.addGroup(groupLayout.createSequentialGroup()
 											.addGap(21)
 											.addComponent(lblType)
@@ -290,7 +291,7 @@ public class MainLayout {
 										.addComponent(lblMaximumtime, GroupLayout.PREFERRED_SIZE, 134, GroupLayout.PREFERRED_SIZE)
 										.addComponent(txtMaximumTime, 92, 92, 92))
 									.addPreferredGap(ComponentPlacement.RELATED, 72, Short.MAX_VALUE)
-									.addComponent(txtCriteria, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+									.addComponent(txtNumberCriteria, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 									.addPreferredGap(ComponentPlacement.UNRELATED)
 									.addComponent(btnCriteria)))
 							.addGap(173)))
@@ -308,10 +309,10 @@ public class MainLayout {
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(comboBoxType, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(txtVariablesNumber, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(txtNumberVariables, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(txtVariablesName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(txtMaximumTime, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(txtCriteria, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(txtNumberCriteria, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnCriteria))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
@@ -327,7 +328,7 @@ public class MainLayout {
 							.addComponent(chckbxManual)
 							.addGap(60))
 						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(btnLoadTable)
+							.addComponent(btnloadTableVariable)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 								.addComponent(scrollPanelTableCriteria, Alignment.TRAILING, 0, 0, Short.MAX_VALUE)
@@ -368,13 +369,13 @@ public class MainLayout {
 	
 	public void clearProblem() {
 		resetTableModels();
-		txtCriteria.setText("");
+		txtNumberCriteria.setText("");
 		txtEmail.setText("");
 		txtMaximumTime.setText("");
 		txtProblemDescription.setText("");
 		txtProblemName.setText("");
 		txtVariablesName.setText("");
-		txtVariablesNumber.setText("");
+		txtNumberVariables.setText("");
 	}
 	
 	public boolean validateProblemFields() {
@@ -387,14 +388,14 @@ public class MainLayout {
 		
 		return true;
 	}
-	private void loadCriteriaTable() {
+	private void loadTableCriteria() {
 		// TODO Auto-generated method stub
 
-		tableControl.setModel( modelTableButton = new DefaultTableModel(
+		tableCriteria.setModel( modelTableButton = new DefaultTableModel(
 		
 			new Object[][]{},
 			new String[] {
-			"Solution known","Nome","Path", "Add Path"}
+			"Solution known","Name","Path", "Add Path"}
 		) {
 			Class[] columnTypes = new Class[] {
 				Integer.class,String.class,String.class, ButtonColumn.class
@@ -403,13 +404,13 @@ public class MainLayout {
 				return columnTypes[columnIndex];
 			}
 		});
-		int i = Integer.parseInt(txtCriteria.getText());
+		int i = Integer.parseInt(txtNumberCriteria.getText());
 		for (;i>0;i--){
 		modelTableButton.addRow(new Object[]{null,null, null,null});
 		}
-		tableManualConfig.getColumnModel().getColumn(0).setResizable(false);
-		tableManualConfig.getColumnModel().getColumn(1).setResizable(false);
-		scrollPanelTableCriteria.setViewportView(tableControl);
+		tableCriteria.getColumnModel().getColumn(0).setResizable(false);
+		tableCriteria.getColumnModel().getColumn(1).setResizable(false);
+		scrollPanelTableCriteria.setViewportView(tableCriteria);
 		Action insertPath = new AbstractAction()
 		{
 		    public void actionPerformed(ActionEvent e)
@@ -420,32 +421,33 @@ public class MainLayout {
 		        //((DefaultTableModel)table.getModel()).removeRow(modelRow);
 		    }
 		};
-		ButtonColumn buttonColumn = new ButtonColumn(tableControl, insertPath, 3);
+		ButtonColumn buttonColumn = new ButtonColumn(tableCriteria, insertPath, 3);
 	}
 	
 	@SuppressWarnings({"serial", "unchecked", "rawtypes"})
 	public  void resetTableModels() {
-		tableManualConfig = new JTable();
-		tableControl= new JTable();
-		tableControl.setRowSelectionAllowed(false);
-		tableManualConfig.setRowSelectionAllowed(false);
-		tableManualConfig
-		.setModel(new DefaultTableModel(
-			new Object[][]{},
-			new String[] {
-				"Name","Rule", "Minimum", "Maximum", "Forbidden"}
-		) {
-			Class[] columnTypes = new Class[] {
-				String.class,String.class, Integer.class, Integer.class, Integer.class
-			};
-			public Class getColumnClass(int columnIndex) {
-				return columnTypes[columnIndex];
-			}
-		});	 
+		tableVariable = new JTable();
+		tableCriteria= new JTable();
+		tableCriteria.setRowSelectionAllowed(false);
+		tableVariable.setRowSelectionAllowed(false);
+//		tableVariable
+//		.setModel(new DefaultTableModel(
+//			new Object[][]{},
+//			new String[] {
+//				"Name","Rule", "Minimum", "Maximum", "Forbidden"}
+//		) {
+//			Class[] columnTypes = new Class[] {
+//				String.class,String.class, Integer.class, Integer.class, Integer.class
+//			};
+//			public Class getColumnClass(int columnIndex) {
+//				return columnTypes[columnIndex];
+//			}
+//		});	 
 		
 		scrollPanelTableVariable.setViewportView(null);
 		scrollPanelTableCriteria.setViewportView(null);
-
+		tableCriteria.putClientProperty("terminateEditOnFocusLost", true);
+		tableVariable.putClientProperty("terminateEditOnFocusLost", true);
 		
 		
 	}
@@ -460,10 +462,10 @@ public class MainLayout {
 	}
 
 	@SuppressWarnings({"serial", "unchecked", "rawtypes"})
-	private void loadTable(){
-		DefaultTableModel modelManual = null;
+	private void loadTableVariable(){
+		DefaultTableModel modelVariable = null;
 		if(comboBoxType.getSelectedItem().toString()=="Integer"){
-			modelManual = new DefaultTableModel(
+			modelVariable = new DefaultTableModel(
 				new Object[][]{},
 				new String[] {
 					"Name","Rule", "Minimum", "Maximum", "Forbidden"}
@@ -478,7 +480,7 @@ public class MainLayout {
 			};
 		}
 		if(comboBoxType.getSelectedItem().toString()=="Double"){
-			 modelManual = new DefaultTableModel(
+			 modelVariable = new DefaultTableModel(
 					new Object[][]{},
 					new String[] {
 						"Name","Rule",  "Minimum", "Maximum", "Forbidden"}
@@ -493,7 +495,7 @@ public class MainLayout {
 				};
 			}
 		if(comboBoxType.getSelectedItem().toString()=="Boolean"){
-			 modelManual = new DefaultTableModel(
+			 modelVariable = new DefaultTableModel(
 					new Object[][]{},
 					new String[] {
 						"Name","Rule",  "Forbidden"}
@@ -508,12 +510,12 @@ public class MainLayout {
 				};
 			}
 		
-		int counter =  Integer.parseInt(txtVariablesNumber.getText());
+		int counter =  Integer.parseInt(txtNumberVariables.getText());
 		for(int i=0; i<counter; i++){
-			modelManual.addRow(new Object[]{null, null});
+			modelVariable.addRow(new Object[]{null, null});
 		}
-		scrollPanelTableVariable.setViewportView(tableManualConfig);
-		tableManualConfig.setModel(modelManual);
+		scrollPanelTableVariable.setViewportView(tableVariable);
+		tableVariable.setModel(modelVariable);
 	}
 	
 	private void loadXmlProblem(String xmlFile){
@@ -527,43 +529,49 @@ public class MainLayout {
 			comboBoxType.setSelectedItem(problem.getTipo());
 
 			txtEmail.setText(problem.getEmail());
-			txtVariablesNumber.setText(Integer.toString(problem.getVariablesNumber()));
+			txtNumberVariables.setText(Integer.toString(problem.getNumberVariables()));
+			txtNumberCriteria.setText(Integer.toString(problem.getNumberCriteria()));
 			txtProblemDescription.setText(problem.getProblemDescription());
 			txtProblemName.setText(problem.getProblemTitle());
 			txtVariablesName.setText(problem.getVariablesName());
 			txtMaximumTime.setText(Integer.toString(problem.getMaxWaitingTime()));
-			loadTable();
-			 List <TableRow> lista =problem.getList();
-			 TableModel modelManual = tableManualConfig.getModel();
-			 
-			 if (comboBoxType.getSelectedItem()=="Double")
-			 for (int i=0;i<tableManualConfig.getRowCount();i++){
-				 modelManual.setValueAt(lista.get(i).getName(), i, 0);
-				 modelManual.setValueAt(lista.get(i).getRule(), i, 1);
-				 modelManual.setValueAt(Double.parseDouble(lista.get(i).getMinimo()), i, 2);
-				 modelManual.setValueAt(Double.parseDouble(lista.get(i).getMaximo()), i, 3);
-				 if(lista.get(i).getForbidden()!=null)
-				 modelManual.setValueAt(Double.parseDouble(lista.get(i).getForbidden()), i, 4);
-				 
-			 }
-			 if (comboBoxType.getSelectedItem()=="Integer")
-				 for (int i=0;i<tableManualConfig.getRowCount();i++){
-					 modelManual.setValueAt(lista.get(i).getName(), i, 0);
-					 modelManual.setValueAt(lista.get(i).getRule(), i, 1);
-					 modelManual.setValueAt(Integer.parseInt(lista.get(i).getMinimo()), i, 2);
-					 modelManual.setValueAt(Integer.parseInt(lista.get(i).getMaximo()), i, 3);
-					 if(lista.get(i).getForbidden()!=null)
-					 modelManual.setValueAt(Integer.parseInt(lista.get(i).getForbidden()), i, 4);
-					 
-				 }
-			 if (comboBoxType.getSelectedItem()=="Boolean")
-				 for (int i=0;i<tableManualConfig.getRowCount();i++){
-					 modelManual.setValueAt(lista.get(i).getName(), i, 0);
-					 modelManual.setValueAt(lista.get(i).getRule(), i, 1);
-					 if(lista.get(i).getForbidden()!=null)
-					 modelManual.setValueAt(Boolean.parseBoolean(lista.get(i).getForbidden()), i, 4);
-					 
-				 }
+			loadTableVariable();
+			loadTableCriteria();
+			List <TableRowVariable> listVariable =problem.getListVariable();
+			List <TableRowCriteria> listCriteria =problem.getListCriteria();
+			TableModel modelVariable = tableVariable.getModel();
+			TableModel modelCriteria = tableCriteria.getModel();
+			if (comboBoxType.getSelectedItem()=="Double")
+			for (int i=0;i<tableVariable.getRowCount();i++){
+				modelVariable.setValueAt(listVariable.get(i).getName(), i, 0);
+				modelVariable.setValueAt(listVariable.get(i).getRule(), i, 1);
+				modelVariable.setValueAt(Double.parseDouble(listVariable.get(i).getMinimo()), i, 2);
+				modelVariable.setValueAt(Double.parseDouble(listVariable.get(i).getMaximo()), i, 3);
+				if(listVariable.get(i).getForbidden()!=null)
+				modelVariable.setValueAt(Double.parseDouble(listVariable.get(i).getForbidden()), i, 4);
+			}
+			if (comboBoxType.getSelectedItem()=="Integer")
+				for (int i=0;i<tableVariable.getRowCount();i++){
+					modelVariable.setValueAt(listVariable.get(i).getName(), i, 0);
+					modelVariable.setValueAt(listVariable.get(i).getRule(), i, 1);
+					modelVariable.setValueAt(Integer.parseInt(listVariable.get(i).getMinimo()), i, 2);
+					modelVariable.setValueAt(Integer.parseInt(listVariable.get(i).getMaximo()), i, 3);
+					if(listVariable.get(i).getForbidden()!=null)
+					modelVariable.setValueAt(Integer.parseInt(listVariable.get(i).getForbidden()), i, 4);
+				}
+			if (comboBoxType.getSelectedItem()=="Boolean")
+				for (int i=0;i<tableVariable.getRowCount();i++){
+					modelVariable.setValueAt(listVariable.get(i).getName(), i, 0);
+					modelVariable.setValueAt(listVariable.get(i).getRule(), i, 1);
+					if(listVariable.get(i).getForbidden()!=null)
+					modelVariable.setValueAt(Boolean.parseBoolean(listVariable.get(i).getForbidden()), i, 4);
+				}
+			for (int i=0; i<tableCriteria.getRowCount();i++) {
+				modelCriteria.setValueAt(listCriteria.get(i).getSolutionKnown(), i, 0);
+				modelCriteria.setValueAt(listCriteria.get(i).getName(), i, 1);
+				modelCriteria.setValueAt(listCriteria.get(i).getPath(), i, 2);
+
+			}
 			//TODO load combobox and table
 		} catch (Exception  e) {
 			// TODO clean tables
@@ -587,55 +595,65 @@ public class MainLayout {
 		  }
 
 		  problem.setVariablesName(txtVariablesName.getText());
-		  problem.setVariablesNumber(Integer.parseInt(txtVariablesNumber.getText()));
+		  problem.setNumberVariables(Integer.parseInt(txtNumberVariables.getText()));
+		  problem.setNumberCriteria(Integer.parseInt(txtNumberCriteria.getText()));
 		  problem.setProblemDescription(txtProblemDescription.getText());
 		  problem.setProblemTitle(txtProblemName.getText());
 		  problem.setEmail(txtEmail.getText());
 		  problem.setTipo(comboBoxType.getSelectedItem().toString());
-		  List <TableRow> lista = new ArrayList<TableRow>();
-		  
+		  List <TableRowVariable> listVariable = new ArrayList<TableRowVariable>();
+		  List <TableRowCriteria> listCriteria = new ArrayList<TableRowCriteria>();
+		  for(int i=0; i<tableCriteria.getRowCount(); i++) {
+			  TableRowCriteria m = new TableRowCriteria();
+			  m.setSolutionKnown((Integer)tableCriteria.getValueAt(i,0));
+			  m.setName(tableCriteria.getValueAt(i,1).toString());
+			  System.out.println(tableCriteria.getValueAt(i,2).toString());
+			  m.setPath(tableCriteria.getValueAt(i,2).toString());
+			  listCriteria.add(m);
+		  }
 		  if(tipo=="Integer"){
-			  for (int i=0;i<tableManualConfig.getRowCount();i++){
-				  TableRow m = new TableRow();
-				  m.setName((String) tableManualConfig.getValueAt(i, 0));
-				  m.setRule((String) tableManualConfig.getValueAt(i, 1));
-				  m.setMinimo(Integer.toString((int) tableManualConfig.getValueAt(i, 2)));
-				  m.setMaximo(Integer.toString((int) tableManualConfig.getValueAt(i, 3)));
-				  m.setForbidden(Integer.toString((int) tableManualConfig.getValueAt(i, 4)));
-				  lista.add(m);
+			  for (int i=0;i<tableVariable.getRowCount();i++){
+				  TableRowVariable m = new TableRowVariable();
+				  m.setName((String) tableVariable.getValueAt(i, 0));
+				  m.setRule((String) tableVariable.getValueAt(i, 1));
+				  m.setMinimo(Integer.toString((int) tableVariable.getValueAt(i, 2)));
+				  m.setMaximo(Integer.toString((int) tableVariable.getValueAt(i, 3)));
+				  m.setForbidden(Integer.toString((int) tableVariable.getValueAt(i, 4)));
+				  listVariable.add(m);
 			  }
 		  }
 		  if(tipo=="Double"){
-			  for (int i=0;i<tableManualConfig.getRowCount();i++){
-				  TableRow m = new TableRow();
-				  if( tableManualConfig.getValueAt(i, 0)!=null){
-				  m.setName((String) tableManualConfig.getValueAt(i, 0));
+			  for (int i=0;i<tableVariable.getRowCount();i++){
+				  TableRowVariable m = new TableRowVariable();
+				  if( tableVariable.getValueAt(i, 0)!=null){
+				  m.setName((String) tableVariable.getValueAt(i, 0));
 				  }
 				  else{
 					  m.setName(null);
 				  }
-				  m.setRule((String) tableManualConfig.getValueAt(i, 1));
-				  m.setMinimo(Double.toString((Double) tableManualConfig.getValueAt(i, 2)));
-				  m.setMaximo( Double.toString((Double) tableManualConfig.getValueAt(i, 3)));
-				  if( tableManualConfig.getValueAt(i, 4)!=null){
-					  m.setForbidden(Double.toString((Double) tableManualConfig.getValueAt(i, 4)));
+				  m.setRule((String) tableVariable.getValueAt(i, 1));
+				  m.setMinimo(Double.toString((Double) tableVariable.getValueAt(i, 2)));
+				  m.setMaximo( Double.toString((Double) tableVariable.getValueAt(i, 3)));
+				  if( tableVariable.getValueAt(i, 4)!=null){
+					  m.setForbidden(Double.toString((Double) tableVariable.getValueAt(i, 4)));
 					  }
 					  else{
 						  m.setForbidden(null);
 					  }
-				  lista.add(m);
+				  listVariable.add(m);
 			  }
 		  }
 		  if(tipo=="Boolean"){
-			  for (int i=0;i<tableManualConfig.getRowCount();i++){
-				  TableRow m = new TableRow();
-				  m.setName((String) tableManualConfig.getValueAt(i, 0));
-				  m.setRule((String) tableManualConfig.getValueAt(i, 1));
-				  m.setForbidden(Boolean.toString((Boolean) tableManualConfig.getValueAt(i, 2)));
-				  lista.add(m);
+			  for (int i=0;i<tableVariable.getRowCount();i++){
+				  TableRowVariable m = new TableRowVariable();
+				  m.setName((String) tableVariable.getValueAt(i, 0));
+				  m.setRule((String) tableVariable.getValueAt(i, 1));
+				  m.setForbidden(Boolean.toString((Boolean) tableVariable.getValueAt(i, 2)));
+				  listVariable.add(m);
 			  }
 		  }
-		  problem.setList(lista);
+		  problem.setListVariable(listVariable);
+		  problem.setListCriteria(listCriteria);
 		  //String[][] teste = new String[20][4];
 
 		  try {
@@ -663,8 +681,8 @@ public class MainLayout {
 	private void runDemo(){
 		OptimizationProcess op = new OptimizationProcess();
 		List<String> decisionVariables = new ArrayList<String>();
-		for(int i = 0; i < tableManualConfig.getModel().getRowCount(); i++){
-			decisionVariables.add((String) tableManualConfig.getModel().getValueAt(i, 1));
+		for(int i = 0; i < tableVariable.getModel().getRowCount(); i++){
+			decisionVariables.add((String) tableVariable.getModel().getValueAt(i, 1));
 		}
 		List<String> jarPaths = new ArrayList<String>();
 		jarPaths.add("testJars/FalseNegatives.jar");
@@ -691,8 +709,8 @@ public class MainLayout {
 						(String)comboBoxType.getSelectedItem() + "Problem.rs");
 		
 		List<String> decisionVariables = new ArrayList<String>();
-		for(int i = 0; i < tableManualConfig.getModel().getRowCount(); i++){
-			decisionVariables.add((String) tableManualConfig.getModel().getValueAt(i, 1));
+		for(int i = 0; i < tableVariable.getModel().getRowCount(); i++){
+			decisionVariables.add((String) tableVariable.getModel().getValueAt(i, 1));
 		}
 	//	DataVisualization dv = new DataVisualization(algorithmsNames, filePaths, decisionVariables);
 	

@@ -7,25 +7,38 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 public class LayoutProblem {
-	int maxWaitingTime;
-	int variablesNumber;
-	String variablesName;
-	String problemTitle;
-	String problemDescription;
-	String email;
+	private int maxWaitingTime;
+	private int numberVariables;
+	private int numberCriteria;
+	private String variablesName;
+	private String problemTitle;
+	private String problemDescription;
+	private String email;
 	// Integer/Double/Boolean
-	String tipo;
-	List<TableRow> list;
+	private String tipo;
+	private List<TableRowVariable> listVariable;
+	private List<TableRowCriteria> listCriteria;
 
 	@XmlElementWrapper
-	@XmlElement(name = "listaString")
-	public List<TableRow> getList() {
-		return list;
+	@XmlElement(name = "listVariable")
+	public List<TableRowVariable> getListVariable() {
+		return listVariable;
 	}
 
-	public void setList(List<TableRow> lista) {
-		this.list = lista;
+	public void setListVariable(List<TableRowVariable> listVariable) {
+		this.listVariable = listVariable;
 	}
+	
+	@XmlElementWrapper
+	@XmlElement(name = "listCriteria")
+	public List<TableRowCriteria> getListCriteria() {
+		return listCriteria;
+	}
+
+	public void setListCriteria(List<TableRowCriteria> listCriteria) {
+		this.listCriteria = listCriteria;
+	}
+
 
 	public String getEmail() {
 		return email;
@@ -71,13 +84,21 @@ public class LayoutProblem {
 		this.maxWaitingTime = maxWaitingTime;
 	}
 
-	public int getVariablesNumber() {
-		return variablesNumber;
+	public int getNumberVariables() {
+		return numberVariables;
 	}
 
 	@XmlElement
-	public void setVariablesNumber(int variablesNumber) {
-		this.variablesNumber = variablesNumber;
+	public void setNumberVariables(int numberVariables) {
+		this.numberVariables = numberVariables;
+	}
+	public int getNumberCriteria() {
+		return numberCriteria;
+	}
+
+	@XmlElement
+	public void setNumberCriteria(int numberCriteria) {
+		this.numberCriteria = numberCriteria;
 	}
 
 	public String getVariablesName() {

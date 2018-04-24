@@ -1,0 +1,10 @@
+Sprint review 
+Neste Sprint adicionamos novas componentes gráficas como a pagina FAQ e a informação acerca da proteção e dados, tambem foram refinadas componentes pré-existentes da interface.
+Foi desenvolvida a funcionalidade de enviar email para o administrador/utilizador através da plataforma como acordado no Sprint 2 backlog.
+O projecto foi convertido com sucesso para Maven, incluindo as depencias.
+Por fim foi melhorada a componente gráfica para a visualização de soluções.
+Foram encontrados problemas na implementação a nível da implementação de determinadas tarefas devido a limitações por parte da framework em uso, JMetal, e por inexperiência a nível de Javascript/biblioteca para a visualização das soluções. 
+
+
+Sprint retrospective
+Tudo o que o grupo se comprometeu a realizar no Sprint backlog foi realizado e melhoramos ao nível da frequência das reuniões de equipa. No entanto a estimativa de horas ainda não foi corretamente feita (devido a problemas referidos no Sprint review) e os commits poderiam ter sido mais frequentes no início do sprint(isso não se verificou devido à semana de avaliações intercalares). Estes são aspetos que o grupo pretente melhorar para o próximo sprint e manter os que já estão a funcionar corretamente.

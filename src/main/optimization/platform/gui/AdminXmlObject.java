@@ -4,7 +4,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-public class AdminObj {
+public class AdminXmlObject {
 	String email;
 	String paths;
 	public String getEmail() {

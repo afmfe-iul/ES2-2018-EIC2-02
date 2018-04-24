@@ -1,0 +1,7 @@
+Sprint review 
+Neste primeiro sprint quanto á interface desenvolvemos parte do Layout de acordo com os requisitos presentes no Sprint Backlog, deveria ter sido implementada a funcionalidade que permite ao utilizador criar os criterios e introduzir o Path do jar para cada critério de avaliação, em relação ás classes desenvolvidas durante este sprint para resloução do problema de AntiSpam e representação de resultados foram completamente implementadas de acordo com o que foi acordado no inicio do Sprint.
+
+
+Sprint retrospective 
+Durante este sprint abordamos o projecto com Test-Driven Development, permitindo uma maior facilidade na integração de todas as classes implementadas e paralelismo no desenvolvimento, em relação ao que podiamos melhorar quanto ao processo de desenvolvimento deveriamos ter realizado commits mais frequentes e comunicar de forma mais eficiente de forma a evitar insconsistências.
+No próximo Sprint iremos realizar commits e reuniões de 2 em 2 dias mais frequentes para que a comunicação seja mais eficiente.             
