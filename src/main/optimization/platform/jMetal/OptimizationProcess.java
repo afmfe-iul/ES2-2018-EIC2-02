@@ -50,6 +50,7 @@ public class OptimizationProcess {
 		result.add("Binary");
 		result.add("Double");
 		result.add("Integer/Double");
+		result.add("IntegerPermutation");
 
 		return result;
 	}
@@ -94,7 +95,7 @@ public class OptimizationProcess {
 			return doubleAlgorithms;
 		}
 
-		if (dataType.equals("Binary")) {
+		else if (dataType.equals("Binary")) {
 			ArrayList<String> binaryAlgorithms = new ArrayList<String>();
 
 			for (ZipEntry entry = zip.getNextEntry(); entry != null; entry = zip.getNextEntry()) {
@@ -117,9 +118,8 @@ public class OptimizationProcess {
 			}
 			return binaryAlgorithms;
 		}
-		if (!dataType.equals("Double") && !dataType.equals("Binary")) {
+		
 			ArrayList<String> otherAlgorithms = new ArrayList<String>();
-
 			for (ZipEntry entry = zip.getNextEntry(); entry != null; entry = zip.getNextEntry()) {
 				if (!entry.isDirectory() && entry.getName().endsWith(".java")
 						&& entry.getName().contains("multiobjective") && !entry.getName().contains("util")
@@ -136,9 +136,7 @@ public class OptimizationProcess {
 							otherAlgorithms.add(array[array.length - 2]);
 						}
 					}
-				}
 			}
-			return otherAlgorithms;
 		}
 		zip.close();
 		return classNames;
@@ -147,9 +145,7 @@ public class OptimizationProcess {
 	// TODO do the UPPER and LOWER Bounds on constructor of the problem?
 	public boolean run(List<String> decisionVariables, List<String> jarPaths, String dataType, String algorithm,
 			String problemName) throws Exception {
-		if (decisionVariables == null || jarPaths == null || decisionVariables.size() == 0 || jarPaths.size() == 0) {
-			return false;
-		}
+		
 
 		if (dataType.equals("Integer")) {
 			// TODO trocar as listas bounds pelas recebidas pelo interface gráfico
@@ -157,30 +153,29 @@ public class OptimizationProcess {
 			List<Integer> bounds = new ArrayList<Integer>();
 			IntegerProblem problem = new IntegerProblem(decisionVariables, bounds, bounds, "DoubleProblem",jarPaths);
 			problemList.add(new ExperimentProblem<>(problem));
-
 		}
 
-		if (dataType.equals("IntegerPermutation")) {
+		else if (dataType.equals("IntegerPermutation")) {
 			List<ExperimentProblem<PermutationSolution<Integer>>> problemList = new ArrayList<>();
 			IntegerPermutationProblem problem = new IntegerPermutationProblem(decisionVariables, jarPaths, "IntegerPermutationProblem");
 			problemList.add(new ExperimentProblem<>(problem));
 		}
 		//TODO raw data type?
-		if (dataType.equals("IntegerDouble")) {
+		else if (dataType.equals("IntegerDouble")) {
 			List<ExperimentProblem<DoubleSolution>> problemList = new ArrayList<>();
 			List<Double> bounds = new ArrayList<Double>();
 			IntegerDoubleProblem<DoubleSolution> problem = new IntegerDoubleProblem(decisionVariables, bounds, bounds, jarPaths, "IntegerDoubleProblem");
 			problemList.add(new ExperimentProblem<>(problem));
 		}
 
-		if (dataType.equals("Binary")) {
+		else if (dataType.equals("Binary")) {
 			//TODO constructor bit?
 			List<ExperimentProblem<BinarySolution>> problemList = new ArrayList<>();
 			BinaryProblem problem = new BinaryProblem(decisionVariables, jarPaths, "BinaryProblem", 0);
 			problemList.add(new ExperimentProblem<>(problem));
 		}
 
-		if (dataType.equals("Double")) {
+		else if (dataType.equals("Double")) {
 
 			// Constructor was updated
 			// TODO trocar as listas bounds pelas recebidas pelo interface gráfico
@@ -206,6 +201,7 @@ public class OptimizationProcess {
 				new ComputeQualityIndicators<>(experiment).run();
 				new GenerateLatexTablesWithStatistics(experiment).run();
 				new GenerateBoxplotsWithR<>(experiment).setRows(1).setColumns(1).run();
+				return true;
 			} catch (IOException e) {
 				return false;
 			}
@@ -233,9 +229,9 @@ public class OptimizationProcess {
 		return algorithms;
 	}
 
-	// TODO Main method for testing purposes
-	// TODO remove this after the UI is done
-	public static void main(String[] args) throws Exception {
-
-	}
+//	// TODO Main method for testing purposes
+//	// TODO remove this after the UI is done
+//	public static void main(String[] args) throws Exception {
+//
+//	}
 }
