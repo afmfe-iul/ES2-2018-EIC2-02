@@ -64,6 +64,11 @@
 			<artifactId>jmetal-algorithm</artifactId>
 			<version>5.5.1</version>
 		</dependency>
-
+		<!-- https://mvnrepository.com/artifact/org.uma.jmetal/jmetal-exec -->
+		<dependency>
+		    <groupId>org.uma.jmetal</groupId>
+		    <artifactId>jmetal-exec</artifactId>
+		    <version>5.5</version>
+		</dependency>
 	</dependencies>
 </project>
