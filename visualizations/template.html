@@ -9,15 +9,16 @@
 	    background-color: linen;
 	}
 
-	#right_part {
-	    width:49%;
-	    float:left;
-	    display:inline-block;
-	}
 
 	#left_part {
 	    float:left;
 	    width:49%;
+	    display:inline-block;
+	}
+
+	#right_part {
+	    width:49%;
+	    float:left;
 	    display:inline-block;
 	}
 
@@ -31,83 +32,13 @@
 </style>
 </head>
 <body>
+	<svg id="left_part" height="250"></svg>
+	<svg id="right_part" height="250"></svg>
 <script>
-	d3.select("body")
-		.append("div")
-		.attr("id", "left_part")
-
-	d3.select("body")
-		.append("div")
-		.attr("id", "right_part")
-
-	///////////////	 LEFT PART 	//////////////////
-	///////////////	 LEFT PART 	//////////////////
-
-	d3.select("#left_part")
-	    .append('div')
-	    .html('<h2>Optimization Results</h2>');
-
 	var WIDTH = 1200;
 	var HEIGTH = 200;
 	var PADDING = 30;
 	var tooltips = [];
-	var data = [30, 86, 168, 281, 303, 365];
-	// TODO svgBottom will be used to show the FP/FN for example
-	var chart = d3.select("#left_part")
-	.append("div")
-	.attr("class", "chart");
-
-	d3.select(".chart")
-			.selectAll("div")
-		.data(data)
-			.enter().append("div")
-		.style("width", function(d) { return d  + "px"; })
-		.text(function(d) { return d; })
-		.style('background-color', "blue")
-		.style("margin", "2px");
-	
-	
-	d3.select('#left_part')
-	    .append('div')
-	    .html('<br/>');
-
-	///////////////	 END LEFT PART 	//////////////////
-	///////////////	 END LEFT PART 	//////////////////
-
-
-	///////////////	 RIGHT PART 	//////////////////
-	///////////////	 RIGHT PART 	//////////////////
-	
-
-	d3.select("#right_part")
-	    .append('div')
-	    .html('<h2>Comparison with known Solutions</h2>');
-
-	// TODO svgBottom will be used to show the FP/FN for example
-	var chartComparison = d3.select("#right_part")
-	.append("div")
-	.attr("class", "chartComparison");
-
-	d3.select(".chartComparison")
-			.selectAll("div")
-		.data(data)
-			.enter().append("div")
-		.style("width", function(d) { return d  + "px"; })
-		.text(function(d) { return d; })
-		.style('background-color', "blue")
-		.style("margin", "2px");
-	
-	
-	d3.select('#right_part')
-	    .append('div')
-	    .html('<br/>');
-
-	///////////////	 END RIGHT PART 	//////////////////
-	///////////////	 END RIGHT PART 	//////////////////
-
-
-
-
 
 	///////////////	 SVG PART 	//////////////////
 	///////////////	 SVG PART 	//////////////////
@@ -120,9 +51,6 @@
 	var svgMain = d3.select("body").append("svg")
 	.attr("width", WIDTH)
 	.attr("id", "svg");
-	// comment this to have normal coordinates again for mouse hover
-	//.style("display", "block")
-	//.style("margin", "auto");
 	
 	svgMain.append("rect")
     .attr("width", "100%")
@@ -253,6 +181,105 @@
 	}
 	
 	d3.tsv("data.tsv", convert, render);
+
+
+
+	///////////////	 LEFT PART 	//////////////////
+	///////////////	 LEFT PART 	//////////////////
+	var svg_left = d3.select("#left_part"),
+		margin = {top: 25, right: 20, bottom: 40, left: 80},
+		leftWidth = svg_left.node().getBoundingClientRect().width - margin.left - margin.right,
+		leftHeight = svg_left.attr("height") - margin.top - margin.bottom,
+		g = svg_left.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+	
+	var	leftX = d3.scaleLinear().rangeRound([0, leftWidth]),
+		leftY = d3.scaleBand().rangeRound([leftHeight, 0]).padding(0.2);
+
+	//load data
+	d3.tsv("auxRF.tsv", function(data){
+			// converts strings to integers
+			data.Result = +data.Result
+			if(data.Result > 0){
+				if(data.Algorithm == "User_Solution"){
+					buildRightSVG(data.Result);
+				}
+				return data;	
+			}
+		}, function (error, data) {
+			if(error) throw error;
+
+			data.sort(function(a,b) { return b.Result - a.Result;});
+
+			leftX.domain([0, d3.max(data, function(d) { return d.Result; })]);
+			leftY.domain(data.map(function(d) { return d.Algorithm; }));
+
+			g.append("g")
+				.attr("class", "x-axis")
+				.attr("transform", "translate(0," + leftHeight + ")")
+				.call(d3.axisBottom(leftX))
+				.append("text")
+				.attr("dy", "1em")
+				.style("fill", "black")
+				.attr("y", 20)
+				.attr("x", leftWidth/2)
+				.text("Result (from best to worst)");
+
+			g.append("g")
+				.attr("class", "y-axis")
+				.call(d3.axisLeft(leftY));
+
+			g.selectAll(".bar")
+				.data(data)
+				.enter()
+				.append("rect")
+				.attr("class", "bar")
+				.attr("x", 1)
+				.attr("y", function(d) { return leftY(d.Algorithm); })
+				.attr("height", leftY.bandwidth())
+				.attr("width", function(d) { return leftX(d.Result); })
+				.style("fill", "#2ca25f");
+
+			svg_left.selectAll("rect")
+	       	.on("click", function(d){
+		       	// TODO 
+	       		console.log(d.Result)
+	       	});
+		}
+	);
+
+	var left_title = svg_left.append("g")
+		.attr("class", "title");
+	left_title.append("text")
+    	.attr("x", leftWidth/2 + 30)
+		.attr("y", 20)
+		.attr("text-anchor", "middle")
+		.style("font", "20px sans-serif")
+		.text("Optimization Results");
+
+
+	///////////////	 END LEFT PART 	//////////////////
+	///////////////	 END LEFT PART 	//////////////////
+
+
+	///////////////	 RIGHT PART 	//////////////////
+	///////////////	 RIGHT PART 	//////////////////
+	var buildRightSVG = function(){
+		// TODO
+		var svg_right = d3.select("#right_part");
+
+		var right_title = svg_right.append("g")
+			.attr("class", "title");
+		right_title.append("text")
+	    	.attr("x", d3.select("#right_part").node().getBoundingClientRect().width/2)
+			.attr("y", 20)
+			.attr("text-anchor", "middle")
+			.style("font", "20px sans-serif")
+			.text("Comparison with known Solutions");
+	}
+
+	///////////////	 END RIGHT PART 	//////////////////
+	///////////////	 END RIGHT PART 	//////////////////
 </script>
 </body>
 </html>

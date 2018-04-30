@@ -156,20 +156,16 @@ public class DataVisualization  extends JFXPanel{
 			}
 			
 			Arrays.sort(algoResults);
-			rfFirstLine = new String();
-			rfSecondLine = new String();
+			writer.println("Algorithm\tResult");
 			for(int i = 0; i < algoResults.length; i++) {
 				String[] s = resultToAlgoMap.get(algoResults[i]).split("\t");
 				if(s.length > 1) {
 					String[] s2 = resultToAlgoMap.get(algoResults[i]).split("\t", 2);
 					resultToAlgoMap.put(algoResults[i], s2[1]);
 				}
-				rfFirstLine += "\t" + s[0];
-				rfSecondLine += "\t" + algoResults[i];
+				writer.println((s[0] + "\t" + algoResults[i]).trim());
 			}
 			
-			writer.println(rfFirstLine.trim());
-			writer.println(rfSecondLine.trim());
 			writer.close();
 			
 			dataFileBuiltSuccessfuly = true;
