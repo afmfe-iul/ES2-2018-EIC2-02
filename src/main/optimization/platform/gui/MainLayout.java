@@ -2,6 +2,7 @@ package main.optimization.platform.gui;
 
 import java.awt.EventQueue;
 import java.util.List;
+import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.awt.event.ActionEvent;
@@ -359,6 +360,42 @@ public class MainLayout {
 		resetTableModels();
 		frame.getContentPane().setLayout(groupLayout);
 	}
+	public void loadData() {
+		txtProblemName.setText("AntiSpamFilterProblem");
+		txtVariablesName.setText("Anti Spam Rules");
+		comboBoxType.setSelectedItem("Double");
+		txtEmail.setText("demo@email.com");
+		File file = new File("experimentsBaseDirectory/TestProblem/rules.cf");
+		DefaultTableModel modelManual = new DefaultTableModel(
+			new Object[][]{},
+			new String[] {
+				"Name","Rule",  "Minimum", "Maximum", "Forbidden"}
+		) {
+		
+			Class[] columnTypes = new Class[] {
+					String.class,String.class, Double.class, Double.class, Double.class
+			};
+		public Class getColumnClass(int columnIndex) {
+				return columnTypes[columnIndex];
+		}
+		};
+		
+		try {
+	        Scanner sc = new Scanner(file);
+	        int i=0;
+	        while(sc.hasNextLine()){
+	        	modelManual.addRow(new Object[]{sc.nextLine(), "Name"+i,-5.0, 5.0});
+	        	i++;
+	        } 
+	        sc.close();
+	        tableVariable.setModel(modelManual);
+	    }catch (FileNotFoundException e) {
+	    	e.printStackTrace();
+	    }
+		txtNumberVariables.setText(String.valueOf(modelManual.getRowCount()));
+		scrollPanelTableVariable.setViewportView(tableVariable);
+
+	}
 	
 	public void promptUser(String message, boolean error){
 
@@ -679,6 +716,7 @@ public class MainLayout {
 
 
 	private void runDemo(){
+	//	loadData();
 		OptimizationProcess op = new OptimizationProcess();
 		List<String> decisionVariables = new ArrayList<String>();
 		for(int i = 0; i < tableVariable.getModel().getRowCount(); i++){
