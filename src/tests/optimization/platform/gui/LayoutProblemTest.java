@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.junit.Test;
 import main.optimization.platform.gui.LayoutProblem;
-import main.optimization.platform.gui.TableRow;
+import main.optimization.platform.gui.TableRowVariable;
 
 public class LayoutProblemTest {
 
@@ -21,8 +21,8 @@ public class LayoutProblemTest {
 	public void testGetterAndSetterForVariablesNumber(){
 		LayoutProblem instance = new LayoutProblem();
 		int variablesNumber = 0;
-		instance.setVariablesNumber(variablesNumber);
-		assertEquals("The getter for the field 'variablesNumber' is not returning the same value that was setted.", variablesNumber, instance.getVariablesNumber());
+		instance.setNumberVariables(variablesNumber);
+		assertEquals("The getter for the field 'variablesNumber' is not returning the same value that was setted.", variablesNumber, instance.getNumberVariables());
 	}
 
 	@Test
@@ -68,8 +68,8 @@ public class LayoutProblemTest {
 	@Test
 	public void testGetterAndSetterForInstance(){
 		LayoutProblem instance = new LayoutProblem();
-		List<TableRow> list = new ArrayList<>();
-		instance.setList(list);
-		assertNotNull("The getter for the field 'list' is returning null, when it shouldn't.", instance.getList());
+		List<TableRowVariable> list = new ArrayList<>();
+		instance.setListVariable(list);
+		assertNotNull("The getter for the field 'list' is returning null, when it shouldn't.", instance.getListVariable());
 	}
 }

@@ -86,7 +86,7 @@ public class MainLayout {
 	}
 	
 	public void initialize() {
-
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		FileNameExtensionFilter filterXml = new FileNameExtensionFilter("Xml files", "xml", "xml");
 		frame = new JFrame("Optimizer");
 		frame.setResizable(false);
