@@ -12,7 +12,6 @@ import java.util.Scanner;
 import java.util.Set;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
-
 import org.uma.jmetal.algorithm.Algorithm;
 import org.uma.jmetal.algorithm.multiobjective.nsgaii.NSGAIIBuilder;
 import org.uma.jmetal.operator.impl.crossover.SBXCrossover;
@@ -180,8 +179,13 @@ public class OptimizationProcess {
 			// Constructor was updated
 			// TODO trocar as listas bounds pelas recebidas pelo interface gráfico
 			List<ExperimentProblem<DoubleSolution>> problemList = new ArrayList<>();
-			List<Double> bounds = new ArrayList<Double>();
-			DoubleProblem problem = new DoubleProblem(decisionVariables, bounds, bounds, jarPaths, "DoubleProblem");
+			List<Double> lowerBounds = new ArrayList<Double>();
+			List<Double> upperBounds = new ArrayList<Double>();
+			for(int i =0; i < decisionVariables.size(); i++) {
+				lowerBounds.add(-5.0);
+				upperBounds.add(5.0);
+			}
+			DoubleProblem problem = new DoubleProblem(decisionVariables, lowerBounds, upperBounds, jarPaths, "DoubleProblem");
 			problemList.add(new ExperimentProblem<>(problem));
 
 			List<ExperimentAlgorithm<DoubleSolution, List<DoubleSolution>>> algorithmList = configureAlgorithmList(
