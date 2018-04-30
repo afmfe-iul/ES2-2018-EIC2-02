@@ -6,7 +6,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class AdminXmlObject {
 	String email;
-	String paths;
+	String pathInput;
+	String pathOutput;
 	public String getEmail() {
 		return email;
 	}
@@ -14,12 +15,19 @@ public class AdminXmlObject {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public String getPaths() {
-		return paths;
+	public String getpathInput() {
+		return pathInput;
 	}
 	@XmlElement
-	public void setPaths(String paths) {
-		this.paths = paths;
+	public void setpathInput(String pathInput) {
+		this.pathInput = pathInput;
+	}
+	public String getpathOutput() {
+		return pathOutput;
+	}
+	@XmlElement
+	public void setpathOutput(String pathOutput) {
+		this.pathOutput = pathOutput;
 	}
 
 }
