@@ -733,26 +733,26 @@ public class MainLayout {
 
 
 	private void runDemo(){
-		loadData();
-//		OptimizationProcess op = new OptimizationProcess();
-//		List<String> decisionVariables = new ArrayList<String>();
-//		for(int i = 0; i < tableVariable.getModel().getRowCount(); i++){
-//			decisionVariables.add((String) tableVariable.getModel().getValueAt(i, 1));
-//		}
-//		List<String> jarPaths = new ArrayList<String>();
-//		jarPaths.add("testJars/FalseNegatives.jar");
-//		jarPaths.add("testJars/FalsePositives.jar");
-//		Thread t = new Thread(new Runnable() {
-//			@Override
-//			public void run() {
-//				try {
-//				op.run(decisionVariables, jarPaths, (String)comboBoxType.getSelectedItem(), "NSGAII", txtProblemName.getText());
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//		t.start();
+//		loadData();
+		OptimizationProcess op = new OptimizationProcess();
+		List<String> decisionVariables = new ArrayList<String>();
+		for(int i = 0; i < tableVariable.getModel().getRowCount(); i++){
+			decisionVariables.add((String) tableVariable.getModel().getValueAt(i, 1));
+		}
+		List<String> jarPaths = new ArrayList<String>();
+		jarPaths.add("testJars/FalseNegatives.jar");
+		jarPaths.add("testJars/FalsePositives.jar");
+		Thread t = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				try {
+				op.run(decisionVariables, jarPaths, (String)comboBoxType.getSelectedItem(), "NSGAII", txtProblemName.getText());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		t.start();
 	}
 	
 	private void visualizeDemo(){
