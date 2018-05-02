@@ -75,6 +75,9 @@ public class MainLayout {
 	private JCheckBox chckbxManual;
 	private JCheckBox chckbxAutomatic;
 	private JLabel lblOptimizationImpliesMinimizing;
+	private String emailAdmin;
+	private String pathInput;
+	private String pathOutput;
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -85,8 +88,23 @@ public class MainLayout {
 			}
 		});
 	}
-	
+	public void loadAdminCfgFile() {
+		File file = new File("config.xml");
+		JAXBContext jaxbContext;
+		try {
+			jaxbContext = JAXBContext.newInstance(AdminXmlObject.class);
+			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+			AdminXmlObject adminXmlObject = (AdminXmlObject) jaxbUnmarshaller.unmarshal(file);
+			emailAdmin=adminXmlObject.getEmail();
+			pathInput=adminXmlObject.getpathInput();
+			pathOutput=adminXmlObject.getpathOutput();
+		} catch (JAXBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	public void initialize() {
+		loadAdminCfgFile();
 		FileNameExtensionFilter filterXml = new FileNameExtensionFilter("Xml files", "xml", "xml");
 		frame = new JFrame("Optimizer");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -384,7 +402,7 @@ public class MainLayout {
 	        Scanner sc = new Scanner(file);
 	        int i=0;
 	        while(sc.hasNextLine()){
-	        	modelManual.addRow(new Object[]{sc.nextLine(), "Name"+i,-5.0, 5.0});
+	        	modelManual.addRow( new Object[]{"Name"+i,sc.nextLine(),-5.0, 5.0});
 	        	i++;
 	        } 
 	        sc.close();
@@ -564,7 +582,6 @@ public class MainLayout {
 			LayoutProblem problem = (LayoutProblem) jaxbUnmarshaller.unmarshal(file);
 			//System.out.println(problem);
 			comboBoxType.setSelectedItem(problem.getTipo());
-
 			txtEmail.setText(problem.getEmail());
 			txtNumberVariables.setText(Integer.toString(problem.getNumberVariables()));
 			txtNumberCriteria.setText(Integer.toString(problem.getNumberCriteria()));
@@ -716,26 +733,26 @@ public class MainLayout {
 
 
 	private void runDemo(){
-	//	loadData();
-		OptimizationProcess op = new OptimizationProcess();
-		List<String> decisionVariables = new ArrayList<String>();
-		for(int i = 0; i < tableVariable.getModel().getRowCount(); i++){
-			decisionVariables.add((String) tableVariable.getModel().getValueAt(i, 0));
-		}
-		List<String> jarPaths = new ArrayList<String>();
-		jarPaths.add("testJars/FalseNegatives.jar");
-		jarPaths.add("testJars/FalsePositives.jar");
-		Thread t = new Thread(new Runnable() {
-			@Override
-			public void run() {
-				try {
-				op.run(decisionVariables, jarPaths, (String)comboBoxType.getSelectedItem(), "NSGAII", txtProblemName.getText());
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-		t.start();
+		loadData();
+//		OptimizationProcess op = new OptimizationProcess();
+//		List<String> decisionVariables = new ArrayList<String>();
+//		for(int i = 0; i < tableVariable.getModel().getRowCount(); i++){
+//			decisionVariables.add((String) tableVariable.getModel().getValueAt(i, 1));
+//		}
+//		List<String> jarPaths = new ArrayList<String>();
+//		jarPaths.add("testJars/FalseNegatives.jar");
+//		jarPaths.add("testJars/FalsePositives.jar");
+//		Thread t = new Thread(new Runnable() {
+//			@Override
+//			public void run() {
+//				try {
+//				op.run(decisionVariables, jarPaths, (String)comboBoxType.getSelectedItem(), "NSGAII", txtProblemName.getText());
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//		t.start();
 	}
 	
 	private void visualizeDemo(){

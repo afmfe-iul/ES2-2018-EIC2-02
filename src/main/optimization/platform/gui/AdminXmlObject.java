@@ -8,6 +8,7 @@ public class AdminXmlObject {
 	String email;
 	String pathInput;
 	String pathOutput;
+	
 	public String getEmail() {
 		return email;
 	}
