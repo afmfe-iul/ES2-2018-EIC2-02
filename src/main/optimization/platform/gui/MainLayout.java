@@ -720,7 +720,7 @@ public class MainLayout {
 		OptimizationProcess op = new OptimizationProcess();
 		List<String> decisionVariables = new ArrayList<String>();
 		for(int i = 0; i < tableVariable.getModel().getRowCount(); i++){
-			decisionVariables.add((String) tableVariable.getModel().getValueAt(i, 1));
+			decisionVariables.add((String) tableVariable.getModel().getValueAt(i, 0));
 		}
 		List<String> jarPaths = new ArrayList<String>();
 		jarPaths.add("testJars/FalseNegatives.jar");
