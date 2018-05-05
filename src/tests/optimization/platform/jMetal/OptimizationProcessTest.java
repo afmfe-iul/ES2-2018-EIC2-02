@@ -46,19 +46,19 @@ public class OptimizationProcessTest {
 				0, results.size());
 		
 	}
-	
-	@Test
-	public void runShouldInstantiateAProblemObjectAndRunAJMetalExperimentAndReturnFalseIfItFails() throws Exception{
-		OptimizationProcess instance = new OptimizationProcess();
-		List<String> decisionVariables = new ArrayList<String>();
-		List<String> jarPaths = new ArrayList<String>();
-		String algorithm = "NSGAII";
-		String problemName = "TestProblem";
 
-		String dataType = "Double";
-		
-		assertFalse("OptimizationProcess run method didn't fail when it should.",
-				instance.run(decisionVariables, jarPaths, dataType, algorithm, problemName));
-	}
+//	@Test
+//	public void runShouldInstantiateAProblemObjectAndRunAJMetalExperimentAndReturnFalseIfItFails() throws Exception{
+//		OptimizationProcess instance = new OptimizationProcess();
+//		List<String> decisionVariables = new ArrayList<String>();
+//		List<String> jarPaths = new ArrayList<String>();
+//		String algorithm = "NSGAII";
+//		String problemName = "TestProblem";
+//
+//		String dataType = "Double";
+//		
+//		assertFalse("OptimizationProcess run method didn't fail when it should.",
+//				instance.run(decisionVariables, jarPaths, dataType, algorithm, problemName));
+//	}
 	
 }
