@@ -16,10 +16,10 @@ public class OptimizationProcessTest {
 	public void getPossibleDataTypesShouldReturnAListWithJMetalTypes(){
 		OptimizationProcess instance = new OptimizationProcess();
 		Set<String> dataTypes = new HashSet<String>();
-		dataTypes.addAll(Arrays.asList(new String[]{"Binary", "Integer", "Double", "Integer/Double","IntegerPermutation"}));
+		dataTypes.addAll(Arrays.asList(new String[]{"Binary", "Integer", "Double", "IntegerDouble", "IntegerPermutation"}));
 		assertEquals("The method getPossibleDataTypes should return a set with the elements:"
 				+ "Binary, Integer, Double and Integer/Double", dataTypes, instance.getPossibleDataTypes());
-	}
+	} 
 	
 	@Test
 	public void getAlgorithmsForShouldReturnANonEmptyListWithTheApllicableAlgorithmsForAGivenDataType() throws Exception{

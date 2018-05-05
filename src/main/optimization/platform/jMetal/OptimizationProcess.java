@@ -46,10 +46,10 @@ public class OptimizationProcess {
 	// TODO Do you need to find the Data types dynamicaly or hardcoded?
 	public Set<String> getPossibleDataTypes() {
 		Set<String> result = new HashSet<String>();
-		result.add("Integer");
 		result.add("Binary");
+		result.add("Integer");
 		result.add("Double");
-		result.add("Integer/Double");
+		result.add("IntegerDouble");
 		result.add("IntegerPermutation");
 
 		return result;
@@ -246,12 +246,12 @@ public class OptimizationProcess {
 		}
 	}
 
-	public static void main(String[] args) throws Exception {
-
-		OptimizationProcess p = new OptimizationProcess();
-		for (String s : p.getAlgorithmsFor("Binary")) {
-			System.out.println(s);
-		}
-	}
+//	public static void main(String[] args) throws Exception {
+//
+//		OptimizationProcess p = new OptimizationProcess();
+//		for (String s : p.getAlgorithmsFor("Binary")) {
+//			System.out.println(s);
+//		}
+//	}
 
 }
