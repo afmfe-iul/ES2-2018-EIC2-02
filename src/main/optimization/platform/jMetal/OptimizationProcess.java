@@ -60,17 +60,17 @@ public class OptimizationProcess {
 	 * files filters the files and checks each one to see which type of solution is
 	 * implemented in the algorithm
 	 */
-	
+
 	@SuppressWarnings({ "resource" })
 	public List<String> getAlgorithmsFor(String dataType) throws Exception {
-		
+
 		ArrayList<String> classNames = new ArrayList<String>();
 		ZipInputStream zip;
 		zip = new ZipInputStream(new FileInputStream("C:/Users/" + System.getProperty("user.name")
 				+ "/.m2/repository/org/uma/jmetal/jmetal-algorithm/5.5.1/jmetal-algorithm-5.5.1-sources.jar"));
 
 		ArrayList<String> totalAlgo = new ArrayList<String>();
-		getGenericAlgo(totalAlgo);
+//		getGenericAlgo(totalAlgo);
 		if (dataType.equals("Double") || dataType.equals("IntegerDouble")) {
 			for (ZipEntry entry = zip.getNextEntry(); entry != null; entry = zip.getNextEntry()) {
 				if (!entry.isDirectory() && entry.getName().endsWith(".java")
@@ -134,6 +134,9 @@ public class OptimizationProcess {
 			List<Integer> bounds = new ArrayList<Integer>();
 			IntegerProblem problem = new IntegerProblem(decisionVariables, bounds, bounds, "DoubleProblem", jarPaths);
 			problemList.add(new ExperimentProblem<>(problem));
+		
+		
+		
 		}
 
 		else if (dataType.equals("IntegerPermutation")) {
@@ -160,8 +163,6 @@ public class OptimizationProcess {
 
 		else if (dataType.equals("Double")) {
 
-			// Constructor was updated
-			// TODO trocar as listas bounds pelas recebidas pelo interface gráfico
 			List<ExperimentProblem<DoubleSolution>> problemList = new ArrayList<>();
 			List<Double> lowerBounds = new ArrayList<Double>();
 			List<Double> upperBounds = new ArrayList<Double>();
@@ -169,6 +170,7 @@ public class OptimizationProcess {
 				lowerBounds.add(-5.0);
 				upperBounds.add(5.0);
 			}
+
 			DoubleProblem problem = new DoubleProblem(decisionVariables, lowerBounds, upperBounds, jarPaths,
 					"DoubleProblem");
 			problemList.add(new ExperimentProblem<>(problem));
@@ -226,10 +228,13 @@ public class OptimizationProcess {
 				+ "/.m2/repository/org/uma/jmetal/jmetal-algorithm/5.5.1/jmetal-algorithm-5.5.1-sources.jar"));
 
 		for (ZipEntry entry = zip.getNextEntry(); entry != null; entry = zip.getNextEntry()) {
+
 			if (!entry.isDirectory() && entry.getName().endsWith(".java") && entry.getName().contains("multiobjective")
-					&& !entry.getName().contains("util") && !entry.getName().contains("Builder")
-					&& !entry.getName().contains("Measures") && !entry.getName().contains("45")
-					&& !entry.getName().contains("Steady") && !entry.getName().contains("Stopping")) {
+					&& !entry.getName().contains("CellDE") && !entry.getName().contains("GWASFGA")
+					&& !entry.getName().contains("MOMBI") && !entry.getName().contains("util")
+					&& !entry.getName().contains("Builder") && !entry.getName().contains("Measures")
+					&& !entry.getName().contains("45") && !entry.getName().contains("Steady")
+					&& !entry.getName().contains("Stopping")) {
 				String className = entry.getName().replace('/', '.'); // including ".class"
 				classNames.add(className.substring(0, className.length() - ".class".length() + 1));
 
@@ -246,12 +251,12 @@ public class OptimizationProcess {
 		}
 	}
 
-//	public static void main(String[] args) throws Exception {
-//
-//		OptimizationProcess p = new OptimizationProcess();
-//		for (String s : p.getAlgorithmsFor("Binary")) {
-//			System.out.println(s);
-//		}
-//	}
+	public static void main(String[] args) throws Exception {
+
+		OptimizationProcess p = new OptimizationProcess();
+		for (String s : p.getAlgorithmsFor("Binary")) {
+			System.out.println(s);
+		}
+	}
 
 }
