@@ -9,7 +9,6 @@
 	    background-color: linen;
 	}
 
-
 	#left_part {
 	    float:left;
 	    width:49%;
@@ -197,12 +196,14 @@
 		leftY = d3.scaleBand().rangeRound([leftHeight, 0]).padding(0.2);
 
 	//load data
+	var userSolution = -1;
 	d3.tsv("auxRF.tsv", function(data){
 			// converts strings to integers
 			data.Result = +data.Result
-			if(data.Result > 0){
-				if(data.Algorithm == "User_Solution"){
-					buildRightSVG(data.Result);
+			if(data.Result > -1){
+				if(data.Algorithm == "User Solution"){
+					userSolution = data.Result
+					buildRightSVG(null);
 				}
 				return data;	
 			}
@@ -211,7 +212,7 @@
 
 			data.sort(function(a,b) { return b.Result - a.Result;});
 
-			leftX.domain([0, d3.max(data, function(d) { return d.Result; })]);
+			leftX.domain([-.1, d3.max(data, function(d) { return d.Result; })]);
 			leftY.domain(data.map(function(d) { return d.Algorithm; }));
 
 			g.append("g")
@@ -223,13 +224,13 @@
 				.style("fill", "black")
 				.attr("y", 20)
 				.attr("x", leftWidth/2)
-				.text("Result (from best to worst)");
+				.text("Results (sum of all Optimization Criterion)");
 
 			g.append("g")
 				.attr("class", "y-axis")
 				.call(d3.axisLeft(leftY));
-
-			g.selectAll(".bar")
+				
+			var bars = g.selectAll(".bar")
 				.data(data)
 				.enter()
 				.append("rect")
@@ -238,13 +239,18 @@
 				.attr("y", function(d) { return leftY(d.Algorithm); })
 				.attr("height", leftY.bandwidth())
 				.attr("width", function(d) { return leftX(d.Result); })
-				.style("fill", "#2ca25f");
+				.style("fill", function(d){return d.Algorithm == "User Solution" ? "#ec4758": "#2ca25f"});
 
-			svg_left.selectAll("rect")
-	       	.on("click", function(d){
-		       	// TODO 
-	       		console.log(d.Result)
-	       	});
+			if(userSolution > -1){
+				svg_left.selectAll("rect")
+		       	.on("click", function(d){
+		       		if(d.Algorithm != "User Solution"){
+			       		buildRightSVG({"Algorithm" : d.Algorithm, "value": d.Result})
+		       		}else{
+		       			buildRightSVG(null);
+		       		}
+		       	});
+			}
 		}
 	);
 
@@ -264,10 +270,16 @@
 
 	///////////////	 RIGHT PART 	//////////////////
 	///////////////	 RIGHT PART 	//////////////////
-	var buildRightSVG = function(){
-		// TODO
+	var buildRightSVG = function(selected){
 		var svg_right = d3.select("#right_part");
+		svg_right.selectAll("*").remove();
 
+		var	margin = {top: 25, right: 20, bottom: 40, left: 80},
+			rightWidth = svg_right.node().getBoundingClientRect().width - margin.left - margin.right,
+			rightHeight = svg_right.attr("height") - margin.top - margin.bottom,
+			g = svg_right.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+		// Title
 		var right_title = svg_right.append("g")
 			.attr("class", "title");
 		right_title.append("text")
@@ -276,6 +288,59 @@
 			.attr("text-anchor", "middle")
 			.style("font", "20px sans-serif")
 			.text("Comparison with known Solutions");
+
+		// SVG
+		var	rightX = d3.scaleLinear().rangeRound([0, rightWidth]),
+		rightY = d3.scaleBand().rangeRound([rightHeight, 0]).padding(0.2);
+
+		var data = [{"Algorithm" : "User Solution", "value": userSolution}]
+		if (selected != null){
+			data.push(selected)
+		}
+
+		data.sort(function(a,b) { return b.value - a.value;});
+		
+		rightX.domain([-0.1, d3.max(data, function(d) { return d.value; })]);
+		rightY.domain(data.map(function(d) { return d.Algorithm; }));
+
+		var xAxisText = "Result";
+		if(data.length > 1){
+			xAxisText += " Comparison: ";
+			var tempUserSolution = userSolution == 0 ? 1 : userSolution;
+			if(selected.value > userSolution){
+				xAxisText += " User Solution is " + parseFloat(selected.value/tempUserSolution).toFixed(2)
+								+ " times better than " + selected.Algorithm;
+			}else{
+				xAxisText += " User Solution is " + parseFloat(tempUserSolution/selected.value).toFixed(2)
+								+ " times worse than " + selected.Algorithm;
+			}
+		}
+
+		g.append("g")
+			.attr("class", "x-axis")
+			.attr("transform", "translate(0," + rightHeight + ")")
+			.call(d3.axisBottom(rightX))
+			.append("text")
+			.attr("dy", "1em")
+			.style("fill", "black")
+			.attr("y", 20)
+			.attr("x", rightWidth/2)
+			.text(xAxisText);
+
+		g.append("g")
+			.attr("class", "y-axis")
+			.call(d3.axisLeft(rightY));
+
+		g.selectAll(".bar")
+			.data(data)
+			.enter()
+			.append("rect")
+			.attr("class", "bar")
+			.attr("x", 1)
+			.attr("y", function(d) { return rightY(d.Algorithm); })
+			.attr("height", rightY.bandwidth())
+			.attr("width", function(d) { return rightX(d.value); })
+			.style("fill", function(d){return d.Algorithm == "User Solution" ? "#ec4758": "#2ca25f"});
 	}
 
 	///////////////	 END RIGHT PART 	//////////////////
