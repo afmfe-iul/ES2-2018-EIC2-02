@@ -15,6 +15,7 @@ public class LayoutProblem {
 	private String problemTitle;
 	private String problemDescription;
 	private String email;
+	private boolean automatic;
 	// Integer/Double/Boolean
 	private String tipo;
 	private List<TableRowVariable> listVariable;
@@ -49,6 +50,15 @@ public class LayoutProblem {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	
+	public boolean isAutomatic() {
+		return automatic;
+	}
+	@XmlElement
+	public void setAutomatic(boolean automatic) {
+		this.automatic=automatic;
+	}
+	
 	public String getTipo() {
 		return tipo;
 	}
