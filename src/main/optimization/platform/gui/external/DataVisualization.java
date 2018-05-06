@@ -39,7 +39,7 @@ public class DataVisualization  extends JFXPanel{
 			String rsFirstLine = "variable";
 			String[] rsLines = new String[decisionVariables.size()];
 			
-			String rfFirstLine = "User_Solution";
+			String rfFirstLine = "User Solution";
 			String rfSecondLine = knownSolution == null ? "-1" : String.valueOf(knownSolution);
 			for(int i = 0; i < rsLines.length; i++){
 				rsLines[i] = decisionVariables.get(i);
@@ -165,15 +165,29 @@ public class DataVisualization  extends JFXPanel{
 				}
 				writer.println((s[0] + "\t" + algoResults[i]).trim());
 			}
-			
 			writer.close();
-			
 			dataFileBuiltSuccessfuly = true;
 			Platform.setImplicitExit(false);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
+	
+	
+	private boolean deleteDirectory(File dir) {
+	    File[] files = dir.listFiles();
+	    if (files != null) {
+	        for (int i = 0; i <files.length; i++) {
+	            deleteDirectory(files[i]);
+	        }
+	    }
+	    if(dir.getName().equals("template.html")){
+	    	return true;
+	    }else{
+	    	return dir.delete();
+	    }
+	}
+	
 	
 	/// XXX temporary for testing
 	public static void main(String[] args) {
@@ -209,18 +223,5 @@ public class DataVisualization  extends JFXPanel{
 		dv.run();
 		jFrame.setVisible(true);
 	}
-	
-	private boolean deleteDirectory(File dir) {
-	    File[] files = dir.listFiles();
-	    if (files != null) {
-	        for (int i = 0; i <files.length; i++) {
-	            deleteDirectory(files[i]);
-	        }
-	    }
-	    if(dir.getName().equals("template.html")){
-	    	return true;
-	    }else{
-	    	return dir.delete();
-	    }
-	}
+
 }

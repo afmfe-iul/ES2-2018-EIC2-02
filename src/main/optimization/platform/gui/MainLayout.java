@@ -755,31 +755,37 @@ public class MainLayout {
 		t.start();
 	}
 	
+	// TODO Still hardcoded needs to get the information from the interface in the future
 	private void visualizeDemo(){
 		List<String> algorithmsNames = new ArrayList<String>();
 		algorithmsNames.add("NSGAII");
 		
-		List<String> filePaths = new ArrayList<String>();
-		filePaths.add("experimentsBaseDirectory/" + txtProblemName.getText() + "/" + 
+		List<String> rsFilePaths = new ArrayList<String>();
+		rsFilePaths.add("experimentsBaseDirectory/" + txtProblemName.getText() + "/" + 
 						(String)comboBoxType.getSelectedItem() + "Problem.rs");
+		List<String> rfFilePaths = new ArrayList<String>();
+		rfFilePaths.add("experimentsBaseDirectory/" + txtProblemName.getText() + "/" + 
+						(String)comboBoxType.getSelectedItem() + "Problem.rf");
 		
 		List<String> decisionVariables = new ArrayList<String>();
 		for(int i = 0; i < tableVariable.getModel().getRowCount(); i++){
 			decisionVariables.add((String) tableVariable.getModel().getValueAt(i, 1));
 		}
-	//	DataVisualization dv = new DataVisualization(algorithmsNames, filePaths, decisionVariables);
+		DataVisualization dv = new DataVisualization(algorithmsNames, rsFilePaths,
+				rfFilePaths, decisionVariables, 6);
 	
-		JFrame frame = new JFrame("Graphical Visualization");
-	//	frame.getContentPane().add(dv);
-		WindowListener exitListener = new WindowAdapter() {
-		    @Override
-		    public void windowClosing(WindowEvent e) {
-		   // 	frame.remove(dv);
-		    }
-		};
-		frame.addWindowListener(exitListener);
-		frame.setSize(900, 600);
-		//dv.run();
-		frame.setVisible(true);
+		if(dv.run()) {
+			JFrame frame = new JFrame("Graphical Visualization");
+			frame.getContentPane().add(dv);
+			WindowListener exitListener = new WindowAdapter() {
+				@Override
+				public void windowClosing(WindowEvent e) {
+					frame.remove(dv);
+				}
+			};
+			frame.addWindowListener(exitListener);
+			frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+			frame.setVisible(true);
+		}
 	}
 }
