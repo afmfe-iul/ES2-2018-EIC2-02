@@ -49,8 +49,6 @@ public class OptimizationProcess {
 		result.add("Binary");
 		result.add("Integer");
 		result.add("Double");
-		result.add("IntegerDouble");
-		result.add("IntegerPermutation");
 
 		return result;
 	}
@@ -66,11 +64,10 @@ public class OptimizationProcess {
 
 		ArrayList<String> classNames = new ArrayList<String>();
 		ZipInputStream zip;
-		zip = new ZipInputStream(new FileInputStream("C:/Users/" + System.getProperty("user.name")
-				+ "/.m2/repository/org/uma/jmetal/jmetal-algorithm/5.5.1/jmetal-algorithm-5.5.1-sources.jar"));
+		zip = new ZipInputStream(new FileInputStream("jmetal-algorithm-5.5.1-sources.jar"));
 
 		ArrayList<String> totalAlgo = new ArrayList<String>();
-//		getGenericAlgo(totalAlgo);
+		getGenericAlgo(totalAlgo);
 		if (dataType.equals("Double") || dataType.equals("IntegerDouble")) {
 			for (ZipEntry entry = zip.getNextEntry(); entry != null; entry = zip.getNextEntry()) {
 				if (!entry.isDirectory() && entry.getName().endsWith(".java")
@@ -135,23 +132,6 @@ public class OptimizationProcess {
 			IntegerProblem problem = new IntegerProblem(decisionVariables, bounds, bounds, "DoubleProblem", jarPaths);
 			problemList.add(new ExperimentProblem<>(problem));
 		
-		
-		
-		}
-
-		else if (dataType.equals("IntegerPermutation")) {
-			List<ExperimentProblem<PermutationSolution<Integer>>> problemList = new ArrayList<>();
-			IntegerPermutationProblem problem = new IntegerPermutationProblem(decisionVariables, jarPaths,
-					"IntegerPermutationProblem");
-			problemList.add(new ExperimentProblem<>(problem));
-		}
-		// TODO raw data type?
-		else if (dataType.equals("IntegerDouble")) {
-			List<ExperimentProblem<DoubleSolution>> problemList = new ArrayList<>();
-			List<Double> bounds = new ArrayList<Double>();
-			IntegerDoubleProblem<DoubleSolution> problem = new IntegerDoubleProblem(decisionVariables, bounds, bounds,
-					jarPaths, "IntegerDoubleProblem");
-			problemList.add(new ExperimentProblem<>(problem));
 		}
 
 		else if (dataType.equals("Binary")) {
@@ -254,7 +234,7 @@ public class OptimizationProcess {
 	public static void main(String[] args) throws Exception {
 
 		OptimizationProcess p = new OptimizationProcess();
-		for (String s : p.getAlgorithmsFor("Binary")) {
+		for (String s : p.getAlgorithmsFor("Double")) {
 			System.out.println(s);
 		}
 	}
