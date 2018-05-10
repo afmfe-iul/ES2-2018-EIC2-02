@@ -5,17 +5,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 public class TableRowCriteria {
-	private int solutionKnown;
 	private String name;
 	private String Path;
 	
-	public int getSolutionKnown() {
-		return solutionKnown;
-	}
-	@XmlElement
-	public void setSolutionKnown(int solutionKnown) {
-		this.solutionKnown = solutionKnown;
-	}
+
 	public String getName() {
 		return name;
 	}

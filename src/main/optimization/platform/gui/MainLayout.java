@@ -49,7 +49,6 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
 
 public class MainLayout {
-
 	public JFrame frame;
 	private JTable tableVariable;
 	private JTable tableCriteria;
@@ -80,6 +79,7 @@ public class MainLayout {
 	private String emailAdmin;
 	private String pathInput;
 	private String pathOutput;
+	private JTextField txtSolutionKnown;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -155,7 +155,7 @@ public class MainLayout {
 		JButton btnSaveXmlProblemL = new JButton("Save problem");
 		btnSaveXmlProblemL.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				createXml();
+				saveXmlProblem();
 			}
 		});
 
@@ -202,22 +202,30 @@ public class MainLayout {
 		});
 
 		chckbxAutomatic = new JCheckBox("Automatic");
-		chckbxAutomatic.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent arg0) {
+		chckbxAutomatic.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
 				if (chckbxAutomatic.isSelected()) {
 					chckbxManual.setSelected(false);
+					scrollPanelAlgorithms.setVisible(false);
+				} else
+					chckbxAutomatic.setSelected(true);
 
-				}
 			}
 		});
 
 		chckbxManual = new JCheckBox("Manual");
-		chckbxManual.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent e) {
+		chckbxManual.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
 				if (chckbxManual.isSelected()) {
 					chckbxAutomatic.setSelected(false);
-					loadAlgorithmTable();
-				}
+					scrollPanelAlgorithms.setVisible(true);
+					loadTableAlgorithm();
+				} else
+					chckbxManual.setSelected(true);
+
 			}
 		});
 
@@ -226,6 +234,11 @@ public class MainLayout {
 		lblOptimizationImpliesMinimizing = new JLabel("Optimization implies minimizing jars results");
 
 		scrollPanelAlgorithms = new JScrollPane();
+
+		txtSolutionKnown = new JTextField();
+		txtSolutionKnown.setColumns(10);
+
+		JLabel lblSolutionKnown = new JLabel("Solution known");
 
 		// TODO END of demo code
 
@@ -259,30 +272,34 @@ public class MainLayout {
 										.addComponent(lblMaximumtime, GroupLayout.PREFERRED_SIZE, 134,
 												GroupLayout.PREFERRED_SIZE)
 										.addComponent(txtMaximumTime, 92, 92, 92))
-								.addPreferredGap(ComponentPlacement.RELATED, 82, Short.MAX_VALUE))
+								.addPreferredGap(ComponentPlacement.RELATED, 81, Short.MAX_VALUE))
 								.addGroup(groupLayout.createSequentialGroup().addGroup(groupLayout
 										.createParallelGroup(Alignment.LEADING, false)
-										.addComponent(txtProblemDescription, GroupLayout.DEFAULT_SIZE, 467,
-												Short.MAX_VALUE)
-										.addGroup(groupLayout.createSequentialGroup()
-												.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-														.addComponent(lblNameProblem).addComponent(lblEmail))
-												.addPreferredGap(ComponentPlacement.UNRELATED)
-												.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
-														.addComponent(txtProblemName).addComponent(txtEmail,
-																GroupLayout.DEFAULT_SIZE, 363, Short.MAX_VALUE)))
-										.addComponent(lblDescrio).addComponent(scrollPanelTableVariable))
+										.addComponent(
+												txtProblemDescription, GroupLayout.DEFAULT_SIZE, 467, Short.MAX_VALUE)
+										.addComponent(lblDescrio)
+										.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
+												.addComponent(scrollPanelTableVariable, Alignment.LEADING)
+												.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
+														.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+																.addComponent(lblNameProblem).addComponent(lblEmail))
+														.addPreferredGap(ComponentPlacement.UNRELATED)
+														.addGroup(groupLayout
+																.createParallelGroup(Alignment.LEADING, false)
+																.addComponent(txtProblemName).addComponent(txtEmail,
+																		GroupLayout.DEFAULT_SIZE, 363,
+																		Short.MAX_VALUE)))))
 										.addGroup(groupLayout.createParallelGroup(Alignment.LEADING).addGroup(
 												groupLayout.createSequentialGroup().addGap(18).addGroup(groupLayout
 														.createParallelGroup(Alignment.LEADING)
 														.addGroup(groupLayout.createSequentialGroup()
 																.addComponent(scrollPanelAlgorithms,
-																		GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE)
+																		GroupLayout.DEFAULT_SIZE, 133, Short.MAX_VALUE)
 																.addPreferredGap(ComponentPlacement.RELATED))
 														.addComponent(btnOpenXmlProblem)
 														.addComponent(btnSaveXmlProblemL)))
 												.addGroup(groupLayout.createSequentialGroup()
-														.addPreferredGap(ComponentPlacement.RELATED, 13,
+														.addPreferredGap(ComponentPlacement.RELATED, 12,
 																Short.MAX_VALUE)
 														.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
 																.addGroup(groupLayout.createSequentialGroup()
@@ -322,8 +339,11 @@ public class MainLayout {
 												GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 										.addPreferredGap(ComponentPlacement.UNRELATED).addComponent(btnCriteria))
 								.addComponent(scrollPanelTableCriteria, GroupLayout.PREFERRED_SIZE, 223,
-										GroupLayout.PREFERRED_SIZE))
-						.addGap(131)).addComponent(lblOptimizationImpliesMinimizing).addComponent(btnloadTableVariable))
+										GroupLayout.PREFERRED_SIZE)
+								.addGroup(groupLayout.createSequentialGroup().addGap(24).addComponent(lblSolutionKnown)
+										.addGap(18).addComponent(txtSolutionKnown, GroupLayout.PREFERRED_SIZE, 76,
+												GroupLayout.PREFERRED_SIZE)))
+						.addGap(132)).addComponent(lblOptimizationImpliesMinimizing).addComponent(btnloadTableVariable))
 				.addContainerGap()));
 		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
 				.addGroup(groupLayout.createSequentialGroup().addGap(27)
@@ -378,8 +398,14 @@ public class MainLayout {
 												.addGap(50).addComponent(btnSaveXmlProblemL)
 												.addPreferredGap(ComponentPlacement.UNRELATED)
 												.addComponent(btnOpenXmlProblem))
-										.addComponent(scrollPanelTableCriteria, GroupLayout.PREFERRED_SIZE, 222,
-												GroupLayout.PREFERRED_SIZE))
+										.addGroup(groupLayout.createSequentialGroup()
+												.addComponent(scrollPanelTableCriteria, GroupLayout.PREFERRED_SIZE, 222,
+														GroupLayout.PREFERRED_SIZE)
+												.addPreferredGap(ComponentPlacement.RELATED)
+												.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+														.addComponent(lblSolutionKnown).addComponent(txtSolutionKnown,
+																GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+																GroupLayout.PREFERRED_SIZE))))
 						.addContainerGap(41, Short.MAX_VALUE)));
 
 		resetTableModels();
@@ -453,8 +479,8 @@ public class MainLayout {
 
 		tableCriteria.setModel(modelTableButton = new DefaultTableModel(
 
-				new Object[][] {}, new String[] { "Solution known", "Name", "Path", "Add Path" }) {
-			Class[] columnTypes = new Class[] { Integer.class, String.class, String.class, ButtonColumn.class };
+				new Object[][] {}, new String[] { "Name", "Path", "Add Path" }) {
+			Class[] columnTypes = new Class[] { String.class, String.class, ButtonColumn.class };
 
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
@@ -462,7 +488,7 @@ public class MainLayout {
 		});
 		int i = Integer.parseInt(txtNumberCriteria.getText());
 		for (; i > 0; i--) {
-			modelTableButton.addRow(new Object[] { null, null, null, null });
+			modelTableButton.addRow(new Object[] { null, null, null });
 		}
 		tableCriteria.getColumnModel().getColumn(0).setResizable(false);
 		tableCriteria.getColumnModel().getColumn(1).setResizable(false);
@@ -475,7 +501,7 @@ public class MainLayout {
 				// ((DefaultTableModel)table.getModel()).removeRow(modelRow);
 			}
 		};
-		ButtonColumn buttonColumn = new ButtonColumn(tableCriteria, insertPath, 3);
+		ButtonColumn buttonColumn = new ButtonColumn(tableCriteria, insertPath, 2);
 	}
 
 	@SuppressWarnings({ "serial", "unchecked", "rawtypes" })
@@ -496,7 +522,7 @@ public class MainLayout {
 		if (result == JFileChooser.APPROVE_OPTION) {
 			File selectedFile = fileChooserJar.getSelectedFile();
 			if (selectedFile.exists()) {
-				modelTableButton.setValueAt(selectedFile.getAbsolutePath(), m, 2);
+				modelTableButton.setValueAt(selectedFile.getAbsolutePath(), m, 1);
 			}
 		}
 	}
@@ -563,6 +589,7 @@ public class MainLayout {
 			txtProblemName.setText(problem.getProblemTitle());
 			txtVariablesName.setText(problem.getVariablesName());
 			txtMaximumTime.setText(Integer.toString(problem.getMaxWaitingTime()));
+			txtSolutionKnown.setText(Integer.toString(problem.getSolutionKnown()));
 			loadTableVariable();
 			loadTableCriteria();
 			if (problem.isAutomatic()) {
@@ -602,9 +629,8 @@ public class MainLayout {
 						modelVariable.setValueAt(Boolean.parseBoolean(listVariable.get(i).getForbidden()), i, 4);
 				}
 			for (int i = 0; i < tableCriteria.getRowCount(); i++) {
-				modelCriteria.setValueAt(listCriteria.get(i).getSolutionKnown(), i, 0);
-				modelCriteria.setValueAt(listCriteria.get(i).getName(), i, 1);
-				modelCriteria.setValueAt(listCriteria.get(i).getPath(), i, 2);
+				modelCriteria.setValueAt(listCriteria.get(i).getName(), i, 0);
+				modelCriteria.setValueAt(listCriteria.get(i).getPath(), i, 1);
 
 			}
 			// TODO load combobox and table
@@ -616,7 +642,7 @@ public class MainLayout {
 
 	}
 
-	private void createXml() {
+	private void saveXmlProblem() {
 		if (validateProblemFields()) {
 			String tipo = comboBoxType.getSelectedItem().toString();
 			LayoutProblem problem = new LayoutProblem();
@@ -628,6 +654,7 @@ public class MainLayout {
 
 			}
 
+			problem.setSolutionKnown(Integer.parseInt(txtSolutionKnown.getText()));
 			problem.setVariablesName(txtVariablesName.getText());
 			problem.setNumberVariables(Integer.parseInt(txtNumberVariables.getText()));
 			problem.setNumberCriteria(Integer.parseInt(txtNumberCriteria.getText()));
@@ -635,18 +662,23 @@ public class MainLayout {
 			problem.setProblemTitle(txtProblemName.getText());
 			problem.setEmail(txtEmail.getText());
 			problem.setTipo(comboBoxType.getSelectedItem().toString());
-			if (chckbxAutomatic.isSelected())
+			if (chckbxAutomatic.isSelected()) {
 				problem.setAutomatic(true);
-			if (chckbxManual.isSelected())
+			} else {
 				problem.setAutomatic(false);
-			List<TableRowVariable> listVariable = new ArrayList<TableRowVariable>();
-			List<TableRowCriteria> listCriteria = new ArrayList<TableRowCriteria>();
+			}
+			ArrayList<String> listAlgorithms = new ArrayList<String>();
+			for (int i = 0; i < tableAlgorithms.getRowCount(); i++) {
+				if ((Boolean) tableAlgorithms.getValueAt(i, 1))
+					listAlgorithms.add(tableAlgorithms.getValueAt(i, 0).toString());
+			}
+			problem.setListAlgorithms(listAlgorithms);
+			ArrayList<TableRowVariable> listVariable = new ArrayList<TableRowVariable>();
+			ArrayList<TableRowCriteria> listCriteria = new ArrayList<TableRowCriteria>();
 			for (int i = 0; i < tableCriteria.getRowCount(); i++) {
 				TableRowCriteria m = new TableRowCriteria();
-				m.setSolutionKnown((Integer) tableCriteria.getValueAt(i, 0));
-				m.setName(tableCriteria.getValueAt(i, 1).toString());
-				System.out.println(tableCriteria.getValueAt(i, 2).toString());
-				m.setPath(tableCriteria.getValueAt(i, 2).toString());
+				m.setName(tableCriteria.getValueAt(i, 0).toString());
+				m.setPath(tableCriteria.getValueAt(i, 1).toString());
 				listCriteria.add(m);
 			}
 			if (tipo == "Integer") {
@@ -714,32 +746,36 @@ public class MainLayout {
 
 	}
 
-	private void loadAlgorithmTable() {
-		tableAlgorithms = new JTable();
-		DefaultTableModel modelTable;
-		tableAlgorithms.setModel(modelTable = new DefaultTableModel(
+	private void loadTableAlgorithm() {
+		OptimizationProcess k = new OptimizationProcess();
+		try {
+			ArrayList<String> listAlgorithms = (ArrayList<String>) k
+					.getAlgorithmsFor((String) comboBoxType.getSelectedItem());
+			tableAlgorithms = new JTable();
+			DefaultTableModel modelTable;
+			tableAlgorithms.setModel(modelTable = new DefaultTableModel(
 
-				new Object[][] {}, new String[] { "Algorithms","Active" }) {
-			Class[] columnTypes = new Class[] { String.class, Boolean.class };
+					new Object[][] {}, new String[] { "Algorithms", "Active" }) {
+				Class[] columnTypes = new Class[] { String.class, Boolean.class };
 
-			public Class getColumnClass(int columnIndex) {
-				return columnTypes[columnIndex];
+				public Class getColumnClass(int columnIndex) {
+					return columnTypes[columnIndex];
+				}
+			});
+			for (int i = 0; i < listAlgorithms.size(); i++) {
+				modelTable.addRow(new Object[] { listAlgorithms.get(i), false });
 			}
-		});
-		for (int i = 0; i < 6; i++) {
-			modelTable.addRow(new Object[] { "Algorithm" + i, null });
+			scrollPanelAlgorithms.setViewportView(tableAlgorithms);
+			tableAlgorithms.setModel(modelTable);
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		scrollPanelAlgorithms.setViewportView(tableAlgorithms);
-		tableAlgorithms.setModel(modelTable);
-		// OptimizationProcess k = new OptimizationProcess();
-		// try {
-		// ArrayList<String> listAlgorithms = (ArrayList<String>)
-		// k.getAlgorithmsFor((String) comboBoxType.getSelectedItem());
-		// System.out.println(listAlgorithms.toString());
-		// } catch (Exception e) {
-		// // TODO Auto-generated catch block
-		// e.printStackTrace();
-		// }
+
+	}
+
+	private void readTableAlgorithm() {
 
 	}
 

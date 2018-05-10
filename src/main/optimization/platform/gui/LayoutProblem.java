@@ -16,11 +16,25 @@ public class LayoutProblem {
 	private String problemDescription;
 	private String email;
 	private boolean automatic;
+	private int solutionKnown;
 	// Integer/Double/Boolean
 	private String tipo;
+	private List<String> listAlgorithms;
 	private List<TableRowVariable> listVariable;
 	private List<TableRowCriteria> listCriteria;
 
+
+	@XmlElementWrapper
+	@XmlElement(name = "listAlgorithms")
+	public List<String> getListAlgorithms() {
+		return listAlgorithms;
+	}
+
+	public void setListAlgorithms(List<String> listAlgorithms) {
+		this.listAlgorithms = listAlgorithms;
+	}
+	
+	
 	@XmlElementWrapper
 	@XmlElement(name = "listVariable")
 	public List<TableRowVariable> getListVariable() {
@@ -95,6 +109,16 @@ public class LayoutProblem {
 		this.maxWaitingTime = maxWaitingTime;
 	}
 
+	public int getSolutionKnown() {
+		return solutionKnown;
+	}
+
+	@XmlElement
+	public void setSolutionKnown(int solutionKnown) {
+		this.solutionKnown = solutionKnown;
+	}
+
+	
 	public int getNumberVariables() {
 		return numberVariables;
 	}
