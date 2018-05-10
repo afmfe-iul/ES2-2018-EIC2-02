@@ -581,7 +581,7 @@ public class MainLayout {
 			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 			LayoutProblem problem = (LayoutProblem) jaxbUnmarshaller.unmarshal(file);
 			// System.out.println(problem);
-			comboBoxType.setSelectedItem(problem.getTipo());
+			comboBoxType.setSelectedItem(problem.getType());
 			txtEmail.setText(problem.getEmail());
 			txtNumberVariables.setText(Integer.toString(problem.getNumberVariables()));
 			txtNumberCriteria.setText(Integer.toString(problem.getNumberCriteria()));
@@ -661,7 +661,7 @@ public class MainLayout {
 			problem.setProblemDescription(txtProblemDescription.getText());
 			problem.setProblemTitle(txtProblemName.getText());
 			problem.setEmail(txtEmail.getText());
-			problem.setTipo(comboBoxType.getSelectedItem().toString());
+			problem.setType(comboBoxType.getSelectedItem().toString());
 			if (chckbxAutomatic.isSelected()) {
 				problem.setAutomatic(true);
 			} else {

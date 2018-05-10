@@ -61,8 +61,8 @@ public class LayoutProblemTest {
 	public void testGetterAndSetterForTipo(){
 		LayoutProblem instance = new LayoutProblem();
 		String tipo = "variable5";
-		instance.setTipo(tipo);
-		assertEquals("The getter for the field 'tipo' is not returning the same value that was setted.", tipo, instance.getTipo());
+		instance.setType(tipo);
+		assertEquals("The getter for the field 'tipo' is not returning the same value that was setted.", tipo, instance.getType());
 	}
 
 	@Test

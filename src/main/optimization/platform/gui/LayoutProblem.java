@@ -18,7 +18,7 @@ public class LayoutProblem {
 	private boolean automatic;
 	private int solutionKnown;
 	// Integer/Double/Boolean
-	private String tipo;
+	private String type;
 	private List<String> listAlgorithms;
 	private List<TableRowVariable> listVariable;
 	private List<TableRowCriteria> listCriteria;
@@ -73,13 +73,13 @@ public class LayoutProblem {
 		this.automatic=automatic;
 	}
 	
-	public String getTipo() {
-		return tipo;
+	public String getType() {
+		return type;
 	}
 
 	@XmlElement
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
+	public void setType(String type) {
+		this.type = type;
 	}
 
 	public String getProblemTitle() {
