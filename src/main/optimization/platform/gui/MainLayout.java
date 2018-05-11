@@ -592,12 +592,22 @@ public class MainLayout {
 			txtSolutionKnown.setText(Integer.toString(problem.getSolutionKnown()));
 			loadTableVariable();
 			loadTableCriteria();
+			List<String> listAlgorithm = problem.getListAlgorithms();
+
 			if (problem.isAutomatic()) {
 				chckbxAutomatic.setSelected(true);
 				chckbxManual.setSelected(false);
 			} else {
 				chckbxAutomatic.setSelected(false);
 				chckbxManual.setSelected(true);
+				loadTableAlgorithm();
+				int counter = 0;
+				for (int i = 0; i < tableAlgorithms.getRowCount() && counter < listAlgorithm.size(); i++) {
+					if (tableAlgorithms.getValueAt(i, 0).toString().equals( listAlgorithm.get(counter))) {
+						tableAlgorithms.setValueAt(true, i, 1);
+						counter++;
+					}
+				}
 			}
 			List<TableRowVariable> listVariable = problem.getListVariable();
 			List<TableRowCriteria> listCriteria = problem.getListCriteria();
