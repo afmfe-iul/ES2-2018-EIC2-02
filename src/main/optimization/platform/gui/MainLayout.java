@@ -12,7 +12,6 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -21,7 +20,6 @@ import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -29,7 +27,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.ScrollPaneLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -43,17 +40,13 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import main.optimization.platform.gui.external.DataVisualization;
 import main.optimization.platform.jMetal.OptimizationProcess;
-import java.awt.ScrollPane;
 import javax.swing.JCheckBox;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.ChangeEvent;
 
 public class MainLayout {
 	public JFrame frame;
 	private JTable tableVariable;
 	private JTable tableCriteria;
 	private JTable tableAlgorithms;
-	private JDialog progressDialog;
 	private JScrollPane scrollPanelTableVariable;
 	private JScrollPane scrollPanelTableCriteria;
 	private JScrollPane scrollPanelAlgorithms;
@@ -102,7 +95,6 @@ public class MainLayout {
 			pathInput = adminXmlObject.getpathInput();
 			pathOutput = adminXmlObject.getpathOutput();
 		} catch (JAXBException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -218,7 +210,6 @@ public class MainLayout {
 		chckbxManual.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
 				if (chckbxManual.isSelected()) {
 					chckbxAutomatic.setSelected(false);
 					scrollPanelAlgorithms.setVisible(true);
@@ -239,8 +230,6 @@ public class MainLayout {
 		txtSolutionKnown.setColumns(10);
 
 		JLabel lblSolutionKnown = new JLabel("Solution known");
-
-		// TODO END of demo code
 
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
 		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.LEADING).addGroup(groupLayout
@@ -420,10 +409,11 @@ public class MainLayout {
 		File file = new File("experimentsBaseDirectory/TestProblem/rules.cf");
 		DefaultTableModel modelManual = new DefaultTableModel(new Object[][] {},
 				new String[] { "Name", "Rule", "Minimum", "Maximum", "Forbidden" }) {
-
+					private static final long serialVersionUID = 1L;
+			@SuppressWarnings("rawtypes")
 			Class[] columnTypes = new Class[] { String.class, String.class, Double.class, Double.class, Double.class };
 
-			public Class getColumnClass(int columnIndex) {
+			public Class<?> getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
 			}
 		};
@@ -475,14 +465,14 @@ public class MainLayout {
 	}
 
 	private void loadTableCriteria() {
-		// TODO Auto-generated method stub
-
 		tableCriteria.setModel(modelTableButton = new DefaultTableModel(
 
 				new Object[][] {}, new String[] { "Name", "Path", "Add Path" }) {
+					private static final long serialVersionUID = 1L;
+			@SuppressWarnings("rawtypes")
 			Class[] columnTypes = new Class[] { String.class, String.class, ButtonColumn.class };
 
-			public Class getColumnClass(int columnIndex) {
+			public Class<?> getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
 			}
 		});
@@ -494,17 +484,17 @@ public class MainLayout {
 		tableCriteria.getColumnModel().getColumn(1).setResizable(false);
 		scrollPanelTableCriteria.setViewportView(tableCriteria);
 		Action insertPath = new AbstractAction() {
+			private static final long serialVersionUID = 1L;
+
 			public void actionPerformed(ActionEvent e) {
-				JTable table = (JTable) e.getSource();
 				int modelRow = Integer.valueOf(e.getActionCommand());
 				chooseFileTable(modelRow);
-				// ((DefaultTableModel)table.getModel()).removeRow(modelRow);
 			}
 		};
+		@SuppressWarnings("unused")
 		ButtonColumn buttonColumn = new ButtonColumn(tableCriteria, insertPath, 2);
 	}
 
-	@SuppressWarnings({ "serial", "unchecked", "rawtypes" })
 	public void resetTableModels() {
 		tableVariable = new JTable();
 		tableCriteria = new JTable();
@@ -527,7 +517,7 @@ public class MainLayout {
 		}
 	}
 
-	@SuppressWarnings({ "serial", "unchecked", "rawtypes" })
+	@SuppressWarnings({ "serial", "rawtypes" })
 	private void loadTableVariable() {
 		DefaultTableModel modelVariable = null;
 		if (comboBoxType.getSelectedItem().toString() == "Integer") {
@@ -537,7 +527,7 @@ public class MainLayout {
 				Class[] columnTypes = new Class[] { String.class, String.class, Integer.class, Integer.class,
 						Integer.class };
 
-				public Class getColumnClass(int columnIndex) {
+				public Class<?> getColumnClass(int columnIndex) {
 					return columnTypes[columnIndex];
 				}
 			};
@@ -549,7 +539,7 @@ public class MainLayout {
 				Class[] columnTypes = new Class[] { String.class, String.class, Double.class, Double.class,
 						Double.class };
 
-				public Class getColumnClass(int columnIndex) {
+				public Class<?> getColumnClass(int columnIndex) {
 					return columnTypes[columnIndex];
 				}
 			};
@@ -559,7 +549,7 @@ public class MainLayout {
 
 				Class[] columnTypes = new Class[] { String.class, String.class, Boolean.class };
 
-				public Class getColumnClass(int columnIndex) {
+				public Class<?> getColumnClass(int columnIndex) {
 					return columnTypes[columnIndex];
 				}
 			};
@@ -643,10 +633,8 @@ public class MainLayout {
 				modelCriteria.setValueAt(listCriteria.get(i).getPath(), i, 1);
 
 			}
-			// TODO load combobox and table
 		} catch (Exception e) {
 			// TODO clean tables
-			System.out.println("ERRO AO LER FICHEIRO");
 			clearProblem();
 		}
 
@@ -737,7 +725,6 @@ public class MainLayout {
 			try {
 				Calendar calobj = Calendar.getInstance();
 				DateFormat df = new SimpleDateFormat("dd-MM-yy HH-mm-ss");
-				String s = df.format(calobj.getTime());
 				File file = new File(
 						"SavedProblems/" + txtProblemName.getText() + df.format(calobj.getTime()) + ".xml");
 				JAXBContext jaxbContext = JAXBContext.newInstance(LayoutProblem.class);
@@ -766,9 +753,11 @@ public class MainLayout {
 			tableAlgorithms.setModel(modelTable = new DefaultTableModel(
 
 					new Object[][] {}, new String[] { "Algorithms", "Active" }) {
+						private static final long serialVersionUID = 1L;
+				@SuppressWarnings("rawtypes")
 				Class[] columnTypes = new Class[] { String.class, Boolean.class };
 
-				public Class getColumnClass(int columnIndex) {
+				public Class<?> getColumnClass(int columnIndex) {
 					return columnTypes[columnIndex];
 				}
 			});
@@ -777,18 +766,12 @@ public class MainLayout {
 			}
 			scrollPanelAlgorithms.setViewportView(tableAlgorithms);
 			tableAlgorithms.setModel(modelTable);
-
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
 
-	private void readTableAlgorithm() {
-
-	}
-
+	
 	private void runDemo() {
 		// loadData();
 		OptimizationProcess op = new OptimizationProcess();

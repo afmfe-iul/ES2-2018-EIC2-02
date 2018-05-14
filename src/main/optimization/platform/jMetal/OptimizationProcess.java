@@ -2,9 +2,6 @@ package main.optimization.platform.jMetal;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -21,7 +18,6 @@ import org.uma.jmetal.qualityindicator.impl.hypervolume.PISAHypervolume;
 import org.uma.jmetal.solution.BinarySolution;
 import org.uma.jmetal.solution.DoubleSolution;
 import org.uma.jmetal.solution.IntegerSolution;
-import org.uma.jmetal.solution.PermutationSolution;
 import org.uma.jmetal.util.experiment.Experiment;
 import org.uma.jmetal.util.experiment.ExperimentBuilder;
 import org.uma.jmetal.util.experiment.component.ComputeQualityIndicators;
@@ -31,11 +27,8 @@ import org.uma.jmetal.util.experiment.component.GenerateLatexTablesWithStatistic
 import org.uma.jmetal.util.experiment.component.GenerateReferenceParetoSetAndFrontFromDoubleSolutions;
 import org.uma.jmetal.util.experiment.util.ExperimentAlgorithm;
 import org.uma.jmetal.util.experiment.util.ExperimentProblem;
-
 import main.optimization.platform.jMetal.problems.BinaryProblem;
 import main.optimization.platform.jMetal.problems.DoubleProblem;
-import main.optimization.platform.jMetal.problems.IntegerDoubleProblem;
-import main.optimization.platform.jMetal.problems.IntegerPermutationProblem;
 import main.optimization.platform.jMetal.problems.IntegerProblem;
 
 public class OptimizationProcess {
@@ -227,6 +220,7 @@ public class OptimizationProcess {
 						list.add(array[array.length - 2]);
 					}
 				}
+				sc.close();
 			}
 		}
 	}

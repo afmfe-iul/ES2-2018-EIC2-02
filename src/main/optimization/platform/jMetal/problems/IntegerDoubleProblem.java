@@ -30,10 +30,11 @@ public class IntegerDoubleProblem<S> extends AbstractIntegerDoubleProblem<S> {
 	@Override
 	public void evaluate(S solution) {
 		for (int i = 0; i < numberOfObjectives; i++) {
-			problemHelpers.get(i).evaluate((Solution) solution);
+			problemHelpers.get(i).evaluate((Solution<?>) solution);
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public S createSolution() {
 		return (S) new DefaultIntegerDoubleSolution(this) ;

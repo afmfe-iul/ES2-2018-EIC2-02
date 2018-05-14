@@ -3,7 +3,6 @@ package main.optimization.platform.jMetal.problems;
 import java.util.ArrayList;
 import java.util.List;
 import org.uma.jmetal.problem.impl.AbstractIntegerPermutationProblem;
-import org.uma.jmetal.solution.DoubleSolution;
 import org.uma.jmetal.solution.PermutationSolution;
 
 public class IntegerPermutationProblem extends AbstractIntegerPermutationProblem {

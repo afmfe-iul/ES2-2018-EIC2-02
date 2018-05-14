@@ -6,9 +6,6 @@ import java.util.List;
 import org.junit.Test;
 import org.uma.jmetal.problem.impl.AbstractBinaryProblem;
 import org.uma.jmetal.solution.BinarySolution;
-import org.uma.jmetal.solution.Solution;
-import org.uma.jmetal.util.binarySet.BinarySet;
-
 import main.optimization.platform.jMetal.problems.BinaryProblem;
 
 public class BinaryProblemTest {
