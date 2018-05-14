@@ -1,6 +1,5 @@
 package main.optimization.platform.jMetal;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,6 +9,7 @@ import java.util.Scanner;
 import java.util.Set;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
+
 import org.uma.jmetal.algorithm.Algorithm;
 import org.uma.jmetal.algorithm.multiobjective.nsgaii.NSGAIIBuilder;
 import org.uma.jmetal.operator.impl.crossover.SBXCrossover;
@@ -27,6 +27,7 @@ import org.uma.jmetal.util.experiment.component.GenerateLatexTablesWithStatistic
 import org.uma.jmetal.util.experiment.component.GenerateReferenceParetoSetAndFrontFromDoubleSolutions;
 import org.uma.jmetal.util.experiment.util.ExperimentAlgorithm;
 import org.uma.jmetal.util.experiment.util.ExperimentProblem;
+
 import main.optimization.platform.jMetal.problems.BinaryProblem;
 import main.optimization.platform.jMetal.problems.DoubleProblem;
 import main.optimization.platform.jMetal.problems.IntegerProblem;
@@ -57,7 +58,7 @@ public class OptimizationProcess {
 
 		ArrayList<String> classNames = new ArrayList<String>();
 		ZipInputStream zip;
-		zip = new ZipInputStream(new FileInputStream("jmetal-algorithm-5.5.1-sources.jar"));
+		zip = new ZipInputStream(this.getClass().getResourceAsStream("/jmetal-algorithm-5.5.1-sources.jar"));
 
 		ArrayList<String> totalAlgo = new ArrayList<String>();
 		getGenericAlgo(totalAlgo);
@@ -124,7 +125,7 @@ public class OptimizationProcess {
 			List<Integer> bounds = new ArrayList<Integer>();
 			IntegerProblem problem = new IntegerProblem(decisionVariables, bounds, bounds, "DoubleProblem", jarPaths);
 			problemList.add(new ExperimentProblem<>(problem));
-		
+
 		}
 
 		else if (dataType.equals("Binary")) {
@@ -193,12 +194,12 @@ public class OptimizationProcess {
 		return algorithms;
 	}
 
-	private static void getGenericAlgo(ArrayList<String> list) throws IOException {
+	@SuppressWarnings("resource")
+	private void getGenericAlgo(ArrayList<String> list) throws IOException {
 
 		ArrayList<String> classNames = new ArrayList<String>();
 		ZipInputStream zip;
-		zip = new ZipInputStream(new FileInputStream("C:/Users/" + System.getProperty("user.name")
-				+ "/.m2/repository/org/uma/jmetal/jmetal-algorithm/5.5.1/jmetal-algorithm-5.5.1-sources.jar"));
+		zip = new ZipInputStream(this.getClass().getResourceAsStream("/jmetal-algorithm-5.5.1-sources.jar"));
 
 		for (ZipEntry entry = zip.getNextEntry(); entry != null; entry = zip.getNextEntry()) {
 
@@ -220,7 +221,6 @@ public class OptimizationProcess {
 						list.add(array[array.length - 2]);
 					}
 				}
-				sc.close();
 			}
 		}
 	}
