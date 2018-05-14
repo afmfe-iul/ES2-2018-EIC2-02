@@ -52,7 +52,7 @@ public class Builders {
 	private static final int maxEvaluations = 500;
 	private static String experimentBaseDirectory = "experimentBaseDirectory";
 
-	public static boolean DoubleBuilder(ArrayList<String> algorithmsSelected, List<String> decisionVariables,
+	public static boolean DoubleBuilder(List<String> algorithmsSelected, List<String> decisionVariables,
 			List<Double> lowerBounds, List<Double> upperBounds, List<String> jarPaths) {
 
 		List<ExperimentProblem<DoubleSolution>> problemList = new ArrayList<>();
@@ -88,7 +88,7 @@ public class Builders {
 	}
 
 	private static List<ExperimentAlgorithm<DoubleSolution, List<DoubleSolution>>> configureDoubleAlgorithmList(
-			List<ExperimentProblem<DoubleSolution>> problemList, ArrayList<String> algorithmsSelected) {
+			List<ExperimentProblem<DoubleSolution>> problemList, List<String> algorithmsSelected) {
 
 		List<ExperimentAlgorithm<DoubleSolution, List<DoubleSolution>>> algorithms = new ArrayList<>();
 		

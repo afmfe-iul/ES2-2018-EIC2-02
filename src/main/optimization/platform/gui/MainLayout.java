@@ -69,6 +69,7 @@ public class MainLayout {
 	private JCheckBox chckbxManual;
 	private JCheckBox chckbxAutomatic;
 	private JLabel lblOptimizationImpliesMinimizing;
+	private LayoutProblem currentProblem;
 	private String emailAdmin;
 	private String pathInput;
 	private String pathOutput;
@@ -178,7 +179,7 @@ public class MainLayout {
 		btnVisDemo.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				visualizeDemo();
+				visualizeDemo(currentProblem);
 			}
 		});
 
@@ -569,22 +570,22 @@ public class MainLayout {
 		try {
 			jaxbContext = JAXBContext.newInstance(LayoutProblem.class);
 			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-			LayoutProblem problem = (LayoutProblem) jaxbUnmarshaller.unmarshal(file);
+			currentProblem = (LayoutProblem) jaxbUnmarshaller.unmarshal(file);
 			// System.out.println(problem);
-			comboBoxType.setSelectedItem(problem.getType());
-			txtEmail.setText(problem.getEmail());
-			txtNumberVariables.setText(Integer.toString(problem.getNumberVariables()));
-			txtNumberCriteria.setText(Integer.toString(problem.getNumberCriteria()));
-			txtProblemDescription.setText(problem.getProblemDescription());
-			txtProblemName.setText(problem.getProblemTitle());
-			txtVariablesName.setText(problem.getVariablesName());
-			txtMaximumTime.setText(Integer.toString(problem.getMaxWaitingTime()));
-			txtSolutionKnown.setText(Integer.toString(problem.getSolutionKnown()));
+			comboBoxType.setSelectedItem(currentProblem.getType());
+			txtEmail.setText(currentProblem.getEmail());
+			txtNumberVariables.setText(Integer.toString(currentProblem.getNumberVariables()));
+			txtNumberCriteria.setText(Integer.toString(currentProblem.getNumberCriteria()));
+			txtProblemDescription.setText(currentProblem.getProblemDescription());
+			txtProblemName.setText(currentProblem.getProblemTitle());
+			txtVariablesName.setText(currentProblem.getVariablesName());
+			txtMaximumTime.setText(Integer.toString(currentProblem.getMaxWaitingTime()));
+			txtSolutionKnown.setText(Integer.toString(currentProblem.getSolutionKnown()));
 			loadTableVariable();
 			loadTableCriteria();
-			List<String> listAlgorithm = problem.getListAlgorithms();
+			List<String> listAlgorithm = currentProblem.getListAlgorithms();
 
-			if (problem.isAutomatic()) {
+			if (currentProblem.isAutomatic()) {
 				chckbxAutomatic.setSelected(true);
 				chckbxManual.setSelected(false);
 			} else {
@@ -599,8 +600,8 @@ public class MainLayout {
 					}
 				}
 			}
-			List<TableRowVariable> listVariable = problem.getListVariable();
-			List<TableRowCriteria> listCriteria = problem.getListCriteria();
+			List<TableRowVariable> listVariable = currentProblem.getListVariable();
+			List<TableRowCriteria> listCriteria = currentProblem.getListCriteria();
 			TableModel modelVariable = tableVariable.getModel();
 			TableModel modelCriteria = tableCriteria.getModel();
 			if (comboBoxType.getSelectedItem() == "Double")
@@ -773,21 +774,12 @@ public class MainLayout {
 
 	
 	private void runDemo() {
-		// loadData();
 		OptimizationProcess op = new OptimizationProcess();
-		List<String> decisionVariables = new ArrayList<String>();
-		for (int i = 0; i < tableVariable.getModel().getRowCount(); i++) {
-			decisionVariables.add((String) tableVariable.getModel().getValueAt(i, 1));
-		}
-		List<String> jarPaths = new ArrayList<String>();
-		jarPaths.add("testJars/FalseNegatives.jar");
-		jarPaths.add("testJars/FalsePositives.jar");
 		Thread t = new Thread(new Runnable() {
 			@Override
 			public void run() {
 				try {
-					op.run(decisionVariables, jarPaths, (String) comboBoxType.getSelectedItem(), "NSGAII",
-							txtProblemName.getText());
+					op.run(currentProblem);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -796,12 +788,8 @@ public class MainLayout {
 		t.start();
 	}
 
-	// TODO Still hardcoded needs to get the information from the interface in the
-	// future
-	private void visualizeDemo() {
-		List<String> algorithmsNames = new ArrayList<String>();
-		algorithmsNames.add("NSGAII");
-
+	// TODO Still hardcoded needs to get the information from the interface in the future
+	private void visualizeDemo(LayoutProblem problem) {
 		List<String> rsFilePaths = new ArrayList<String>();
 		rsFilePaths.add("experimentsBaseDirectory/" + txtProblemName.getText() + "/"
 				+ (String) comboBoxType.getSelectedItem() + "Problem.rs");
@@ -814,7 +802,7 @@ public class MainLayout {
 			decisionVariables.add((String) tableVariable.getModel().getValueAt(i, 1));
 		}
 
-		DataVisualization dv = new DataVisualization(algorithmsNames, rsFilePaths, rfFilePaths, decisionVariables, 6);
+		DataVisualization dv = new DataVisualization(problem.getListAlgorithms(), rsFilePaths, rfFilePaths, decisionVariables, 6);
 
 		if (dv.run()) {
 			JFrame frame = new JFrame("Graphical Visualization");
