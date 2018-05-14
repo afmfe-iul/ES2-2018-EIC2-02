@@ -52,7 +52,7 @@ public class Builders {
 	private static final int maxEvaluations = 500;
 	private static String experimentBaseDirectory = "experimentBaseDirectory";
 
-	public static boolean DoubleBuilder(String algorithmSelected, List<String> decisionVariables,
+	public static boolean DoubleBuilder(ArrayList<String> algorithmsSelected, List<String> decisionVariables,
 			List<Double> lowerBounds, List<Double> upperBounds, List<String> jarPaths) {
 
 		List<ExperimentProblem<DoubleSolution>> problemList = new ArrayList<>();
@@ -65,7 +65,7 @@ public class Builders {
 		}
 
 		List<ExperimentAlgorithm<DoubleSolution, List<DoubleSolution>>> algorithmList = configureDoubleAlgorithmList(
-				problemList, algorithmSelected);
+				problemList, algorithmsSelected);
 
 		Experiment<DoubleSolution, List<DoubleSolution>> experiment = new ExperimentBuilder<DoubleSolution, List<DoubleSolution>>(
 				"ExperimentsDouble").setAlgorithmList(algorithmList).setProblemList(problemList)
@@ -88,48 +88,46 @@ public class Builders {
 	}
 
 	private static List<ExperimentAlgorithm<DoubleSolution, List<DoubleSolution>>> configureDoubleAlgorithmList(
-			List<ExperimentProblem<DoubleSolution>> problemList, String algorithmSelected) {
+			List<ExperimentProblem<DoubleSolution>> problemList, ArrayList<String> algorithmsSelected) {
 
 		List<ExperimentAlgorithm<DoubleSolution, List<DoubleSolution>>> algorithms = new ArrayList<>();
-
-		if (algorithmSelected.equals("MOEAD") || algorithmSelected.equals("ConstraintMOEAD")
-				|| algorithmSelected.equals("MOEADDRA") || algorithmSelected.equals("MOEADSTM")
-				|| algorithmSelected.equals("MOEADD")) {
+		
+		if (algorithmsSelected.contains("MOEAD") || algorithmsSelected.contains("ConstraintMOEAD")
+				|| algorithmsSelected.contains("MOEADDRA") || algorithmsSelected.contains("MOEADSTM")
+				|| algorithmsSelected.contains("MOEADD")) {
 
 			for (int i = 0; i < problemList.size(); i++) {
 				Algorithm<List<DoubleSolution>> algorithm6 = new MOEADBuilder(problemList.get(i).getProblem(),
 						Variant.MOEAD).setMaxEvaluations(maxEvaluations).build();
 				algorithms.add(new ExperimentAlgorithm<>(algorithm6, "MOEAD", problemList.get(i).getTag()));
 			}
-			return algorithms;
 		}
 
-		else if (algorithmSelected.equals("GDE3")) {
+		if (algorithmsSelected.contains("GDE3")) {
 			for (int i = 0; i < problemList.size(); i++) {
 				Algorithm<List<DoubleSolution>> algorithm3 = new GDE3Builder(
 						(DoubleProblem) problemList.get(i).getProblem()).setMaxEvaluations(maxEvaluations).build();
 				algorithms.add(new ExperimentAlgorithm<>(algorithm3, "GDE3", problemList.get(i).getTag()));
 			}
-			return algorithms;
 		}
 
-		else if (algorithmSelected.equals("ABYSS")) {
-
-		}
-
-		else if (algorithmSelected.equals("DMOPSO")) {
+		if (algorithmsSelected.contains("ABYSS")) {
 
 		}
 
-		else if (algorithmSelected.equals("SMPSO")) {
+		if (algorithmsSelected.contains("DMOPSO")) {
 
 		}
 
-		else if (algorithmSelected.equals("OMOPSO")) {
+		if (algorithmsSelected.contains("SMPSO")) {
 
 		}
 
-		else if (algorithmSelected.equals("MOCell")) {
+		if (algorithmsSelected.contains("OMOPSO")) {
+
+		}
+
+		if (algorithmsSelected.contains("MOCell")) {
 			for (int i = 0; i < problemList.size(); i++) {
 				Algorithm<List<DoubleSolution>> algorithm5 = new MOCellBuilder<>(problemList.get(i).getProblem(),
 						new SBXCrossover(1.0, 5),
@@ -137,19 +135,17 @@ public class Builders {
 								.setMaxEvaluations(maxEvaluations).build();
 				algorithms.add(new ExperimentAlgorithm<>(algorithm5, "MOCell", problemList.get(i).getTag()));
 			}
-			return algorithms;
 		}
 
-		else if (algorithmSelected.equals("IBEA")) {
+		if (algorithmsSelected.contains("IBEA")) {
 			for (int i = 0; i < problemList.size(); i++) {
 				Algorithm<List<DoubleSolution>> algorithm4 = new IBEABuilder(problemList.get(i).getProblem())
 						.setMaxEvaluations(maxEvaluations).build();
 				algorithms.add(new ExperimentAlgorithm<>(algorithm4, "IBEA", problemList.get(i).getTag()));
 			}
-			return algorithms;
 		}
 
-		else if (algorithmSelected.equals("SMSEMOA")) {
+		if (algorithmsSelected.contains("SMSEMOA")) {
 			for (int i = 0; i < problemList.size(); i++) {
 				Algorithm<List<DoubleSolution>> algorithm2 = new SMSEMOABuilder<>(problemList.get(i).getProblem(),
 						new SBXCrossover(1.0, 5),
@@ -157,14 +153,13 @@ public class Builders {
 								.setMaxEvaluations(maxEvaluations).build();
 				algorithms.add(new ExperimentAlgorithm<>(algorithm2, "SMSEMOA", problemList.get(i).getTag()));
 			}
-			return algorithms;
 		}
 
-		else if (algorithmSelected.equals("SPEA2")) {
+		if (algorithmsSelected.contains("SPEA2")) {
 
 		}
 
-		else if (algorithmSelected.equals("NSGAII")) {
+		if (algorithmsSelected.contains("NSGAII")) {
 			for (int i = 0; i < problemList.size(); i++) {
 				Algorithm<List<DoubleSolution>> algorithm = new NSGAIIBuilder<>(problemList.get(i).getProblem(),
 						new SBXCrossover(1.0, 5),
@@ -172,14 +167,13 @@ public class Builders {
 								.setMaxEvaluations(2500).setPopulationSize(100).build();
 				algorithms.add(new ExperimentAlgorithm<>(algorithm, problemList.get(i).getTag()));
 			}
-			return algorithms;
 		}
 
-		else if (algorithmSelected.equals("RNSGAII")) {
+		if (algorithmsSelected.contains("RNSGAII")) {
 
 		}
 
-		else if (algorithmSelected.equals("PAES")) {
+		if (algorithmsSelected.contains("PAES")) {
 			for (int i = 0; i < problemList.size(); i++) {
 				Algorithm<List<DoubleSolution>> algorithm7 = new PAESBuilder<>(problemList.get(i).getProblem())
 						.setMaxEvaluations(maxEvaluations).setArchiveSize(100).setBiSections(2)
@@ -188,31 +182,29 @@ public class Builders {
 						.build();
 				algorithms.add(new ExperimentAlgorithm<>(algorithm7, "PAES", problemList.get(i).getTag()));
 			}
-			return algorithms;
 		}
 
-		else if (algorithmSelected.equals("WASFGA")) {
-
-		}
-
-		else if (algorithmSelected.equals("PESA2")) {
+		if (algorithmsSelected.contains("WASFGA")) {
 
 		}
 
-		else if (algorithmSelected.equals("RandomSearch")) {
+		if (algorithmsSelected.contains("PESA2")) {
+
+		}
+
+		if (algorithmsSelected.contains("RandomSearch")) {
 			for (int i = 0; i < problemList.size(); i++) {
 				Algorithm<List<DoubleSolution>> algorithm8 = new RandomSearchBuilder<>(problemList.get(i).getProblem())
 						.setMaxEvaluations(maxEvaluations).build();
 				algorithms.add(new ExperimentAlgorithm<>(algorithm8, "RandomSearch", problemList.get(i).getTag()));
 			}
-			return algorithms;
 		}
 
-		else if (algorithmSelected.equals("NSGAIII")) {
+		if (algorithmsSelected.contains("NSGAIII")) {
 
 		}
 
-		return null;
+		return algorithms;
 	}
 
 	public static boolean IntegerBuilder(String algorithmSelected, List<String> decisionVariables,
