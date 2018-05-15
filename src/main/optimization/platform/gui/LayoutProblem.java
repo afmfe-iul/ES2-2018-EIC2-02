@@ -144,4 +144,10 @@ public class LayoutProblem {
 	public void setVariablesName(String variablesName) {
 		this.variablesName = variablesName;
 	}
+
+	@XmlElement
+	public int getBitsPerVariable() {
+		// TODO Auto-generated method stub
+		return 10;
+	}
 }

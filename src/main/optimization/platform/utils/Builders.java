@@ -1,5 +1,6 @@
 package main.optimization.platform.utils;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -48,11 +49,11 @@ import main.optimization.platform.jMetal.problems.IntegerProblem;
 
 public class Builders {
 
-	private static final int INDEPENDENT_RUNS = 5;
-	private static final int maxEvaluations = 500;
-	private static String experimentBaseDirectory = "experimentBaseDirectory";
+	private static final int INDEPENDENT_RUNS = 5; // TODO
+	private static final int maxEvaluations = 500; // TODO
+	private static String experimentBaseDirectory = "experimentsBaseDirectory";
 
-	public static boolean DoubleBuilder(List<String> algorithmsSelected, List<String> decisionVariables,
+	public static boolean DoubleBuilder(String problemName, List<String> algorithmsSelected, List<String> decisionVariables,
 			List<Double> lowerBounds, List<Double> upperBounds, List<String> jarPaths) {
 
 		List<ExperimentProblem<DoubleSolution>> problemList = new ArrayList<>();
@@ -69,9 +70,10 @@ public class Builders {
 
 		Experiment<DoubleSolution, List<DoubleSolution>> experiment = new ExperimentBuilder<DoubleSolution, List<DoubleSolution>>(
 				"ExperimentsDouble").setAlgorithmList(algorithmList).setProblemList(problemList)
-						.setExperimentBaseDirectory(experimentBaseDirectory).setOutputParetoFrontFileName("FUN")
+						.setExperimentBaseDirectory(experimentBaseDirectory + File.separator + problemName)
+						.setOutputParetoFrontFileName("FUN")
 						.setOutputParetoSetFileName("VAR")
-						.setReferenceFrontDirectory(experimentBaseDirectory + "/referenceFronts")
+						.setReferenceFrontDirectory(experimentBaseDirectory + File.separator + problemName + "/referenceFronts")
 						.setIndicatorList(Arrays.asList(new PISAHypervolume<DoubleSolution>()))
 						.setIndependentRuns(INDEPENDENT_RUNS).setNumberOfCores(8).build();
 
@@ -87,6 +89,7 @@ public class Builders {
 		}
 	}
 
+	// TODO finish the other builders
 	private static List<ExperimentAlgorithm<DoubleSolution, List<DoubleSolution>>> configureDoubleAlgorithmList(
 			List<ExperimentProblem<DoubleSolution>> problemList, List<String> algorithmsSelected) {
 
@@ -207,21 +210,22 @@ public class Builders {
 		return algorithms;
 	}
 
-	public static boolean IntegerBuilder(String algorithmSelected, List<String> decisionVariables,
-			List<Integer> lowerBounds, List<Integer> upperBound, String problemName, List<String> jarPaths) {
+	public static boolean IntegerBuilder(String problemName, List<String> algorithmsSelected, List<String> decisionVariables,
+			List<Integer> lowerBounds, List<Integer> upperBounds, List<String> jarPaths) {
 
 		List<ExperimentProblem<IntegerSolution>> problemList = new ArrayList<>();
 		IntegerProblem problem;
 		try {
-			problem = new IntegerProblem(decisionVariables, lowerBounds, upperBound, problemName, jarPaths);
+			problem = new IntegerProblem(decisionVariables, lowerBounds, upperBounds, problemName, jarPaths);
 			problemList.add(new ExperimentProblem<>(problem));
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
 
 		List<ExperimentAlgorithm<IntegerSolution, List<IntegerSolution>>> algorithmList = configureIntegerAlgorithmList(
-				problemList, algorithmSelected);
+				problemList, algorithmsSelected);
 
+		// TODO change the paths
 		Experiment<IntegerSolution, List<IntegerSolution>> experiment = new ExperimentBuilder<IntegerSolution, List<IntegerSolution>>(
 				"ExperimentsInteger").setAlgorithmList(algorithmList).setProblemList(problemList)
 						.setExperimentBaseDirectory(experimentBaseDirectory).setOutputParetoFrontFileName("FUN")
@@ -243,12 +247,13 @@ public class Builders {
 
 	}
 
+	// TODO finish the other builders
 	private static List<ExperimentAlgorithm<IntegerSolution, List<IntegerSolution>>> configureIntegerAlgorithmList(
-			List<ExperimentProblem<IntegerSolution>> problemList, String algorithmSelected) {
+			List<ExperimentProblem<IntegerSolution>> problemList, List<String> algorithmsSelected) {
 
 		List<ExperimentAlgorithm<IntegerSolution, List<IntegerSolution>>> algorithms = new ArrayList<>();
 
-		if (algorithmSelected.equals("MOCell")) {
+		if (algorithmsSelected.contains("MOCell")) {
 			for (int i = 0; i < problemList.size(); i++) {
 				Algorithm<List<IntegerSolution>> algorithm3 = new MOCellBuilder<>(problemList.get(i).getProblem(),
 						new IntegerSBXCrossover(0.9, 20.0),
@@ -256,14 +261,13 @@ public class Builders {
 								.setMaxEvaluations(maxEvaluations).build();
 				algorithms.add(new ExperimentAlgorithm<>(algorithm3, "MOCell", problemList.get(i).getTag()));
 			}
-			return algorithms;
 		}
 
-		else if (algorithmSelected.equals("IBEA")) {
+		if (algorithmsSelected.contains("IBEA")) {
 
 		}
 
-		else if (algorithmSelected.equals("SMSEMOA")) {
+		if (algorithmsSelected.contains("SMSEMOA")) {
 			for (int i = 0; i < problemList.size(); i++) {
 				Algorithm<List<IntegerSolution>> algorithm2 = new SMSEMOABuilder<>(problemList.get(i).getProblem(),
 						new IntegerSBXCrossover(0.9, 20.0),
@@ -271,14 +275,13 @@ public class Builders {
 								.setMaxEvaluations(maxEvaluations).build();
 				algorithms.add(new ExperimentAlgorithm<>(algorithm2, "SMSEMOA", problemList.get(i).getTag()));
 			}
-			return algorithms;
 		}
 
-		else if (algorithmSelected.equals("SPEA2")) {
+		if (algorithmsSelected.contains("SPEA2")) {
 
 		}
 
-		else if (algorithmSelected.equals("NSGAII")) {
+		if (algorithmsSelected.contains("NSGAII")) {
 			for (int i = 0; i < problemList.size(); i++) {
 				Algorithm<List<IntegerSolution>> algorithm = new NSGAIIBuilder<>(problemList.get(i).getProblem(),
 						new IntegerSBXCrossover(0.9, 20.0),
@@ -286,14 +289,13 @@ public class Builders {
 								.setMaxEvaluations(maxEvaluations).setPopulationSize(100).build();
 				algorithms.add(new ExperimentAlgorithm<>(algorithm, "NSGAII", problemList.get(i).getTag()));
 			}
-			return algorithms;
 		}
 
-		else if (algorithmSelected.equals("RNSGAII")) {
+		if (algorithmsSelected.contains("RNSGAII")) {
 
 		}
 
-		else if (algorithmSelected.equals("PAES")) {
+		if (algorithmsSelected.contains("PAES")) {
 			for (int i = 0; i < problemList.size(); i++) {
 				Algorithm<List<IntegerSolution>> algorithm4 = new PAESBuilder<>(problemList.get(i).getProblem())
 						.setMaxEvaluations(maxEvaluations).setArchiveSize(100).setBiSections(2)
@@ -302,47 +304,46 @@ public class Builders {
 						.build();
 				algorithms.add(new ExperimentAlgorithm<>(algorithm4, "PAES", problemList.get(i).getTag()));
 			}
-			return algorithms;
 		}
 
-		else if (algorithmSelected.equals("WASFGA")) {
-
-		}
-
-		else if (algorithmSelected.equals("PESA2")) {
+		if (algorithmsSelected.contains("WASFGA")) {
 
 		}
 
-		else if (algorithmSelected.equals("RandomSearch")) {
+		if (algorithmsSelected.contains("PESA2")) {
+
+		}
+
+		if (algorithmsSelected.contains("RandomSearch")) {
 			for (int i = 0; i < problemList.size(); i++) {
 				Algorithm<List<IntegerSolution>> algorithm5 = new RandomSearchBuilder<>(problemList.get(i).getProblem())
 						.setMaxEvaluations(maxEvaluations).build();
 				algorithms.add(new ExperimentAlgorithm<>(algorithm5, "RandomSearch", problemList.get(i).getTag()));
 			}
-			return algorithms;
 		}
 
-		else if (algorithmSelected.equals("NSGAIII")) {
+		if (algorithmsSelected.contains("NSGAIII")) {
 
 		}
 
-		return null;
+		return algorithms;
 	}
 
-	public static boolean BinaryBuilder(String algorithmSelected, List<String> decisionVariables, List<String> jarPaths,
-			String problemName, int bit) {
+	public static boolean BinaryBuilder(String problemName, List<String> algorithmsSelected, List<String> decisionVariables, List<String> jarPaths,
+			int bitsPerVariable) {
 		List<ExperimentProblem<BinarySolution>> problemList = new ArrayList<>();
 		BinaryProblem problem;
 		try {
-			problem = new BinaryProblem(decisionVariables, jarPaths, problemName, bit);
+			problem = new BinaryProblem(decisionVariables, jarPaths, problemName, bitsPerVariable);
 			problemList.add(new ExperimentProblem<>(problem));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 		List<ExperimentAlgorithm<BinarySolution, List<BinarySolution>>> algorithmList = configureBinaryAlgorithmList(
-				problemList, algorithmSelected);
+				problemList, algorithmsSelected);
 
+		// TODO change the paths
 		Experiment<BinarySolution, List<BinarySolution>> experiment = new ExperimentBuilder<BinarySolution, List<BinarySolution>>(
 				"ExperimentsBinary").setAlgorithmList(algorithmList).setProblemList(problemList)
 						.setExperimentBaseDirectory(experimentBaseDirectory).setOutputParetoFrontFileName("FUN")
@@ -361,15 +362,15 @@ public class Builders {
 		} catch (IOException e) {
 			return false;
 		}
-
 	}
 
+	// TODO finish the other builders
 	private static List<ExperimentAlgorithm<BinarySolution, List<BinarySolution>>> configureBinaryAlgorithmList(
-			List<ExperimentProblem<BinarySolution>> problemList, String algorithmSelected) {
+			List<ExperimentProblem<BinarySolution>> problemList, List<String> algorithmsSelected) {
 
 		List<ExperimentAlgorithm<BinarySolution, List<BinarySolution>>> algorithms = new ArrayList<>();
 
-		if (algorithmSelected.equals("MOCHC")) {
+		if (algorithmsSelected.contains("MOCHC")) {
 			for (int i = 0; i < problemList.size(); i++) {
 				Algorithm<List<BinarySolution>> algorithm = new MOCHCBuilder(
 						(BinaryProblem) problemList.get(i).getProblem()).setMaxEvaluations(maxEvaluations)
@@ -380,10 +381,9 @@ public class Builders {
 								.setEvaluator(new SequentialSolutionListEvaluator<BinarySolution>()).build();
 				algorithms.add(new ExperimentAlgorithm<>(algorithm, "MOCH", problemList.get(i).getTag()));
 			}
-			return algorithms;
 		}
 
-		else if (algorithmSelected.equals("MOCell")) {
+		if (algorithmsSelected.contains("MOCell")) {
 			for (int i = 0; i < problemList.size(); i++) {
 				Algorithm<List<BinarySolution>> algorithm3 = new MOCellBuilder<>(problemList.get(i).getProblem(),
 						new SinglePointCrossover(1.0),
@@ -391,14 +391,13 @@ public class Builders {
 								.setMaxEvaluations(maxEvaluations).build();
 				algorithms.add(new ExperimentAlgorithm<>(algorithm3, "MOCell", problemList.get(i).getTag()));
 			}
-			return algorithms;
 		}
 
-		else if (algorithmSelected.equals("IBEA")) {
+		if (algorithmsSelected.contains("IBEA")) {
 
 		}
 
-		else if (algorithmSelected.equals("SMSEMOA")) {
+		if (algorithmsSelected.contains("SMSEMOA")) {
 			for (int i = 0; i < problemList.size(); i++) {
 				Algorithm<List<BinarySolution>> algorithm2 = new SMSEMOABuilder<>(problemList.get(i).getProblem(),
 						new SinglePointCrossover(1.0),
@@ -406,10 +405,9 @@ public class Builders {
 								.setMaxEvaluations(maxEvaluations).build();
 				algorithms.add(new ExperimentAlgorithm<>(algorithm2, "SMSEMOA", problemList.get(i).getTag()));
 			}
-			return algorithms;
 		}
 
-		else if (algorithmSelected.equals("SPEA2")) {
+		if (algorithmsSelected.contains("SPEA2")) {
 			for (int i = 0; i < problemList.size(); i++) {
 				Algorithm<List<BinarySolution>> algorithm7 = new SPEA2Builder<>(problemList.get(i).getProblem(),
 						new SinglePointCrossover(1.0),
@@ -418,18 +416,17 @@ public class Builders {
 										.setMaxIterations(maxEvaluations).build();
 				algorithms.add(new ExperimentAlgorithm<>(algorithm7, "SPEA2", problemList.get(i).getTag()));
 			}
-			return algorithms;
 		}
 
-		else if (algorithmSelected.equals("NSGAII")) {
-
-		}
-
-		else if (algorithmSelected.equals("RNSGAII")) {
+		if (algorithmsSelected.contains("NSGAII")) {
 
 		}
 
-		else if (algorithmSelected.equals("PAES")) {
+		if (algorithmsSelected.contains("RNSGAII")) {
+
+		}
+
+		if (algorithmsSelected.contains("PAES")) {
 			for (int i = 0; i < problemList.size(); i++) {
 				Algorithm<List<BinarySolution>> algorithm5 = new PAESBuilder<>(problemList.get(i).getProblem())
 						.setMaxEvaluations(maxEvaluations).setArchiveSize(100).setBiSections(2)
@@ -438,30 +435,28 @@ public class Builders {
 						.build();
 				algorithms.add(new ExperimentAlgorithm<>(algorithm5, "PAES", problemList.get(i).getTag()));
 			}
-			return algorithms;
 		}
 
-		else if (algorithmSelected.equals("WASFGA")) {
-
-		}
-
-		else if (algorithmSelected.equals("PESA2")) {
+		if (algorithmsSelected.contains("WASFGA")) {
 
 		}
 
-		else if (algorithmSelected.equals("RandomSearch")) {
+		if (algorithmsSelected.contains("PESA2")) {
+
+		}
+
+		if (algorithmsSelected.contains("RandomSearch")) {
 			for (int i = 0; i < problemList.size(); i++) {
 				Algorithm<List<BinarySolution>> algorithm6 = new RandomSearchBuilder<>(problemList.get(i).getProblem())
 						.setMaxEvaluations(maxEvaluations).build();
 				algorithms.add(new ExperimentAlgorithm<>(algorithm6, "RandomSearch", problemList.get(i).getTag()));
 			}
-			return algorithms;
 		}
 
-		else if (algorithmSelected.equals("NSGAIII")) {
+		if (algorithmsSelected.contains("NSGAIII")) {
 
 		}
 
-		return null;
+		return algorithms;
 	}
 }

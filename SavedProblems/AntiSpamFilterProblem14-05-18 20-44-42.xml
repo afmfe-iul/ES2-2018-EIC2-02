@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <layoutProblem>
+    <automatic>false</automatic>
     <email>demo@email.com</email>
+    <listAlgorithms>
+        <listAlgorithms>MOEADD</listAlgorithms>
+    </listAlgorithms>
     <listCriteria>
         <listCriteria>
-            <name>testName</name>
-            <path>testPath</path>
-            <solutionKnown>1</solutionKnown>
+            <name>FP</name>
+            <path>C:\Users\André Freire\workspaceJAVA\ES2-2018-EIC2-02\testJars\FalseNegatives.jar</path>
+        </listCriteria>
+        <listCriteria>
+            <name>FN</name>
+            <path>C:\Users\André Freire\workspaceJAVA\ES2-2018-EIC2-02\testJars\FalsePositives.jar</path>
         </listCriteria>
     </listCriteria>
     <listVariable>
@@ -2021,10 +2028,11 @@
         </listVariable>
     </listVariable>
     <maxWaitingTime>1</maxWaitingTime>
-    <numberCriteria>1</numberCriteria>
+    <numberCriteria>2</numberCriteria>
     <numberVariables>335</numberVariables>
     <problemDescription>testDescription</problemDescription>
     <problemTitle>AntiSpamFilterProblem</problemTitle>
-    <tipo>Double</tipo>
+    <solutionKnown>5</solutionKnown>
+    <type>Double</type>
     <variablesName>Anti Spam Rules</variablesName>
 </layoutProblem>

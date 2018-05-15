@@ -6,18 +6,23 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import org.junit.Test;
-
 import main.optimization.platform.jMetal.OptimizationProcess;
+import main.optimization.platform.jMetal.OptimizationProcess.DATA_TYPES;
 
 public class OptimizationProcessTest {
 	
 	@Test
 	public void getPossibleDataTypesShouldReturnAListWithJMetalTypes(){
-		OptimizationProcess instance = new OptimizationProcess();
+		Set<String> testCases = new HashSet<String>();
+		testCases.addAll(Arrays.asList(new String[]{"Binary", "Integer", "Double"}));
 		Set<String> dataTypes = new HashSet<String>();
-		dataTypes.addAll(Arrays.asList(new String[]{"Binary", "Integer", "Double", "IntegerDouble", "IntegerPermutation"}));
-		assertEquals("The method getPossibleDataTypes should return a set with the elements:"
-				+ "Binary, Integer, Double and Integer/Double", dataTypes, instance.getPossibleDataTypes());
+		for(DATA_TYPES t : DATA_TYPES.values()) {
+			dataTypes.add(t.toString());
+		}
+		
+		for(String testType : testCases) {
+			assertTrue("The OptimizationProcess class should contain the " + testType + " data type.", dataTypes.contains(testType));
+		}
 	} 
 	
 	@Test

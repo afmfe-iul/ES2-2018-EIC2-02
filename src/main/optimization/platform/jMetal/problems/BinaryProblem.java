@@ -10,12 +10,12 @@ public class BinaryProblem extends AbstractBinaryProblem {
 	private int numberOfObjectives;
 	private List<String> decisionVariables;
 	private List<ProblemHelper> problemHelpers;
-	private int bits;
+	private int bitsPerVariable;
 
-	public BinaryProblem(List<String> decisionVariables, List<String> jarPaths, String name, int bit) throws Exception {
+	public BinaryProblem(List<String> decisionVariables, List<String> jarPaths, String name, int bitsPerVariable) throws Exception {
 		numberOfObjectives = jarPaths.size();
 		this.decisionVariables = decisionVariables;
-		bits=bit;
+		this.bitsPerVariable = bitsPerVariable;
 		problemHelpers = new ArrayList<ProblemHelper>();
 		for (int i = 0; i < numberOfObjectives; i++) {
 			problemHelpers.add(new ProblemHelper(jarPaths.get(i), this.decisionVariables));
@@ -24,7 +24,6 @@ public class BinaryProblem extends AbstractBinaryProblem {
 		setNumberOfObjectives(numberOfObjectives);
 		setNumberOfVariables(decisionVariables.size());
 		setName(name);
-		
 	}
 
 	@Override
@@ -37,7 +36,7 @@ public class BinaryProblem extends AbstractBinaryProblem {
 	@Override
 	//TODO check later
 	protected int getBitsPerVariable(int index) {
-		return bits;
+		return bitsPerVariable;
 	}
 
 }

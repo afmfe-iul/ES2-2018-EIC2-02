@@ -40,6 +40,8 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import main.optimization.platform.gui.external.DataVisualization;
 import main.optimization.platform.jMetal.OptimizationProcess;
+import main.optimization.platform.jMetal.OptimizationProcess.DATA_TYPES;
+
 import javax.swing.JCheckBox;
 
 public class MainLayout {
@@ -116,9 +118,11 @@ public class MainLayout {
 		scrollPanelTableVariable = new JScrollPane();
 		scrollPanelTableCriteria = new JScrollPane();
 		comboBoxType = new JComboBox<String>();
-		comboBoxType.addItem("Integer");
-		comboBoxType.addItem("Boolean");
-		comboBoxType.addItem("Double");
+		
+		for(DATA_TYPES t : DATA_TYPES.values()) {
+			comboBoxType.addItem(t.toString());
+		}
+
 		txtProblemDescription = new JTextArea();
 		JLabel lblDescrio = new JLabel("Description");
 		lblEmail = new JLabel("Email :");
@@ -171,6 +175,7 @@ public class MainLayout {
 		btnRunDemo.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				// TODO before running update the currentProblem object with info from the interface
 				runDemo();
 			}
 		});
@@ -647,10 +652,8 @@ public class MainLayout {
 			LayoutProblem problem = new LayoutProblem();
 			if (txtMaximumTime.getText().isEmpty()) {
 				problem.setMaxWaitingTime(0);
-
 			} else {
 				problem.setMaxWaitingTime(Integer.parseInt(txtMaximumTime.getText()));
-
 			}
 
 			problem.setSolutionKnown(Integer.parseInt(txtSolutionKnown.getText()));
@@ -741,7 +744,6 @@ public class MainLayout {
 				e.printStackTrace();
 			}
 		}
-
 	}
 
 	private void loadTableAlgorithm() {
