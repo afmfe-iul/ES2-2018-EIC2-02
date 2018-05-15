@@ -1,0 +1,8 @@
+Sprint review 
+Neste Sprint procedemos ao refinamento de componentes pré-existentes da interface gráfica.
+Também foi melhorada a componente gráfica para a visualização de soluções.
+Foram encontrados problemas na implementação a nível da implementação dos Builders para os diferentes problemas implementados devido a limitações por parte da framework em uso, JMetal, especialmente a nível de documentação. Como tal não conseguimos dar como completamente terminada a tarefa, chegando à conclusão que a estimativa das horas desta tarefa foi mal realizada. 
+Por foi aumentada a cobertura de testes do projecto tal como acordado no Sprint backlog.  
+
+Sprint retrospective
+Praticamente o que o grupo se comprometeu a realizar no Sprint backlog foi realizado, á excepção da implementação dos Builders que continuará a ser realizada para o próximo sprint, melhoramos ao nível da frequência dos commits realizados para o repositório tal como acordado no passado Sprint Retrospective. No entanto a estimativa de horas ainda não foi corretamente feita (devido a problemas referidos no Sprint review). Este é um aspeto que o grupo pretente melhorar para o próximo sprint e manter os que já estão a funcionar corretamente.
