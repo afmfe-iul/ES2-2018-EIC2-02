@@ -118,8 +118,8 @@ public class MainLayout {
 		scrollPanelTableVariable = new JScrollPane();
 		scrollPanelTableCriteria = new JScrollPane();
 		comboBoxType = new JComboBox<String>();
-		
-		for(DATA_TYPES t : DATA_TYPES.values()) {
+
+		for (DATA_TYPES t : DATA_TYPES.values()) {
 			comboBoxType.addItem(t.toString());
 		}
 
@@ -134,7 +134,7 @@ public class MainLayout {
 		lblNameVariables = new JLabel("Variable Group Name");
 		txtVariablesName = new JTextField();
 		txtVariablesName.setColumns(10);
-		lblMaximumtime = new JLabel("Maximum waiting time");
+		lblMaximumtime = new JLabel("Maximum waiting time (in iterations)");
 		txtMaximumTime = new JTextField();
 		txtMaximumTime.setColumns(10);
 		lblType = new JLabel("Type");
@@ -175,9 +175,12 @@ public class MainLayout {
 		btnRunDemo.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO before running update the currentProblem object with info from the interface
+				// TODO before running update the currentProblem object with info from the
+				// interface
+				readProblemFromInterface();
 				runDemo();
 			}
+
 		});
 
 		JButton btnVisDemo = new JButton("Visualize Demo");
@@ -238,108 +241,144 @@ public class MainLayout {
 		JLabel lblSolutionKnown = new JLabel("Solution known");
 
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
-		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.LEADING).addGroup(groupLayout
-				.createSequentialGroup().addContainerGap()
-				.addGroup(groupLayout.createParallelGroup(Alignment.LEADING).addGroup(groupLayout
-						.createSequentialGroup()
-						.addGroup(groupLayout.createParallelGroup(Alignment.LEADING).addGroup(groupLayout
-								.createSequentialGroup()
-								.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
-										.addGroup(groupLayout.createSequentialGroup()
-												.addComponent(comboBoxType, GroupLayout.PREFERRED_SIZE, 80,
-														GroupLayout.PREFERRED_SIZE)
-												.addPreferredGap(ComponentPlacement.RELATED)
-												.addComponent(txtNumberVariables, GroupLayout.PREFERRED_SIZE,
-														GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-										.addGroup(groupLayout.createSequentialGroup().addGap(21).addComponent(lblType)
-												.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE,
-														Short.MAX_VALUE)
-												.addComponent(lblVariablesNumber)))
-								.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-										.addGroup(groupLayout.createSequentialGroup()
-												.addPreferredGap(ComponentPlacement.RELATED)
-												.addComponent(txtVariablesName, GroupLayout.PREFERRED_SIZE, 230,
-														GroupLayout.PREFERRED_SIZE))
-										.addGroup(groupLayout.createSequentialGroup().addGap(74)
-												.addComponent(lblNameVariables)))
-								.addPreferredGap(ComponentPlacement.RELATED)
-								.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-										.addComponent(lblMaximumtime, GroupLayout.PREFERRED_SIZE, 134,
-												GroupLayout.PREFERRED_SIZE)
-										.addComponent(txtMaximumTime, 92, 92, 92))
-								.addPreferredGap(ComponentPlacement.RELATED, 81, Short.MAX_VALUE))
-								.addGroup(groupLayout.createSequentialGroup().addGroup(groupLayout
-										.createParallelGroup(Alignment.LEADING, false)
-										.addComponent(
-												txtProblemDescription, GroupLayout.DEFAULT_SIZE, 467, Short.MAX_VALUE)
-										.addComponent(lblDescrio)
-										.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
-												.addComponent(scrollPanelTableVariable, Alignment.LEADING)
-												.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
-														.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-																.addComponent(lblNameProblem).addComponent(lblEmail))
-														.addPreferredGap(ComponentPlacement.UNRELATED)
-														.addGroup(groupLayout
-																.createParallelGroup(Alignment.LEADING, false)
-																.addComponent(txtProblemName).addComponent(txtEmail,
-																		GroupLayout.DEFAULT_SIZE, 363,
-																		Short.MAX_VALUE)))))
-										.addGroup(groupLayout.createParallelGroup(Alignment.LEADING).addGroup(
-												groupLayout.createSequentialGroup().addGap(18).addGroup(groupLayout
-														.createParallelGroup(Alignment.LEADING)
-														.addGroup(groupLayout.createSequentialGroup()
-																.addComponent(scrollPanelAlgorithms,
-																		GroupLayout.DEFAULT_SIZE, 133, Short.MAX_VALUE)
-																.addPreferredGap(ComponentPlacement.RELATED))
-														.addComponent(btnOpenXmlProblem)
-														.addComponent(btnSaveXmlProblemL)))
-												.addGroup(groupLayout.createSequentialGroup()
-														.addPreferredGap(ComponentPlacement.RELATED, 12,
+		groupLayout
+				.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup().addContainerGap()
+								.addGroup(groupLayout.createParallelGroup(Alignment.LEADING).addGroup(groupLayout
+										.createSequentialGroup().addGroup(groupLayout
+												.createParallelGroup(Alignment.LEADING).addGroup(groupLayout
+														.createSequentialGroup().addGroup(groupLayout
+																.createParallelGroup(Alignment.TRAILING, false)
+																.addGroup(groupLayout.createSequentialGroup()
+																		.addComponent(comboBoxType,
+																				GroupLayout.PREFERRED_SIZE, 80,
+																				GroupLayout.PREFERRED_SIZE)
+																		.addPreferredGap(ComponentPlacement.RELATED)
+																		.addComponent(txtNumberVariables,
+																				GroupLayout.PREFERRED_SIZE,
+																				GroupLayout.DEFAULT_SIZE,
+																				GroupLayout.PREFERRED_SIZE))
+																.addGroup(groupLayout.createSequentialGroup().addGap(21)
+																		.addComponent(lblType).addPreferredGap(
+																				ComponentPlacement.RELATED,
+																				GroupLayout.DEFAULT_SIZE,
+																				Short.MAX_VALUE)
+																		.addComponent(lblVariablesNumber)))
+														.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+																.addGroup(groupLayout.createSequentialGroup()
+																		.addPreferredGap(ComponentPlacement.RELATED)
+																		.addComponent(txtVariablesName,
+																				GroupLayout.PREFERRED_SIZE, 230,
+																				GroupLayout.PREFERRED_SIZE))
+																.addGroup(
+																		groupLayout.createSequentialGroup().addGap(74)
+																				.addComponent(lblNameVariables))))
+												.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+														.addComponent(
+																txtProblemDescription, GroupLayout.DEFAULT_SIZE, 467,
 																Short.MAX_VALUE)
-														.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-																.addGroup(groupLayout.createSequentialGroup()
+														.addComponent(lblDescrio)
+														.addGroup(groupLayout.createSequentialGroup().addGroup(
+																groupLayout.createParallelGroup(Alignment.TRAILING)
+																		.addComponent(
+																				lblNameProblem)
+																		.addComponent(lblEmail))
+																.addPreferredGap(ComponentPlacement.UNRELATED)
+																.addGroup(groupLayout
+																		.createParallelGroup(Alignment.LEADING, false)
+																		.addComponent(txtProblemName).addComponent(
+																				txtEmail, GroupLayout.DEFAULT_SIZE, 363,
+																				Short.MAX_VALUE)))
+														.addComponent(scrollPanelTableVariable,
+																GroupLayout.DEFAULT_SIZE, 408, Short.MAX_VALUE)))
+										.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+												.addGroup(
+														groupLayout
+																.createSequentialGroup().addPreferredGap(
+																		ComponentPlacement.RELATED)
+																.addGroup(groupLayout.createParallelGroup(
+																		Alignment.LEADING, false).addComponent(
+																				txtMaximumTime)
+																		.addComponent(lblMaximumtime,
+																				GroupLayout.DEFAULT_SIZE,
+																				GroupLayout.DEFAULT_SIZE,
+																				Short.MAX_VALUE))
+																.addPreferredGap(
+																		ComponentPlacement.RELATED, 44,
+																		Short.MAX_VALUE))
+												.addGroup(groupLayout.createSequentialGroup().addGroup(groupLayout
+														.createParallelGroup(Alignment.LEADING)
+														.addGroup(groupLayout.createSequentialGroup().addGap(18)
+																.addGroup(groupLayout
+																		.createParallelGroup(Alignment.LEADING)
 																		.addGroup(groupLayout
-																				.createParallelGroup(Alignment.TRAILING,
-																						false)
-																				.addComponent(chckbxAutomatic,
-																						GroupLayout.DEFAULT_SIZE,
-																						GroupLayout.DEFAULT_SIZE,
+																				.createSequentialGroup()
+																				.addComponent(
+																						scrollPanelAlgorithms,
+																						GroupLayout.DEFAULT_SIZE, 133,
 																						Short.MAX_VALUE)
-																				.addComponent(chckbxManual,
-																						GroupLayout.DEFAULT_SIZE,
-																						GroupLayout.DEFAULT_SIZE,
-																						Short.MAX_VALUE)
+																				.addPreferredGap(
+																						ComponentPlacement.RELATED))
+																		.addComponent(btnOpenXmlProblem)
+																		.addComponent(btnSaveXmlProblemL)))
+														.addGroup(groupLayout.createSequentialGroup()
+																.addPreferredGap(ComponentPlacement.RELATED, 12,
+																		Short.MAX_VALUE)
+																.addGroup(groupLayout.createParallelGroup(
+																		Alignment.TRAILING)
+																		.addGroup(groupLayout.createSequentialGroup()
 																				.addGroup(groupLayout
-																						.createSequentialGroup()
-																						.addComponent(lblAlgorithms)
-																						.addGap(11)))
-																		.addGap(29))
-																.addGroup(groupLayout.createSequentialGroup()
-																		.addGroup(groupLayout
-																				.createParallelGroup(Alignment.LEADING,
-																						false)
+																						.createParallelGroup(
+																								Alignment.TRAILING,
+																								false)
+																						.addComponent(
+																								chckbxAutomatic,
+																								GroupLayout.DEFAULT_SIZE,
+																								GroupLayout.DEFAULT_SIZE,
+																								Short.MAX_VALUE)
+																						.addComponent(
+																								chckbxManual,
+																								GroupLayout.DEFAULT_SIZE,
+																								GroupLayout.DEFAULT_SIZE,
+																								Short.MAX_VALUE)
+																						.addGroup(groupLayout
+																								.createSequentialGroup()
+																								.addComponent(
+																										lblAlgorithms)
+																								.addGap(11)))
+																				.addGap(29))
+																		.addGroup(groupLayout.createSequentialGroup()
 																				.addGroup(groupLayout
-																						.createSequentialGroup()
-																						.addGap(18)
-																						.addComponent(btnVisDemo))
-																				.addGroup(groupLayout
-																						.createSequentialGroup()
-																						.addGap(29)
-																						.addComponent(btnRunDemo)))
-																		.addGap(18)))))
-										.addGap(11)))
-						.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addGroup(groupLayout.createSequentialGroup()
-										.addComponent(txtNumberCriteria, GroupLayout.PREFERRED_SIZE,
-												GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-										.addPreferredGap(ComponentPlacement.UNRELATED).addComponent(btnCriteria))
-								.addComponent(scrollPanelTableCriteria, GroupLayout.PREFERRED_SIZE, 223,
-										GroupLayout.PREFERRED_SIZE)
-								.addGroup(groupLayout.createSequentialGroup().addGap(24).addComponent(lblSolutionKnown)
-										.addGap(18).addComponent(txtSolutionKnown, GroupLayout.PREFERRED_SIZE, 76,
-												GroupLayout.PREFERRED_SIZE)))
-						.addGap(132)).addComponent(lblOptimizationImpliesMinimizing).addComponent(btnloadTableVariable))
-				.addContainerGap()));
+																						.createParallelGroup(
+																								Alignment.LEADING,
+																								false)
+																						.addGroup(groupLayout
+																								.createSequentialGroup()
+																								.addGap(18)
+																								.addComponent(
+																										btnVisDemo))
+																						.addGroup(groupLayout
+																								.createSequentialGroup()
+																								.addGap(29)
+																								.addComponent(
+																										btnRunDemo)))
+																				.addGap(18)))))
+														.addGap(11)))
+										.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+												.addGroup(groupLayout.createSequentialGroup()
+														.addComponent(txtNumberCriteria, GroupLayout.PREFERRED_SIZE,
+																GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+														.addPreferredGap(ComponentPlacement.UNRELATED)
+														.addComponent(btnCriteria))
+												.addComponent(scrollPanelTableCriteria, GroupLayout.PREFERRED_SIZE, 223,
+														GroupLayout.PREFERRED_SIZE)
+												.addGroup(groupLayout.createSequentialGroup().addGap(24)
+														.addComponent(lblSolutionKnown).addGap(18)
+														.addComponent(txtSolutionKnown, GroupLayout.PREFERRED_SIZE, 76,
+																GroupLayout.PREFERRED_SIZE)))
+										.addGap(132)).addComponent(lblOptimizationImpliesMinimizing)
+										.addComponent(btnloadTableVariable))
+								.addContainerGap()));
 		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
 				.addGroup(groupLayout.createSequentialGroup().addGap(27)
 						.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE).addComponent(lblVariablesNumber)
@@ -415,7 +454,7 @@ public class MainLayout {
 		File file = new File("experimentsBaseDirectory/TestProblem/rules.cf");
 		DefaultTableModel modelManual = new DefaultTableModel(new Object[][] {},
 				new String[] { "Name", "Rule", "Minimum", "Maximum", "Forbidden" }) {
-					private static final long serialVersionUID = 1L;
+			private static final long serialVersionUID = 1L;
 			@SuppressWarnings("rawtypes")
 			Class[] columnTypes = new Class[] { String.class, String.class, Double.class, Double.class, Double.class };
 
@@ -474,7 +513,7 @@ public class MainLayout {
 		tableCriteria.setModel(modelTableButton = new DefaultTableModel(
 
 				new Object[][] {}, new String[] { "Name", "Path", "Add Path" }) {
-					private static final long serialVersionUID = 1L;
+			private static final long serialVersionUID = 1L;
 			@SuppressWarnings("rawtypes")
 			Class[] columnTypes = new Class[] { String.class, String.class, ButtonColumn.class };
 
@@ -599,7 +638,7 @@ public class MainLayout {
 				loadTableAlgorithm();
 				int counter = 0;
 				for (int i = 0; i < tableAlgorithms.getRowCount() && counter < listAlgorithm.size(); i++) {
-					if (tableAlgorithms.getValueAt(i, 0).toString().equals( listAlgorithm.get(counter))) {
+					if (tableAlgorithms.getValueAt(i, 0).toString().equals(listAlgorithm.get(counter))) {
 						tableAlgorithms.setValueAt(true, i, 1);
 						counter++;
 					}
@@ -640,92 +679,93 @@ public class MainLayout {
 
 			}
 		} catch (Exception e) {
-			// TODO clean tables
 			clearProblem();
 		}
 
 	}
 
+	private void readProblemFromInterface() {
+		String problemType = comboBoxType.getSelectedItem().toString();
+		currentProblem = new LayoutProblem();
+		if (txtMaximumTime.getText().isEmpty()) {
+			currentProblem.setMaxWaitingTime(0);
+		} else {
+			currentProblem.setMaxWaitingTime(Integer.parseInt(txtMaximumTime.getText()));
+		}
+
+		currentProblem.setSolutionKnown(Integer.parseInt(txtSolutionKnown.getText()));
+		currentProblem.setVariablesName(txtVariablesName.getText());
+		currentProblem.setNumberVariables(Integer.parseInt(txtNumberVariables.getText()));
+		currentProblem.setNumberCriteria(Integer.parseInt(txtNumberCriteria.getText()));
+		currentProblem.setProblemDescription(txtProblemDescription.getText());
+		currentProblem.setProblemTitle(txtProblemName.getText());
+		currentProblem.setEmail(txtEmail.getText());
+		currentProblem.setType(comboBoxType.getSelectedItem().toString());
+		if (chckbxAutomatic.isSelected()) {
+			currentProblem.setAutomatic(true);
+		} else {
+			currentProblem.setAutomatic(false);
+		}
+		ArrayList<String> listAlgorithms = new ArrayList<String>();
+		for (int i = 0; i < tableAlgorithms.getRowCount(); i++) {
+			if ((Boolean) tableAlgorithms.getValueAt(i, 1))
+				listAlgorithms.add(tableAlgorithms.getValueAt(i, 0).toString());
+		}
+		currentProblem.setListAlgorithms(listAlgorithms);
+		ArrayList<TableRowVariable> listVariable = new ArrayList<TableRowVariable>();
+		ArrayList<TableRowCriteria> listCriteria = new ArrayList<TableRowCriteria>();
+		for (int i = 0; i < tableCriteria.getRowCount(); i++) {
+			TableRowCriteria m = new TableRowCriteria();
+			m.setName(tableCriteria.getValueAt(i, 0).toString());
+			m.setPath(tableCriteria.getValueAt(i, 1).toString());
+			listCriteria.add(m);
+		}
+		if (problemType == "Integer") {
+			for (int i = 0; i < tableVariable.getRowCount(); i++) {
+				TableRowVariable m = new TableRowVariable();
+				m.setName((String) tableVariable.getValueAt(i, 0));
+				m.setRule((String) tableVariable.getValueAt(i, 1));
+				m.setMinimo(Integer.toString((int) tableVariable.getValueAt(i, 2)));
+				m.setMaximo(Integer.toString((int) tableVariable.getValueAt(i, 3)));
+				m.setForbidden(Integer.toString((int) tableVariable.getValueAt(i, 4)));
+				listVariable.add(m);
+			}
+		}
+		if (problemType == "Double") {
+			for (int i = 0; i < tableVariable.getRowCount(); i++) {
+				TableRowVariable m = new TableRowVariable();
+				if (tableVariable.getValueAt(i, 0) != null) {
+					m.setName((String) tableVariable.getValueAt(i, 0));
+				} else {
+					m.setName(null);
+				}
+				m.setRule((String) tableVariable.getValueAt(i, 1));
+				m.setMinimo(Double.toString((Double) tableVariable.getValueAt(i, 2)));
+				m.setMaximo(Double.toString((Double) tableVariable.getValueAt(i, 3)));
+				if (tableVariable.getValueAt(i, 4) != null) {
+					m.setForbidden(Double.toString((Double) tableVariable.getValueAt(i, 4)));
+				} else {
+					m.setForbidden(null);
+				}
+				listVariable.add(m);
+			}
+		}
+		if (problemType == "Boolean") {
+			for (int i = 0; i < tableVariable.getRowCount(); i++) {
+				TableRowVariable m = new TableRowVariable();
+				m.setName((String) tableVariable.getValueAt(i, 0));
+				m.setRule((String) tableVariable.getValueAt(i, 1));
+				m.setForbidden(Boolean.toString((Boolean) tableVariable.getValueAt(i, 2)));
+				listVariable.add(m);
+			}
+		}
+		currentProblem.setListVariable(listVariable);
+		currentProblem.setListCriteria(listCriteria);
+	}
+
 	private void saveXmlProblem() {
 		if (validateProblemFields()) {
-			String tipo = comboBoxType.getSelectedItem().toString();
-			LayoutProblem problem = new LayoutProblem();
-			if (txtMaximumTime.getText().isEmpty()) {
-				problem.setMaxWaitingTime(0);
-			} else {
-				problem.setMaxWaitingTime(Integer.parseInt(txtMaximumTime.getText()));
-			}
-
-			problem.setSolutionKnown(Integer.parseInt(txtSolutionKnown.getText()));
-			problem.setVariablesName(txtVariablesName.getText());
-			problem.setNumberVariables(Integer.parseInt(txtNumberVariables.getText()));
-			problem.setNumberCriteria(Integer.parseInt(txtNumberCriteria.getText()));
-			problem.setProblemDescription(txtProblemDescription.getText());
-			problem.setProblemTitle(txtProblemName.getText());
-			problem.setEmail(txtEmail.getText());
-			problem.setType(comboBoxType.getSelectedItem().toString());
-			if (chckbxAutomatic.isSelected()) {
-				problem.setAutomatic(true);
-			} else {
-				problem.setAutomatic(false);
-			}
-			ArrayList<String> listAlgorithms = new ArrayList<String>();
-			for (int i = 0; i < tableAlgorithms.getRowCount(); i++) {
-				if ((Boolean) tableAlgorithms.getValueAt(i, 1))
-					listAlgorithms.add(tableAlgorithms.getValueAt(i, 0).toString());
-			}
-			problem.setListAlgorithms(listAlgorithms);
-			ArrayList<TableRowVariable> listVariable = new ArrayList<TableRowVariable>();
-			ArrayList<TableRowCriteria> listCriteria = new ArrayList<TableRowCriteria>();
-			for (int i = 0; i < tableCriteria.getRowCount(); i++) {
-				TableRowCriteria m = new TableRowCriteria();
-				m.setName(tableCriteria.getValueAt(i, 0).toString());
-				m.setPath(tableCriteria.getValueAt(i, 1).toString());
-				listCriteria.add(m);
-			}
-			if (tipo == "Integer") {
-				for (int i = 0; i < tableVariable.getRowCount(); i++) {
-					TableRowVariable m = new TableRowVariable();
-					m.setName((String) tableVariable.getValueAt(i, 0));
-					m.setRule((String) tableVariable.getValueAt(i, 1));
-					m.setMinimo(Integer.toString((int) tableVariable.getValueAt(i, 2)));
-					m.setMaximo(Integer.toString((int) tableVariable.getValueAt(i, 3)));
-					m.setForbidden(Integer.toString((int) tableVariable.getValueAt(i, 4)));
-					listVariable.add(m);
-				}
-			}
-			if (tipo == "Double") {
-				for (int i = 0; i < tableVariable.getRowCount(); i++) {
-					TableRowVariable m = new TableRowVariable();
-					if (tableVariable.getValueAt(i, 0) != null) {
-						m.setName((String) tableVariable.getValueAt(i, 0));
-					} else {
-						m.setName(null);
-					}
-					m.setRule((String) tableVariable.getValueAt(i, 1));
-					m.setMinimo(Double.toString((Double) tableVariable.getValueAt(i, 2)));
-					m.setMaximo(Double.toString((Double) tableVariable.getValueAt(i, 3)));
-					if (tableVariable.getValueAt(i, 4) != null) {
-						m.setForbidden(Double.toString((Double) tableVariable.getValueAt(i, 4)));
-					} else {
-						m.setForbidden(null);
-					}
-					listVariable.add(m);
-				}
-			}
-			if (tipo == "Boolean") {
-				for (int i = 0; i < tableVariable.getRowCount(); i++) {
-					TableRowVariable m = new TableRowVariable();
-					m.setName((String) tableVariable.getValueAt(i, 0));
-					m.setRule((String) tableVariable.getValueAt(i, 1));
-					m.setForbidden(Boolean.toString((Boolean) tableVariable.getValueAt(i, 2)));
-					listVariable.add(m);
-				}
-			}
-			problem.setListVariable(listVariable);
-			problem.setListCriteria(listCriteria);
-			// String[][] teste = new String[20][4];
-
+			readProblemFromInterface();
 			try {
 				Calendar calobj = Calendar.getInstance();
 				DateFormat df = new SimpleDateFormat("dd-MM-yy HH-mm-ss");
@@ -737,8 +777,8 @@ public class MainLayout {
 				// output pretty printed
 				jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
-				jaxbMarshaller.marshal(problem, file);
-				jaxbMarshaller.marshal(problem, System.out);
+				jaxbMarshaller.marshal(currentProblem, file);
+				jaxbMarshaller.marshal(currentProblem, System.out);
 
 			} catch (JAXBException e) {
 				e.printStackTrace();
@@ -756,7 +796,7 @@ public class MainLayout {
 			tableAlgorithms.setModel(modelTable = new DefaultTableModel(
 
 					new Object[][] {}, new String[] { "Algorithms", "Active" }) {
-						private static final long serialVersionUID = 1L;
+				private static final long serialVersionUID = 1L;
 				@SuppressWarnings("rawtypes")
 				Class[] columnTypes = new Class[] { String.class, Boolean.class };
 
@@ -774,7 +814,6 @@ public class MainLayout {
 		}
 	}
 
-	
 	private void runDemo() {
 		OptimizationProcess op = new OptimizationProcess();
 		Thread t = new Thread(new Runnable() {
@@ -790,7 +829,8 @@ public class MainLayout {
 		t.start();
 	}
 
-	// TODO Still hardcoded needs to get the information from the interface in the future
+	// TODO Still hardcoded needs to get the information from the interface in the
+	// future
 	private void visualizeDemo(LayoutProblem problem) {
 		List<String> rsFilePaths = new ArrayList<String>();
 		rsFilePaths.add("experimentsBaseDirectory/" + txtProblemName.getText() + "/"
@@ -804,7 +844,8 @@ public class MainLayout {
 			decisionVariables.add((String) tableVariable.getModel().getValueAt(i, 1));
 		}
 
-		DataVisualization dv = new DataVisualization(problem.getListAlgorithms(), rsFilePaths, rfFilePaths, decisionVariables, 6);
+		DataVisualization dv = new DataVisualization(problem.getListAlgorithms(), rsFilePaths, rfFilePaths,
+				decisionVariables, 6);
 
 		if (dv.run()) {
 			JFrame frame = new JFrame("Graphical Visualization");
