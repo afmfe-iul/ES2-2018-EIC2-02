@@ -9,24 +9,28 @@ import java.awt.SystemColor;
 
 public class LayoutFAQPage {
 	
-	public JFrame frame;
-	private JTextField question1;
-	private JTextField question2;
-	private JTextField questions3;
-	private JTextField question4;
-	private JTextField question5;
-	private JTextPane answer5;
-	private JTextPane answer4;
-	private JTextPane answer3;
-	private JTextPane answer2;
-	private JTextPane answer1;
+	public static JFrame frame;
+	private static JTextField question1;
+	private static JTextField question2;
+	private static JTextField questions3;
+	private static JTextField question4;
+	private static JTextField question5;
+	private static JTextPane answer5;
+	private static JTextPane answer4;
+	private static JTextPane answer3;
+	private static JTextPane answer2;
+	private static JTextPane answer1;
 	
 	/**
 	 * @wbp.parser.entryPoint
 	 */
-	public void initialize(){
+	public static void initialize(){
 		frame = new JFrame("FAQPage");
 		frame.getContentPane().setLayout(null);
+		frame.setBounds(320, 30, 650, 400);
+
+		frame.setResizable(false);
+
 		
 		question1 = new JTextField();
 		question1.setBackground(UIManager.getColor("Button.background"));
@@ -40,7 +44,7 @@ public class LayoutFAQPage {
 		question2.setEditable(false);
 		question2.setText("How can I get started? ");
 		question2.setColumns(10);
-		question2.setBounds(10, 84, 561, 20);
+		question2.setBounds(10, 90, 561, 20);
 		frame.getContentPane().add(question2);
 		
 		questions3 = new JTextField();
@@ -97,11 +101,12 @@ public class LayoutFAQPage {
 		answer1.setText("Yes sure, that\u2019s the utility of our application, you can specify your problem and then chose to optimize threw various JMetal framework or if you are in a rush just save It to a .xml file and start the process later. ");
 		answer1.setEditable(false);
 		answer1.setBackground(SystemColor.menu);
-		answer1.setBounds(10, 39, 561, 46);
+		answer1.setBounds(10, 39, 561, 50);
 		frame.getContentPane().add(answer1);
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
+	
 }
 
 
