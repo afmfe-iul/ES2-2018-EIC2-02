@@ -115,7 +115,7 @@ public class OptimizationProcess {
 				upperBounds.add(Double.parseDouble(rows.get(i).getMaximo()));
 			}
 			return Builders.DoubleBuilder(currentProblem.getProblemTitle(), currentProblem.getListAlgorithms(),
-					decisionVariables, lowerBounds, upperBounds, jarPaths);
+					decisionVariables, lowerBounds, upperBounds, jarPaths,currentProblem.getMaxWaitingTime());
 
 			// Build a Integer Problem
 		} else if (currentProblem.getType().equals("Integer")) {
@@ -127,12 +127,12 @@ public class OptimizationProcess {
 				upperBounds.add(Integer.valueOf(rows.get(i).getMaximo()));
 			}
 			return Builders.IntegerBuilder(currentProblem.getProblemTitle(), currentProblem.getListAlgorithms(),
-					decisionVariables, lowerBounds, upperBounds, jarPaths);
+					decisionVariables, lowerBounds, upperBounds, jarPaths,currentProblem.getMaxWaitingTime());
 
 			// Build a Binary Problem
 		} else if (currentProblem.getType().equals("Binary")) {
 			return Builders.BinaryBuilder(currentProblem.getProblemTitle(), currentProblem.getListAlgorithms(),
-					decisionVariables, jarPaths, currentProblem.getBitsPerVariable());
+					decisionVariables, jarPaths, currentProblem.getBitsPerVariable(),currentProblem.getMaxWaitingTime());
 		}
 		return false;
 	}
@@ -160,21 +160,30 @@ public class OptimizationProcess {
 				Scanner sc = new Scanner(zip);
 				while (sc.hasNextLine()) {
 					String line = sc.nextLine();
-					if (line.contains("public class") && !line.startsWith(" ") && !line.contains("CellDE ")
-							&& !line.contains("Double") && !line.contains("Binary") && (dataType.equals("Integer") && !line.contains("IBEA"))) {
-						String[] array = className.split("\\.");
-						list.add(array[array.length - 2]);
+					if (!dataType.equals("Double")) {
+						if (line.contains("public class") && !line.startsWith(" ") && !line.contains("CellDE ")
+								&& !line.contains("Double") && !line.contains("Binary") && !line.contains("IBEA")) {
+							String[] array = className.split("\\.");
+							list.add(array[array.length - 2]);
+						}
+					} else {
+						if (line.contains("public class") && !line.startsWith(" ") && !line.contains("CellDE ")
+								&& !line.contains("Double") && !line.contains("Binary")) {
+							String[] array = className.split("\\.");
+							list.add(array[array.length - 2]);
+						}
 					}
 				}
 			}
 		}
 	}
+
 	public static void main(String[] args) throws Exception {
-		
+
 		OptimizationProcess op = new OptimizationProcess();
-		for(String s : op.getAlgorithmsFor("Integer")) {
+		for (String s : op.getAlgorithmsFor("Double")) {
 			System.out.println(s);
 		}
 	}
-	
+
 }

@@ -58,16 +58,17 @@ import main.optimization.platform.jMetal.problems.DoubleProblem;
 import main.optimization.platform.jMetal.problems.IntegerProblem;
 
 public class Builders {
-
+	
 	private static final int INDEPENDENT_RUNS = 5; // TODO
-	private static final int maxEvaluations = 500; // TODO
+	
 	private static String experimentBaseDirectory = "experimentsBaseDirectory";
 
 	public static boolean DoubleBuilder(String problemName, List<String> algorithmsSelected,
-			List<String> decisionVariables, List<Double> lowerBounds, List<Double> upperBounds, List<String> jarPaths) {
-
+			List<String> decisionVariables, List<Double> lowerBounds, List<Double> upperBounds, List<String> jarPaths,int maxEvaluations) {
+		
 		List<ExperimentProblem<DoubleSolution>> problemList = new ArrayList<>();
 		DoubleProblem problem;
+		maxEvaluations = maxEvaluations/5;
 		try {
 			problem = new DoubleProblem(decisionVariables, lowerBounds, upperBounds, jarPaths, "DoubleProblem");
 			problemList.add(new ExperimentProblem<>(problem));
@@ -76,7 +77,7 @@ public class Builders {
 		}
 
 		List<ExperimentAlgorithm<DoubleSolution, List<DoubleSolution>>> algorithmList = configureDoubleAlgorithmList(
-				problemList, algorithmsSelected);
+				problemList, algorithmsSelected,maxEvaluations);
 
 		Experiment<DoubleSolution, List<DoubleSolution>> experiment = new ExperimentBuilder<DoubleSolution, List<DoubleSolution>>(
 				"ExperimentsDouble").setAlgorithmList(algorithmList).setProblemList(problemList)
@@ -100,7 +101,7 @@ public class Builders {
 	}
 
 	private static List<ExperimentAlgorithm<DoubleSolution, List<DoubleSolution>>> configureDoubleAlgorithmList(
-			List<ExperimentProblem<DoubleSolution>> problemList, List<String> algorithmsSelected) {
+			List<ExperimentProblem<DoubleSolution>> problemList, List<String> algorithmsSelected,int maxEvaluations) {
 		List<ExperimentAlgorithm<DoubleSolution, List<DoubleSolution>>> algorithms = new ArrayList<>();
 
 		if (algorithmsSelected.contains("MOEAD") || algorithmsSelected.contains("ConstraintMOEAD")
@@ -137,7 +138,7 @@ public class Builders {
 			SequentialSolutionListEvaluator<DoubleSolution> evaluator = new SequentialSolutionListEvaluator<>();
 			for (int i = 0; i < problemList.size(); i++) {
 				Algorithm<List<DoubleSolution>> algorithm1 = new OMOPSOBuilder(
-						(DoubleProblem) problemList.get(i).getProblem(), evaluator).setMaxIterations(250)
+						(DoubleProblem) problemList.get(i).getProblem(), evaluator).setMaxIterations(maxEvaluations)
 								.setSwarmSize(100)
 								.setUniformMutation(new UniformMutation(
 										1.0 / problemList.get(i).getProblem().getNumberOfVariables(), 0.5))
@@ -184,8 +185,7 @@ public class Builders {
 						new SBXCrossover(1.0, 5),
 						new PolynomialMutation(1.0/problemList.get(i).getProblem().getNumberOfVariables(), 10.0))
 						.setSelectionOperator(selection)
-						//TODO MaxIterations same as MaxEvaluations?
-				        .setMaxIterations(250)
+				        .setMaxIterations(maxEvaluations)
 				        .setPopulationSize(100)
 				        .build() ;
 				algorithms.add(new ExperimentAlgorithm<>(algorithm2, "SPEA2", problemList.get(i).getTag()));
@@ -245,7 +245,7 @@ public class Builders {
 						.setCrossoverOperator(new SBXCrossover(1.0, 5.0))
 			            .setMutationOperator(new PolynomialMutation(1.0 / problemList.get(i).getProblem().getNumberOfVariables(), 10.0))
 			            .setSelectionOperator(selection)
-			            .setMaxIterations(300)
+			            .setMaxIterations(maxEvaluations)
 			            .build() ;
 				algorithms.add(new ExperimentAlgorithm<>(algorithm1, "NSGAIII", problemList.get(i).getTag()));
 			}
@@ -257,10 +257,10 @@ public class Builders {
 
 	public static boolean IntegerBuilder(String problemName, List<String> algorithmsSelected,
 			List<String> decisionVariables, List<Integer> lowerBounds, List<Integer> upperBounds,
-			List<String> jarPaths) {
-
+			List<String> jarPaths,int maxEvaluations) {
 		List<ExperimentProblem<IntegerSolution>> problemList = new ArrayList<>();
 		IntegerProblem problem;
+		maxEvaluations = maxEvaluations/5;
 		try {
 			problem = new IntegerProblem(decisionVariables, lowerBounds, upperBounds, problemName, jarPaths);
 			problemList.add(new ExperimentProblem<>(problem));
@@ -269,7 +269,7 @@ public class Builders {
 		}
 
 		List<ExperimentAlgorithm<IntegerSolution, List<IntegerSolution>>> algorithmList = configureIntegerAlgorithmList(
-				problemList, algorithmsSelected);
+				problemList, algorithmsSelected,maxEvaluations);
 
 		Experiment<IntegerSolution, List<IntegerSolution>> experiment = new ExperimentBuilder<IntegerSolution, List<IntegerSolution>>(
 				"ExperimentsInteger").setAlgorithmList(algorithmList).setProblemList(problemList)
@@ -294,7 +294,7 @@ public class Builders {
 	}
 
 	private static List<ExperimentAlgorithm<IntegerSolution, List<IntegerSolution>>> configureIntegerAlgorithmList(
-			List<ExperimentProblem<IntegerSolution>> problemList, List<String> algorithmsSelected) {
+			List<ExperimentProblem<IntegerSolution>> problemList, List<String> algorithmsSelected, int maxEvaluations) {
 
 		List<ExperimentAlgorithm<IntegerSolution, List<IntegerSolution>>> algorithms = new ArrayList<>();
 
@@ -326,8 +326,7 @@ public class Builders {
 						new IntegerSBXCrossover(1.0, 5.0), 
 						new IntegerPolynomialMutation(1.0/problemList.get(i).getProblem().getNumberOfVariables(), 10.0))	
 						.setSelectionOperator(selection)
-						//TODO MaxIterations same as MaxEvaluations?
-				        .setMaxIterations(250)
+				        .setMaxIterations(maxEvaluations)
 				        .setPopulationSize(100)
 				        .build() ;
 				algorithms.add(new ExperimentAlgorithm<>(algorithm2, "SPEA2", problemList.get(i).getTag()));
@@ -388,7 +387,7 @@ public class Builders {
 						.setCrossoverOperator(new IntegerSBXCrossover(1.0, 5.0))
 			            .setMutationOperator(new IntegerPolynomialMutation(1.0 / problemList.get(i).getProblem().getNumberOfVariables(), 10.0))
 			            .setSelectionOperator(selection)
-			            .setMaxIterations(300)
+			            .setMaxIterations(maxEvaluations)
 			            .build() ;
 				algorithms.add(new ExperimentAlgorithm<>(algorithm1, "NSGAIII", problemList.get(i).getTag()));
 			}
@@ -398,9 +397,10 @@ public class Builders {
 	}
 
 	public static boolean BinaryBuilder(String problemName, List<String> algorithmsSelected,
-			List<String> decisionVariables, List<String> jarPaths, int bitsPerVariable) {
+			List<String> decisionVariables, List<String> jarPaths, int bitsPerVariable,int maxEvaluations) {
 		List<ExperimentProblem<BinarySolution>> problemList = new ArrayList<>();
 		BinaryProblem problem;
+		maxEvaluations = maxEvaluations/5;
 		try {
 			problem = new BinaryProblem(decisionVariables, jarPaths, problemName, bitsPerVariable);
 			problemList.add(new ExperimentProblem<>(problem));
@@ -409,7 +409,7 @@ public class Builders {
 		}
 
 		List<ExperimentAlgorithm<BinarySolution, List<BinarySolution>>> algorithmList = configureBinaryAlgorithmList(
-				problemList, algorithmsSelected);
+				problemList, algorithmsSelected,maxEvaluations);
 
 		// TODO change the paths
 		Experiment<BinarySolution, List<BinarySolution>> experiment = new ExperimentBuilder<BinarySolution, List<BinarySolution>>(
@@ -434,7 +434,7 @@ public class Builders {
 
 	// TODO finish the other builders
 	private static List<ExperimentAlgorithm<BinarySolution, List<BinarySolution>>> configureBinaryAlgorithmList(
-			List<ExperimentProblem<BinarySolution>> problemList, List<String> algorithmsSelected) {
+			List<ExperimentProblem<BinarySolution>> problemList, List<String> algorithmsSelected, int maxEvaluations) {
 
 		List<ExperimentAlgorithm<BinarySolution, List<BinarySolution>>> algorithms = new ArrayList<>();
 
