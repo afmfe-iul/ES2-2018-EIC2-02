@@ -766,7 +766,7 @@ public class MainLayout {
 			readProblemFromInterface();
 			try {
 				Calendar calobj = Calendar.getInstance();
-				DateFormat df = new SimpleDateFormat("dd-MM-yy HH:mm:ss");
+				DateFormat df = new SimpleDateFormat("dd-MM-yy HH-mm-ss");
 				File file = new File(
 						"SavedProblems/" + txtProblemName.getText() + df.format(calobj.getTime()) + ".xml");
 				JAXBContext jaxbContext = JAXBContext.newInstance(LayoutProblem.class);
