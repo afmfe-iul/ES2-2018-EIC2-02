@@ -25,6 +25,13 @@ public class IntegerProblem extends AbstractIntegerProblem {
 	    
 	    setLowerLimit(lowerBounds);
 	    setUpperLimit(upperBound);
+	    
+//	    for (int i = 0; i < lowerBounds.size(); i++) {
+//			System.out.println(getLowerBound(i)+ " minimo");
+//			System.out.println(getUpperBound(i) + " maximo");
+//		}
+	    
+	    
 		setName(problemname);
 		
 		problemHelpers = new ArrayList<ProblemHelper>();
