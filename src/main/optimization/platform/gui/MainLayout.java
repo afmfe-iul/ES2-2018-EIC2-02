@@ -175,8 +175,6 @@ public class MainLayout {
 		btnRunDemo.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO before running update the currentProblem object with info from the
-				// interface
 				readProblemFromInterface();
 				runDemo();
 			}
@@ -768,7 +766,7 @@ public class MainLayout {
 			readProblemFromInterface();
 			try {
 				Calendar calobj = Calendar.getInstance();
-				DateFormat df = new SimpleDateFormat("dd-MM-yy HH-mm-ss");
+				DateFormat df = new SimpleDateFormat("dd-MM-yy HH:mm:ss");
 				File file = new File(
 						"SavedProblems/" + txtProblemName.getText() + df.format(calobj.getTime()) + ".xml");
 				JAXBContext jaxbContext = JAXBContext.newInstance(LayoutProblem.class);
