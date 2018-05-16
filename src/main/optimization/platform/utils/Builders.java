@@ -228,9 +228,10 @@ public class Builders {
 		// TODO change the paths
 		Experiment<IntegerSolution, List<IntegerSolution>> experiment = new ExperimentBuilder<IntegerSolution, List<IntegerSolution>>(
 				"ExperimentsInteger").setAlgorithmList(algorithmList).setProblemList(problemList)
-						.setExperimentBaseDirectory(experimentBaseDirectory).setOutputParetoFrontFileName("FUN")
+						.setExperimentBaseDirectory(experimentBaseDirectory + File.separator + problemName)
+						.setOutputParetoFrontFileName("FUN")
 						.setOutputParetoSetFileName("VAR")
-						.setReferenceFrontDirectory(experimentBaseDirectory + "/referenceFronts")
+						.setReferenceFrontDirectory(experimentBaseDirectory + File.separator + problemName + "/referenceFronts")
 						.setIndicatorList(Arrays.asList(new PISAHypervolume<IntegerSolution>()))
 						.setIndependentRuns(INDEPENDENT_RUNS).setNumberOfCores(8).build();
 
