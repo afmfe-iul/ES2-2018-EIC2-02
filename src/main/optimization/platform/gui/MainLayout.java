@@ -617,7 +617,7 @@ public class MainLayout {
 				}
 			};
 		}
-		if (comboBoxType.getSelectedItem().toString() == "Boolean") {
+		if (comboBoxType.getSelectedItem().toString() == "Binary") {
 			modelVariable = new DefaultTableModel(new Object[][] {}, new String[] { "Name", "Rule", "Forbidden" }) {
 
 				Class[] columnTypes = new Class[] { String.class, String.class, Boolean.class };
