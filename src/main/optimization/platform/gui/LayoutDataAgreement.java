@@ -1,22 +1,19 @@
 package main.optimization.platform.gui;
 
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JTextPane;
 import javax.swing.UIManager;
 import java.awt.Font;
 
-public class LayoutDataAgreement {
+public class LayoutDataAgreement extends JDialog{
+	private static final long serialVersionUID = 1L;
 
-	public static JFrame frame;
-	
-	public static void initialize(){
-		frame = new JFrame("DataAgreement");
-		frame.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		frame.setResizable(false);
-		frame.setTitle("Data protection declaration");
-		frame.setBounds(320, 30, 467, 195);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
+	public LayoutDataAgreement(JFrame frame) {
+		setFont(new Font("Tahoma", Font.PLAIN, 11));
+		setTitle("Data protection declaration");
+		setBounds(320, 30, 467, 195);
+		setLayout(null);
 		
 		JTextPane txtpnThisOptimizationProblem = new JTextPane();
 		txtpnThisOptimizationProblem.setFont(new Font("Tahoma", Font.PLAIN, 13));
@@ -28,9 +25,11 @@ public class LayoutDataAgreement {
 				+ "(the \u201CAgreement\u201D).We shall follow the term of the Agreement and will maintain full closure of every "
 				+ "personal or problem data inputed by every user.");
 		txtpnThisOptimizationProblem.setBounds(10, 11, 441, 138);
-		frame.getContentPane().add(txtpnThisOptimizationProblem);
-		frame.setVisible(true);
-		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		add(txtpnThisOptimizationProblem);
 
+		setLocationRelativeTo(frame);
+		setModal(true);
+		setResizable(false);
+		setVisible(true);
 	}
 }

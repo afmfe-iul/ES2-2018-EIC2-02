@@ -182,13 +182,7 @@ public class MainLayout {
 			public void actionPerformed(ActionEvent e) {
 				readProblemFromInterface();
 				runDemo();
-				// opens data agreement
-				LayoutDataAgreement.initialize();
-				// opens FAQ page
-				LayoutFAQPage.initialize();
-				;
 			}
-
 		});
 
 		JButton btnVisDemo = new JButton("Visualize Demo");
@@ -252,7 +246,19 @@ public class MainLayout {
 		JButton bttFaq = new JButton("Faq");
 		JButton bttAgreement = new JButton("Agreement");
 		bttFaq.setBorder(emptyBorder);
+		bttFaq.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new LayoutFAQPage(frame);
+			}
+		});
 		bttAgreement.setBorder(emptyBorder);
+		bttAgreement.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new LayoutDataAgreement(frame);
+			}
+		});
 		toolBar.add(bttFaq);
 		toolBar.addSeparator();
 		toolBar.add(bttAgreement);
