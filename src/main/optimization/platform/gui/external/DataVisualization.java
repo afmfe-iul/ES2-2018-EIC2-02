@@ -8,12 +8,11 @@ import java.net.CookieHandler;
 import java.net.CookieManager;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
-import javax.swing.JFrame;
 import org.apache.commons.io.FileUtils;
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
@@ -30,7 +29,7 @@ public class DataVisualization  extends JFXPanel{
 	
 	public DataVisualization(List<String> algorithmsNames, List<String> rsFilePaths, 
 			List<String> rfFilePaths, List<String> decisionVariables, Integer knownSolution) {
-		
+		Collections.sort(algorithmsNames);
 		if(algorithmsNames.size() != rsFilePaths.size() || algorithmsNames.size() != rfFilePaths.size() ||
 				algorithmsNames.size() == 0 || rsFilePaths.size() == 0 || rfFilePaths.size() == 0){
 			dataFileBuiltSuccessfuly = false;
@@ -187,41 +186,4 @@ public class DataVisualization  extends JFXPanel{
 	    	return dir.delete();
 	    }
 	}
-	
-	
-	/// XXX temporary for testing
-	public static void main(String[] args) {
-		List<String> algorithmsNames = new ArrayList<String>();
-		algorithmsNames.add("NSGAII");
-		
-		List<String> rsFilePaths = new ArrayList<String>();
-		rsFilePaths.add(CURR_DIR + "experimentsBaseDirectory/AntiSpamFilterProblem/DoubleProblem.NSGAII.rs");
-		
-		List<String> rfFilePaths = new ArrayList<String>();
-		rfFilePaths.add(CURR_DIR + "experimentsBaseDirectory/AntiSpamFilterProblem/DoubleProblem.NSGAII.rf");
-		
-		
-		List<String> decisionVariables = new ArrayList<String>();
-		File file = new File(CURR_DIR + "experimentsBaseDirectory/AntiSpamFilterProblem/rules.cf");
-		
-		try {
-	        Scanner sc = new Scanner(file);
-	        while(sc.hasNextLine()){   
-	        	String variableName = sc.nextLine();
-	            decisionVariables.add(variableName);
-	        } 
-	        sc.close();
-	    }catch (FileNotFoundException e) {
-	    	e.printStackTrace();
-	    }
-		
-		DataVisualization dv = new DataVisualization(algorithmsNames, rsFilePaths, rfFilePaths, decisionVariables, null);
-		JFrame jFrame = new JFrame("Main");
-		jFrame.setSize(1300, 700);
-		jFrame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-		jFrame.add(dv);
-		dv.run();
-		jFrame.setVisible(true);
-	}
-
 }

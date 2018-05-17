@@ -43,6 +43,7 @@ import javax.xml.bind.Unmarshaller;
 import main.optimization.platform.gui.external.DataVisualization;
 import main.optimization.platform.jMetal.OptimizationProcess;
 import main.optimization.platform.jMetal.OptimizationProcess.DATA_TYPES;
+import main.optimization.platform.utils.Builders;
 
 import javax.swing.JCheckBox;
 import javax.swing.JToolBar;
@@ -858,16 +859,25 @@ public class MainLayout {
 		t.start();
 	}
 
-	// TODO Still hardcoded needs to get the information from the interface in the
-	// future
 	private void visualizeDemo(LayoutProblem problem) {
-		List<String> rsFilePaths = new ArrayList<String>();
-		rsFilePaths.add("experimentsBaseDirectory/" + txtProblemName.getText() + "/"
-				+ (String) comboBoxType.getSelectedItem() + "Problem.rs");
 		List<String> rfFilePaths = new ArrayList<String>();
-		rfFilePaths.add("experimentsBaseDirectory/" + txtProblemName.getText() + "/"
-				+ (String) comboBoxType.getSelectedItem() + "Problem.rf");
+		List<String> rsFilePaths = new ArrayList<String>();
+		
+		File folder = new File(Builders.BASE_DIRECTORY + problem.getProblemTitle() + "/referenceFronts");
+		File[] listOfFiles = folder.listFiles();
 
+	    for (int i = 0; i < listOfFiles.length; i++) {
+	    	// listOfFiles[i].getName().split(".").length > 2 is to prevent getting the DoubleProblem.rf/BinaryProblem.rf, etc files
+	    	// and take into account the rf and rs files for each specific algorithm, for example DoubleProblem.MOEAD.rf
+	    	if (listOfFiles[i].isFile() && listOfFiles[i].getName().split("\\.").length > 2) {
+				if(listOfFiles[i].getName().endsWith(".rf")) {
+					rfFilePaths.add(Builders.BASE_DIRECTORY + problem.getProblemTitle() + "/referenceFronts/" + listOfFiles[i].getName());
+				}else if(listOfFiles[i].getName().endsWith(".rs")) {
+					rsFilePaths.add(Builders.BASE_DIRECTORY + problem.getProblemTitle() + "/referenceFronts/" + listOfFiles[i].getName());
+				}
+			}
+	    }
+		
 		List<String> decisionVariables = new ArrayList<String>();
 		for (int i = 0; i < tableVariable.getModel().getRowCount(); i++) {
 			decisionVariables.add((String) tableVariable.getModel().getValueAt(i, 1));
@@ -888,6 +898,8 @@ public class MainLayout {
 			frame.addWindowListener(exitListener);
 			frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 			frame.setVisible(true);
+		}else {
+			// TODO give a error message to the user informing that the visualizations couldn't be built
 		}
 	}
 }
