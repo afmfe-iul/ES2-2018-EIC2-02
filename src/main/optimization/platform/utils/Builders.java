@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.uma.jmetal.algorithm.Algorithm;
+import org.uma.jmetal.algorithm.multiobjective.abyss.ABYSSBuilder;
 import org.uma.jmetal.algorithm.multiobjective.gde3.GDE3Builder;
 import org.uma.jmetal.algorithm.multiobjective.ibea.IBEABuilder;
 import org.uma.jmetal.algorithm.multiobjective.mocell.MOCellBuilder;
@@ -14,23 +15,32 @@ import org.uma.jmetal.algorithm.multiobjective.mochc.MOCHCBuilder;
 import org.uma.jmetal.algorithm.multiobjective.moead.MOEADBuilder;
 import org.uma.jmetal.algorithm.multiobjective.moead.MOEADBuilder.Variant;
 import org.uma.jmetal.algorithm.multiobjective.nsgaii.NSGAIIBuilder;
+import org.uma.jmetal.algorithm.multiobjective.nsgaiii.NSGAIIIBuilder;
+import org.uma.jmetal.algorithm.multiobjective.omopso.OMOPSOBuilder;
 import org.uma.jmetal.algorithm.multiobjective.paes.PAESBuilder;
+import org.uma.jmetal.algorithm.multiobjective.pesa2.PESA2Builder;
 import org.uma.jmetal.algorithm.multiobjective.randomsearch.RandomSearchBuilder;
 import org.uma.jmetal.algorithm.multiobjective.smsemoa.SMSEMOABuilder;
 import org.uma.jmetal.algorithm.multiobjective.spea2.SPEA2Builder;
+import org.uma.jmetal.operator.SelectionOperator;
 import org.uma.jmetal.operator.impl.crossover.HUXCrossover;
 import org.uma.jmetal.operator.impl.crossover.IntegerSBXCrossover;
 import org.uma.jmetal.operator.impl.crossover.SBXCrossover;
 import org.uma.jmetal.operator.impl.crossover.SinglePointCrossover;
 import org.uma.jmetal.operator.impl.mutation.BitFlipMutation;
 import org.uma.jmetal.operator.impl.mutation.IntegerPolynomialMutation;
+import org.uma.jmetal.operator.impl.mutation.NonUniformMutation;
 import org.uma.jmetal.operator.impl.mutation.PolynomialMutation;
+import org.uma.jmetal.operator.impl.mutation.UniformMutation;
+import org.uma.jmetal.operator.impl.selection.BinaryTournamentSelection;
 import org.uma.jmetal.operator.impl.selection.RandomSelection;
 import org.uma.jmetal.operator.impl.selection.RankingAndCrowdingSelection;
 import org.uma.jmetal.qualityindicator.impl.hypervolume.PISAHypervolume;
 import org.uma.jmetal.solution.BinarySolution;
 import org.uma.jmetal.solution.DoubleSolution;
 import org.uma.jmetal.solution.IntegerSolution;
+import org.uma.jmetal.util.archive.impl.CrowdingDistanceArchive;
+import org.uma.jmetal.util.comparator.RankingAndCrowdingDistanceComparator;
 import org.uma.jmetal.util.evaluator.impl.SequentialSolutionListEvaluator;
 import org.uma.jmetal.util.experiment.Experiment;
 import org.uma.jmetal.util.experiment.ExperimentBuilder;
@@ -48,16 +58,17 @@ import main.optimization.platform.jMetal.problems.DoubleProblem;
 import main.optimization.platform.jMetal.problems.IntegerProblem;
 
 public class Builders {
-
+	
 	private static final int INDEPENDENT_RUNS = 5; // TODO
-	private static final int maxEvaluations = 500; // TODO
+	
 	private static String experimentBaseDirectory = "experimentsBaseDirectory";
 
-	public static boolean DoubleBuilder(String problemName, List<String> algorithmsSelected, List<String> decisionVariables,
-			List<Double> lowerBounds, List<Double> upperBounds, List<String> jarPaths) {
-
+	public static boolean DoubleBuilder(String problemName, List<String> algorithmsSelected,
+			List<String> decisionVariables, List<Double> lowerBounds, List<Double> upperBounds, List<String> jarPaths,int maxEvaluations) {
+		
 		List<ExperimentProblem<DoubleSolution>> problemList = new ArrayList<>();
 		DoubleProblem problem;
+		maxEvaluations = maxEvaluations/5;
 		try {
 			problem = new DoubleProblem(decisionVariables, lowerBounds, upperBounds, jarPaths, "DoubleProblem");
 			problemList.add(new ExperimentProblem<>(problem));
@@ -66,14 +77,14 @@ public class Builders {
 		}
 
 		List<ExperimentAlgorithm<DoubleSolution, List<DoubleSolution>>> algorithmList = configureDoubleAlgorithmList(
-				problemList, algorithmsSelected);
+				problemList, algorithmsSelected,maxEvaluations);
 
 		Experiment<DoubleSolution, List<DoubleSolution>> experiment = new ExperimentBuilder<DoubleSolution, List<DoubleSolution>>(
 				"ExperimentsDouble").setAlgorithmList(algorithmList).setProblemList(problemList)
 						.setExperimentBaseDirectory(experimentBaseDirectory + File.separator + problemName)
-						.setOutputParetoFrontFileName("FUN")
-						.setOutputParetoSetFileName("VAR")
-						.setReferenceFrontDirectory(experimentBaseDirectory + File.separator + problemName + "/referenceFronts")
+						.setOutputParetoFrontFileName("FUN").setOutputParetoSetFileName("VAR")
+						.setReferenceFrontDirectory(
+								experimentBaseDirectory + File.separator + problemName + "/referenceFronts")
 						.setIndicatorList(Arrays.asList(new PISAHypervolume<DoubleSolution>()))
 						.setIndependentRuns(INDEPENDENT_RUNS).setNumberOfCores(8).build();
 
@@ -81,7 +92,7 @@ public class Builders {
 		try {
 			new GenerateReferenceParetoSetAndFrontFromDoubleSolutions(experiment).run();
 			new ComputeQualityIndicators<>(experiment).run();
-			new GenerateLatexTablesWithStatistics(experiment).run();
+			// new GenerateLatexTablesWithStatistics(experiment).run();
 			new GenerateBoxplotsWithR<>(experiment).setRows(1).setColumns(1).run();
 			return true;
 		} catch (IOException e) {
@@ -89,12 +100,10 @@ public class Builders {
 		}
 	}
 
-	// TODO finish the other builders
 	private static List<ExperimentAlgorithm<DoubleSolution, List<DoubleSolution>>> configureDoubleAlgorithmList(
-			List<ExperimentProblem<DoubleSolution>> problemList, List<String> algorithmsSelected) {
-
+			List<ExperimentProblem<DoubleSolution>> problemList, List<String> algorithmsSelected,int maxEvaluations) {
 		List<ExperimentAlgorithm<DoubleSolution, List<DoubleSolution>>> algorithms = new ArrayList<>();
-		
+
 		if (algorithmsSelected.contains("MOEAD") || algorithmsSelected.contains("ConstraintMOEAD")
 				|| algorithmsSelected.contains("MOEADDRA") || algorithmsSelected.contains("MOEADSTM")
 				|| algorithmsSelected.contains("MOEADD")) {
@@ -115,19 +124,29 @@ public class Builders {
 		}
 
 		if (algorithmsSelected.contains("ABYSS")) {
-
-		}
-
-		if (algorithmsSelected.contains("DMOPSO")) {
-
-		}
-
-		if (algorithmsSelected.contains("SMPSO")) {
+			CrowdingDistanceArchive<DoubleSolution> archive = new CrowdingDistanceArchive<>(100);
+			for (int i = 0; i < problemList.size(); i++) {
+				Algorithm<List<DoubleSolution>> algorithm1 = new ABYSSBuilder(
+						(DoubleProblem) problemList.get(i).getProblem(), archive).setMaxEvaluations(maxEvaluations)
+								.build();
+				algorithms.add(new ExperimentAlgorithm<>(algorithm1, problemList.get(i).getTag()));
+			}
 
 		}
 
 		if (algorithmsSelected.contains("OMOPSO")) {
-
+			SequentialSolutionListEvaluator<DoubleSolution> evaluator = new SequentialSolutionListEvaluator<>();
+			for (int i = 0; i < problemList.size(); i++) {
+				Algorithm<List<DoubleSolution>> algorithm1 = new OMOPSOBuilder(
+						(DoubleProblem) problemList.get(i).getProblem(), evaluator).setMaxIterations(maxEvaluations)
+								.setSwarmSize(100)
+								.setUniformMutation(new UniformMutation(
+										1.0 / problemList.get(i).getProblem().getNumberOfVariables(), 0.5))
+								.setNonUniformMutation(new NonUniformMutation(
+										1.0 / problemList.get(i).getProblem().getNumberOfVariables(), 0.5, 250))
+								.build();
+				algorithms.add(new ExperimentAlgorithm<>(algorithm1, "OMOPSO", problemList.get(i).getTag()));
+			}
 		}
 
 		if (algorithmsSelected.contains("MOCell")) {
@@ -159,6 +178,18 @@ public class Builders {
 		}
 
 		if (algorithmsSelected.contains("SPEA2")) {
+			for (int i = 0; i < problemList.size(); i++) {
+				  SelectionOperator<List<DoubleSolution>, DoubleSolution> selection = new BinaryTournamentSelection<DoubleSolution>(new RankingAndCrowdingDistanceComparator<DoubleSolution>());
+				Algorithm<List<DoubleSolution>> algorithm2 = new SPEA2Builder<>(
+						problemList.get(i).getProblem(),
+						new SBXCrossover(1.0, 5),
+						new PolynomialMutation(1.0/problemList.get(i).getProblem().getNumberOfVariables(), 10.0))
+						.setSelectionOperator(selection)
+				        .setMaxIterations(maxEvaluations)
+				        .setPopulationSize(100)
+				        .build() ;
+				algorithms.add(new ExperimentAlgorithm<>(algorithm2, "SPEA2", problemList.get(i).getTag()));
+			}
 
 		}
 
@@ -167,54 +198,69 @@ public class Builders {
 				Algorithm<List<DoubleSolution>> algorithm = new NSGAIIBuilder<>(problemList.get(i).getProblem(),
 						new SBXCrossover(1.0, 5),
 						new PolynomialMutation(1.0 / problemList.get(i).getProblem().getNumberOfVariables(), 10.0))
-								.setMaxEvaluations(2500).setPopulationSize(100).build();
-				algorithms.add(new ExperimentAlgorithm<>(algorithm, problemList.get(i).getTag()));
+								.setMaxEvaluations(maxEvaluations).setPopulationSize(100).build();
+				algorithms.add(new ExperimentAlgorithm<>(algorithm,"NSGAII", problemList.get(i).getTag()));
 			}
-		}
-
-		if (algorithmsSelected.contains("RNSGAII")) {
-
 		}
 
 		if (algorithmsSelected.contains("PAES")) {
 			for (int i = 0; i < problemList.size(); i++) {
-				Algorithm<List<DoubleSolution>> algorithm7 = new PAESBuilder<>(problemList.get(i).getProblem())
+				Algorithm<List<DoubleSolution>> algorithm1 = new PAESBuilder<>(problemList.get(i).getProblem())
 						.setMaxEvaluations(maxEvaluations).setArchiveSize(100).setBiSections(2)
 						.setMutationOperator(new PolynomialMutation(
 								1.0 / problemList.get(i).getProblem().getNumberOfVariables(), 10.0))
 						.build();
-				algorithms.add(new ExperimentAlgorithm<>(algorithm7, "PAES", problemList.get(i).getTag()));
+				algorithms.add(new ExperimentAlgorithm<>(algorithm1, "PAES", problemList.get(i).getTag()));
 			}
 		}
 
-		if (algorithmsSelected.contains("WASFGA")) {
-
-		}
 
 		if (algorithmsSelected.contains("PESA2")) {
-
+			for (int i = 0; i < problemList.size(); i++) {
+				Algorithm<List<DoubleSolution>> algorithm1 = new PESA2Builder<>(
+						problemList.get(i).getProblem(),
+						new SBXCrossover(1.0, 5.0),
+						new PolynomialMutation(1.0 / problemList.get(i).getProblem().getNumberOfVariables(), 10.0))  
+						.setMaxEvaluations(maxEvaluations)
+				        .setPopulationSize(100)
+				        .setArchiveSize(100)
+				        .setBisections(5)
+				        .build() ;
+				algorithms.add(new ExperimentAlgorithm<>(algorithm1, "PESA2", problemList.get(i).getTag()));
+			}
 		}
 
 		if (algorithmsSelected.contains("RandomSearch")) {
 			for (int i = 0; i < problemList.size(); i++) {
-				Algorithm<List<DoubleSolution>> algorithm8 = new RandomSearchBuilder<>(problemList.get(i).getProblem())
+				Algorithm<List<DoubleSolution>> algorithm1 = new RandomSearchBuilder<>(problemList.get(i).getProblem())
 						.setMaxEvaluations(maxEvaluations).build();
-				algorithms.add(new ExperimentAlgorithm<>(algorithm8, "RandomSearch", problemList.get(i).getTag()));
+				algorithms.add(new ExperimentAlgorithm<>(algorithm1, "RandomSearch", problemList.get(i).getTag()));
 			}
 		}
 
 		if (algorithmsSelected.contains("NSGAIII")) {
+			SelectionOperator<List<DoubleSolution>, DoubleSolution> selection = new BinaryTournamentSelection<DoubleSolution>();
+			for (int i = 0; i < problemList.size(); i++) {
+				Algorithm<List<DoubleSolution>> algorithm1 = new NSGAIIIBuilder<>(problemList.get(i).getProblem())    
+						.setCrossoverOperator(new SBXCrossover(1.0, 5.0))
+			            .setMutationOperator(new PolynomialMutation(1.0 / problemList.get(i).getProblem().getNumberOfVariables(), 10.0))
+			            .setSelectionOperator(selection)
+			            .setMaxIterations(maxEvaluations)
+			            .build() ;
+				algorithms.add(new ExperimentAlgorithm<>(algorithm1, "NSGAIII", problemList.get(i).getTag()));
+			}
 
 		}
 
 		return algorithms;
 	}
 
-	public static boolean IntegerBuilder(String problemName, List<String> algorithmsSelected, List<String> decisionVariables,
-			List<Integer> lowerBounds, List<Integer> upperBounds, List<String> jarPaths) {
-
+	public static boolean IntegerBuilder(String problemName, List<String> algorithmsSelected,
+			List<String> decisionVariables, List<Integer> lowerBounds, List<Integer> upperBounds,
+			List<String> jarPaths,int maxEvaluations) {
 		List<ExperimentProblem<IntegerSolution>> problemList = new ArrayList<>();
 		IntegerProblem problem;
+		maxEvaluations = maxEvaluations/5;
 		try {
 			problem = new IntegerProblem(decisionVariables, lowerBounds, upperBounds, problemName, jarPaths);
 			problemList.add(new ExperimentProblem<>(problem));
@@ -223,15 +269,14 @@ public class Builders {
 		}
 
 		List<ExperimentAlgorithm<IntegerSolution, List<IntegerSolution>>> algorithmList = configureIntegerAlgorithmList(
-				problemList, algorithmsSelected);
+				problemList, algorithmsSelected,maxEvaluations);
 
-		// TODO change the paths
 		Experiment<IntegerSolution, List<IntegerSolution>> experiment = new ExperimentBuilder<IntegerSolution, List<IntegerSolution>>(
 				"ExperimentsInteger").setAlgorithmList(algorithmList).setProblemList(problemList)
 						.setExperimentBaseDirectory(experimentBaseDirectory + File.separator + problemName)
-						.setOutputParetoFrontFileName("FUN")
-						.setOutputParetoSetFileName("VAR")
-						.setReferenceFrontDirectory(experimentBaseDirectory + File.separator + problemName + "/referenceFronts")
+						.setOutputParetoFrontFileName("FUN").setOutputParetoSetFileName("VAR")
+						.setReferenceFrontDirectory(
+								experimentBaseDirectory + File.separator + problemName + "/referenceFronts")
 						.setIndicatorList(Arrays.asList(new PISAHypervolume<IntegerSolution>()))
 						.setIndependentRuns(INDEPENDENT_RUNS).setNumberOfCores(8).build();
 
@@ -248,9 +293,8 @@ public class Builders {
 
 	}
 
-	// TODO finish the other builders
 	private static List<ExperimentAlgorithm<IntegerSolution, List<IntegerSolution>>> configureIntegerAlgorithmList(
-			List<ExperimentProblem<IntegerSolution>> problemList, List<String> algorithmsSelected) {
+			List<ExperimentProblem<IntegerSolution>> problemList, List<String> algorithmsSelected, int maxEvaluations) {
 
 		List<ExperimentAlgorithm<IntegerSolution, List<IntegerSolution>>> algorithms = new ArrayList<>();
 
@@ -264,10 +308,6 @@ public class Builders {
 			}
 		}
 
-		if (algorithmsSelected.contains("IBEA")) {
-
-		}
-
 		if (algorithmsSelected.contains("SMSEMOA")) {
 			for (int i = 0; i < problemList.size(); i++) {
 				Algorithm<List<IntegerSolution>> algorithm2 = new SMSEMOABuilder<>(problemList.get(i).getProblem(),
@@ -279,6 +319,18 @@ public class Builders {
 		}
 
 		if (algorithmsSelected.contains("SPEA2")) {
+			for (int i = 0; i < problemList.size(); i++) {
+				  SelectionOperator<List<IntegerSolution>, IntegerSolution> selection = new BinaryTournamentSelection<IntegerSolution>(new RankingAndCrowdingDistanceComparator<IntegerSolution>()); 
+				Algorithm<List<IntegerSolution>> algorithm2 = new SPEA2Builder<>(
+						(IntegerProblem)problemList.get(i).getProblem(), 
+						new IntegerSBXCrossover(1.0, 5.0), 
+						new IntegerPolynomialMutation(1.0/problemList.get(i).getProblem().getNumberOfVariables(), 10.0))	
+						.setSelectionOperator(selection)
+				        .setMaxIterations(maxEvaluations)
+				        .setPopulationSize(100)
+				        .build() ;
+				algorithms.add(new ExperimentAlgorithm<>(algorithm2, "SPEA2", problemList.get(i).getTag()));
+			}
 
 		}
 
@@ -292,10 +344,6 @@ public class Builders {
 			}
 		}
 
-		if (algorithmsSelected.contains("RNSGAII")) {
-
-		}
-
 		if (algorithmsSelected.contains("PAES")) {
 			for (int i = 0; i < problemList.size(); i++) {
 				Algorithm<List<IntegerSolution>> algorithm4 = new PAESBuilder<>(problemList.get(i).getProblem())
@@ -307,11 +355,20 @@ public class Builders {
 			}
 		}
 
-		if (algorithmsSelected.contains("WASFGA")) {
-
-		}
-
 		if (algorithmsSelected.contains("PESA2")) {
+			for (int i = 0; i < problemList.size(); i++) {
+				Algorithm<List<IntegerSolution>> algorithm1 = new PESA2Builder<>(
+						problemList.get(i).getProblem(),
+						new IntegerSBXCrossover(1.0, 5.0),
+						new IntegerPolynomialMutation(1.0 / problemList.get(i).getProblem().getNumberOfVariables(), 10.0))  
+						.setMaxEvaluations(maxEvaluations)
+				        .setPopulationSize(100)
+				        .setArchiveSize(100)
+				        .setBisections(5)
+				        .build() ;
+				algorithms.add(new ExperimentAlgorithm<>(algorithm1, "PESA2", problemList.get(i).getTag()));
+			}
+
 
 		}
 
@@ -324,16 +381,26 @@ public class Builders {
 		}
 
 		if (algorithmsSelected.contains("NSGAIII")) {
-
+			SelectionOperator<List<IntegerSolution>, IntegerSolution> selection = new BinaryTournamentSelection<IntegerSolution>();
+			for (int i = 0; i < problemList.size(); i++) {
+				Algorithm<List<IntegerSolution>> algorithm1 = new NSGAIIIBuilder<>(problemList.get(i).getProblem())    
+						.setCrossoverOperator(new IntegerSBXCrossover(1.0, 5.0))
+			            .setMutationOperator(new IntegerPolynomialMutation(1.0 / problemList.get(i).getProblem().getNumberOfVariables(), 10.0))
+			            .setSelectionOperator(selection)
+			            .setMaxIterations(maxEvaluations)
+			            .build() ;
+				algorithms.add(new ExperimentAlgorithm<>(algorithm1, "NSGAIII", problemList.get(i).getTag()));
+			}
 		}
 
 		return algorithms;
 	}
 
-	public static boolean BinaryBuilder(String problemName, List<String> algorithmsSelected, List<String> decisionVariables, List<String> jarPaths,
-			int bitsPerVariable) {
+	public static boolean BinaryBuilder(String problemName, List<String> algorithmsSelected,
+			List<String> decisionVariables, List<String> jarPaths, int bitsPerVariable,int maxEvaluations) {
 		List<ExperimentProblem<BinarySolution>> problemList = new ArrayList<>();
 		BinaryProblem problem;
+		maxEvaluations = maxEvaluations/5;
 		try {
 			problem = new BinaryProblem(decisionVariables, jarPaths, problemName, bitsPerVariable);
 			problemList.add(new ExperimentProblem<>(problem));
@@ -342,7 +409,7 @@ public class Builders {
 		}
 
 		List<ExperimentAlgorithm<BinarySolution, List<BinarySolution>>> algorithmList = configureBinaryAlgorithmList(
-				problemList, algorithmsSelected);
+				problemList, algorithmsSelected,maxEvaluations);
 
 		// TODO change the paths
 		Experiment<BinarySolution, List<BinarySolution>> experiment = new ExperimentBuilder<BinarySolution, List<BinarySolution>>(
@@ -367,7 +434,7 @@ public class Builders {
 
 	// TODO finish the other builders
 	private static List<ExperimentAlgorithm<BinarySolution, List<BinarySolution>>> configureBinaryAlgorithmList(
-			List<ExperimentProblem<BinarySolution>> problemList, List<String> algorithmsSelected) {
+			List<ExperimentProblem<BinarySolution>> problemList, List<String> algorithmsSelected, int maxEvaluations) {
 
 		List<ExperimentAlgorithm<BinarySolution, List<BinarySolution>>> algorithms = new ArrayList<>();
 
@@ -412,9 +479,8 @@ public class Builders {
 			for (int i = 0; i < problemList.size(); i++) {
 				Algorithm<List<BinarySolution>> algorithm7 = new SPEA2Builder<>(problemList.get(i).getProblem(),
 						new SinglePointCrossover(1.0),
-						new BitFlipMutation(
-								1.0 / ((BinaryProblem) problemList.get(i).getProblem()).getNumberOfBits(0)))
-										.setMaxIterations(maxEvaluations).build();
+						new BitFlipMutation(1.0 / ((BinaryProblem) problemList.get(i).getProblem()).getNumberOfBits(0)))
+								.setMaxIterations(maxEvaluations).build();
 				algorithms.add(new ExperimentAlgorithm<>(algorithm7, "SPEA2", problemList.get(i).getTag()));
 			}
 		}

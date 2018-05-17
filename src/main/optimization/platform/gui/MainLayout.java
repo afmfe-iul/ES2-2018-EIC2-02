@@ -177,6 +177,10 @@ public class MainLayout {
 			public void actionPerformed(ActionEvent e) {
 				readProblemFromInterface();
 				runDemo();
+				//opens data agreement
+				LayoutDataAgreement.initialize();
+				//opens FAQ page
+				LayoutFAQPage.initialize();;
 			}
 
 		});
@@ -686,6 +690,7 @@ public class MainLayout {
 		String problemType = comboBoxType.getSelectedItem().toString();
 		currentProblem = new LayoutProblem();
 		if (txtMaximumTime.getText().isEmpty()) {
+			//TODO verificar se este valor creio que não seja o correto
 			currentProblem.setMaxWaitingTime(0);
 		} else {
 			currentProblem.setMaxWaitingTime(Integer.parseInt(txtMaximumTime.getText()));
