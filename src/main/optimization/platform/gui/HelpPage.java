@@ -1,9 +1,15 @@
 package main.optimization.platform.gui;
 
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JTextField;
+
+import main.optimization.platform.utils.EmailSender;
+
 import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextArea;
@@ -18,6 +24,7 @@ public class HelpPage extends JDialog {
 	private JTextField textField;
 	private JPasswordField passwordField;
 	private JTextField textField_1;
+	private JTextArea textArea;
 
 	/**
 	 * Initialize the contents of the frame.
@@ -56,7 +63,7 @@ public class HelpPage extends JDialog {
 		lblSubject.setBounds(14, 76, 62, 14);
 		getContentPane().add(lblSubject);
 		
-		JTextArea textArea = new JTextArea();
+		textArea = new JTextArea();
 		textArea.setBounds(70, 104, 331, 102);
 		getContentPane().add(textArea);
 		
@@ -66,6 +73,18 @@ public class HelpPage extends JDialog {
 		
 		JButton btnSend = new JButton("Send");
 		btnSend.setBounds(181, 217, 89, 23);
+		btnSend.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//TODO substituir pela mail do ADMIN
+				ArrayList<String> to = new ArrayList<>();
+				to.add("tiago.mrf2@gmail.com");
+				EmailSender sender =  new EmailSender(textField.getText(), passwordField.getText(),to, textField_1.getText(), textArea.getText());
+				sender.sendFromGMail();
+			}
+		});
+		
 		getContentPane().add(btnSend);
 		
 		setLocationRelativeTo(frame);
