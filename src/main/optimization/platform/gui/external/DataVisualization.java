@@ -28,6 +28,7 @@ public class DataVisualization  extends JFXPanel{
 	private boolean dataFileBuiltSuccessfuly = false;
 	private static int VERSION = 0;
 	
+	// TODO revise how the auxiliar files are being built and take into account the new results folder format
 	public DataVisualization(List<String> algorithmsNames, List<String> rsFilePaths, 
 			List<String> rfFilePaths, List<String> decisionVariables, Integer knownSolution) {
 		
@@ -223,5 +224,4 @@ public class DataVisualization  extends JFXPanel{
 		dv.run();
 		jFrame.setVisible(true);
 	}
-
 }

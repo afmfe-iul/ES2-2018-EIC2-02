@@ -84,12 +84,12 @@ public class Builders {
 		List<ExperimentAlgorithm<DoubleSolution, List<DoubleSolution>>> algorithmList = configureDoubleAlgorithmList(
 				problemList, algorithmsSelected,maxEvaluations);
 
+		removeDirectoriesRecursively(new File(BASE_DIRECTORY + problemName));
 		Experiment<DoubleSolution, List<DoubleSolution>> experiment = new ExperimentBuilder<DoubleSolution, List<DoubleSolution>>(
 				"ExperimentsDouble").setAlgorithmList(algorithmList).setProblemList(problemList)
 						.setExperimentBaseDirectory(BASE_DIRECTORY + problemName)
 						.setOutputParetoFrontFileName("FUN").setOutputParetoSetFileName("VAR")
-						.setReferenceFrontDirectory(
-								BASE_DIRECTORY + problemName + "/referenceFronts")
+						.setReferenceFrontDirectory(BASE_DIRECTORY + problemName + "/referenceFronts")
 						.setIndicatorList(Arrays.asList(new PISAHypervolume<DoubleSolution>()))
 						.setIndependentRuns(INDEPENDENT_RUNS).setNumberOfCores(8).build();
 
@@ -97,7 +97,6 @@ public class Builders {
 		try {
 			new GenerateReferenceParetoSetAndFrontFromDoubleSolutions(experiment).run();
 			new ComputeQualityIndicators<>(experiment).run();
-			// new GenerateLatexTablesWithStatistics(experiment).run();
 			new GenerateBoxplotsWithR<>(experiment).setRows(1).setColumns(1).run();
 			return true;
 		} catch (IOException e) {
@@ -276,12 +275,12 @@ public class Builders {
 		List<ExperimentAlgorithm<IntegerSolution, List<IntegerSolution>>> algorithmList = configureIntegerAlgorithmList(
 				problemList, algorithmsSelected,maxEvaluations);
 
+		removeDirectoriesRecursively(new File(BASE_DIRECTORY + problemName));
 		Experiment<IntegerSolution, List<IntegerSolution>> experiment = new ExperimentBuilder<IntegerSolution, List<IntegerSolution>>(
 				"ExperimentsInteger").setAlgorithmList(algorithmList).setProblemList(problemList)
 						.setExperimentBaseDirectory(BASE_DIRECTORY + problemName)
 						.setOutputParetoFrontFileName("FUN").setOutputParetoSetFileName("VAR")
-						.setReferenceFrontDirectory(
-								BASE_DIRECTORY + problemName + "/referenceFronts")
+						.setReferenceFrontDirectory(BASE_DIRECTORY + problemName + "/referenceFronts")
 						.setIndicatorList(Arrays.asList(new PISAHypervolume<IntegerSolution>()))
 						.setIndependentRuns(INDEPENDENT_RUNS).setNumberOfCores(8).build();
 
@@ -416,6 +415,7 @@ public class Builders {
 		List<ExperimentAlgorithm<BinarySolution, List<BinarySolution>>> algorithmList = configureBinaryAlgorithmList(
 				problemList, algorithmsSelected,maxEvaluations);
 
+		removeDirectoriesRecursively(new File(BASE_DIRECTORY + problemName));
 		Experiment<BinarySolution, List<BinarySolution>> experiment = new ExperimentBuilder<BinarySolution, List<BinarySolution>>(
 				"ExperimentsBinary").setAlgorithmList(algorithmList).setProblemList(problemList)
 						.setExperimentBaseDirectory(BASE_DIRECTORY + problemName).setOutputParetoFrontFileName("FUN")
@@ -567,5 +567,15 @@ public class Builders {
 		}
 
 		return algorithms;
+	}
+	
+	private static boolean removeDirectoriesRecursively(File directory) {
+		File[] allContents = directory.listFiles();
+	    if (allContents != null) {
+	        for (File f : allContents) {
+	        	removeDirectoriesRecursively(f);
+	        }
+	    }
+	    return directory.delete();
 	}
 }
