@@ -26,6 +26,7 @@ import org.uma.jmetal.algorithm.multiobjective.smsemoa.SMSEMOABuilder;
 import org.uma.jmetal.algorithm.multiobjective.spea2.SPEA2Builder;
 import org.uma.jmetal.algorithm.multiobjective.wasfga.WASFGA;
 import org.uma.jmetal.operator.CrossoverOperator;
+import org.uma.jmetal.operator.MutationOperator;
 import org.uma.jmetal.operator.SelectionOperator;
 import org.uma.jmetal.operator.impl.crossover.HUXCrossover;
 import org.uma.jmetal.operator.impl.crossover.IntegerSBXCrossover;
@@ -209,12 +210,14 @@ public class Builders {
 
 		if (algorithmsSelected.contains("PAES")) {
 			for (int i = 0; i < problemList.size(); i++) {
-				Algorithm<List<DoubleSolution>> algorithm1 = new PAESBuilder<>(problemList.get(i).getProblem())
-						.setMaxEvaluations(maxEvaluations).setArchiveSize(100).setBiSections(2)
-						.setMutationOperator(new PolynomialMutation(
-								1.0 / problemList.get(i).getProblem().getNumberOfVariables(), 10.0))
-						.build();
-				algorithms.add(new ExperimentAlgorithm<>(algorithm1, "PAES", problemList.get(i).getTag()));
+				 MutationOperator<DoubleSolution> mutation = new PolynomialMutation(1.0 / problemList.get(i).getProblem().getNumberOfVariables(), 20.0) ;
+				Algorithm<List<DoubleSolution>>   algorithm = new PAESBuilder<DoubleSolution>(problemList.get(i).getProblem())
+			            .setMutationOperator(mutation)
+			            .setMaxEvaluations(25000)
+			            .setArchiveSize(100)
+			            .setBiSections(5)
+			            .build() ;
+				algorithms.add(new ExperimentAlgorithm<>(algorithm, "PAES", problemList.get(i).getTag()));
 			}
 		}
 
