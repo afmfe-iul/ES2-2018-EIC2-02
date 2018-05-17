@@ -643,7 +643,6 @@ public class MainLayout {
 			jaxbContext = JAXBContext.newInstance(LayoutProblem.class);
 			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 			currentProblem = (LayoutProblem) jaxbUnmarshaller.unmarshal(file);
-			// System.out.println(problem);
 			comboBoxType.setSelectedItem(currentProblem.getType());
 			txtEmail.setText(currentProblem.getEmail());
 			txtNumberVariables.setText(Integer.toString(currentProblem.getNumberVariables()));
@@ -779,7 +778,7 @@ public class MainLayout {
 				listVariable.add(m);
 			}
 		}
-		if (problemType == "Boolean") {
+		if (problemType == "Binary") {
 			for (int i = 0; i < tableVariable.getRowCount(); i++) {
 				TableRowVariable m = new TableRowVariable();
 				m.setName((String) tableVariable.getValueAt(i, 0));
