@@ -874,7 +874,7 @@ public class MainLayout {
 		}
 
 		DataVisualization dv = new DataVisualization(problem.getListAlgorithms(), rsFilePaths, rfFilePaths,
-				decisionVariables, 6);
+				decisionVariables, problem.getSolutionKnown());
 
 		if (dv.run()) {
 			JFrame frame = new JFrame("Graphical Visualization");

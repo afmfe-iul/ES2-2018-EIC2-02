@@ -61,7 +61,7 @@ public class Builders {
 	
 	private static final int INDEPENDENT_RUNS = 5; // TODO
 	
-	private static String experimentBaseDirectory = "experimentsBaseDirectory";
+	public static final String BASE_DIRECTORY = "experimentsBaseDirectory" + File.separator;
 
 	public static boolean DoubleBuilder(String problemName, List<String> algorithmsSelected,
 			List<String> decisionVariables, List<Double> lowerBounds, List<Double> upperBounds, List<String> jarPaths,int maxEvaluations) {
@@ -81,10 +81,10 @@ public class Builders {
 
 		Experiment<DoubleSolution, List<DoubleSolution>> experiment = new ExperimentBuilder<DoubleSolution, List<DoubleSolution>>(
 				"ExperimentsDouble").setAlgorithmList(algorithmList).setProblemList(problemList)
-						.setExperimentBaseDirectory(experimentBaseDirectory + File.separator + problemName)
+						.setExperimentBaseDirectory(BASE_DIRECTORY + problemName)
 						.setOutputParetoFrontFileName("FUN").setOutputParetoSetFileName("VAR")
 						.setReferenceFrontDirectory(
-								experimentBaseDirectory + File.separator + problemName + "/referenceFronts")
+								BASE_DIRECTORY + problemName + "/referenceFronts")
 						.setIndicatorList(Arrays.asList(new PISAHypervolume<DoubleSolution>()))
 						.setIndependentRuns(INDEPENDENT_RUNS).setNumberOfCores(8).build();
 
@@ -273,10 +273,10 @@ public class Builders {
 
 		Experiment<IntegerSolution, List<IntegerSolution>> experiment = new ExperimentBuilder<IntegerSolution, List<IntegerSolution>>(
 				"ExperimentsInteger").setAlgorithmList(algorithmList).setProblemList(problemList)
-						.setExperimentBaseDirectory(experimentBaseDirectory + File.separator + problemName)
+						.setExperimentBaseDirectory(BASE_DIRECTORY + problemName)
 						.setOutputParetoFrontFileName("FUN").setOutputParetoSetFileName("VAR")
 						.setReferenceFrontDirectory(
-								experimentBaseDirectory + File.separator + problemName + "/referenceFronts")
+								BASE_DIRECTORY + problemName + "/referenceFronts")
 						.setIndicatorList(Arrays.asList(new PISAHypervolume<IntegerSolution>()))
 						.setIndependentRuns(INDEPENDENT_RUNS).setNumberOfCores(8).build();
 
@@ -411,12 +411,11 @@ public class Builders {
 		List<ExperimentAlgorithm<BinarySolution, List<BinarySolution>>> algorithmList = configureBinaryAlgorithmList(
 				problemList, algorithmsSelected,maxEvaluations);
 
-		// TODO change the paths
 		Experiment<BinarySolution, List<BinarySolution>> experiment = new ExperimentBuilder<BinarySolution, List<BinarySolution>>(
 				"ExperimentsBinary").setAlgorithmList(algorithmList).setProblemList(problemList)
-						.setExperimentBaseDirectory(experimentBaseDirectory).setOutputParetoFrontFileName("FUN")
+						.setExperimentBaseDirectory(BASE_DIRECTORY + problemName).setOutputParetoFrontFileName("FUN")
 						.setOutputParetoSetFileName("VAR")
-						.setReferenceFrontDirectory(experimentBaseDirectory + "/referenceFronts")
+						.setReferenceFrontDirectory(BASE_DIRECTORY + problemName + "/referenceFronts")
 						.setIndicatorList(Arrays.asList(new PISAHypervolume<BinarySolution>()))
 						.setIndependentRuns(INDEPENDENT_RUNS).setNumberOfCores(8).build();
 
