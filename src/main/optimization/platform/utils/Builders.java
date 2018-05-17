@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.commons.math3.genetics.BinaryMutation;
 import org.uma.jmetal.algorithm.Algorithm;
 import org.uma.jmetal.algorithm.multiobjective.abyss.ABYSSBuilder;
 import org.uma.jmetal.algorithm.multiobjective.gde3.GDE3Builder;
@@ -20,8 +21,11 @@ import org.uma.jmetal.algorithm.multiobjective.omopso.OMOPSOBuilder;
 import org.uma.jmetal.algorithm.multiobjective.paes.PAESBuilder;
 import org.uma.jmetal.algorithm.multiobjective.pesa2.PESA2Builder;
 import org.uma.jmetal.algorithm.multiobjective.randomsearch.RandomSearchBuilder;
+import org.uma.jmetal.algorithm.multiobjective.rnsgaii.RNSGAIIBuilder;
 import org.uma.jmetal.algorithm.multiobjective.smsemoa.SMSEMOABuilder;
 import org.uma.jmetal.algorithm.multiobjective.spea2.SPEA2Builder;
+import org.uma.jmetal.algorithm.multiobjective.wasfga.WASFGA;
+import org.uma.jmetal.operator.CrossoverOperator;
 import org.uma.jmetal.operator.SelectionOperator;
 import org.uma.jmetal.operator.impl.crossover.HUXCrossover;
 import org.uma.jmetal.operator.impl.crossover.IntegerSBXCrossover;
@@ -35,6 +39,7 @@ import org.uma.jmetal.operator.impl.mutation.UniformMutation;
 import org.uma.jmetal.operator.impl.selection.BinaryTournamentSelection;
 import org.uma.jmetal.operator.impl.selection.RandomSelection;
 import org.uma.jmetal.operator.impl.selection.RankingAndCrowdingSelection;
+import org.uma.jmetal.problem.Problem;
 import org.uma.jmetal.qualityindicator.impl.hypervolume.PISAHypervolume;
 import org.uma.jmetal.solution.BinarySolution;
 import org.uma.jmetal.solution.DoubleSolution;
@@ -486,11 +491,25 @@ public class Builders {
 		}
 
 		if (algorithmsSelected.contains("NSGAII")) {
+			
+			for (int i = 0; i < problemList.size(); i++) {
+				 double crossoverProbability = 0.9 ;
+				 SinglePointCrossover  crossover = new SinglePointCrossover(crossoverProbability) ;
 
-		}
+				 double mutationProbability = 1.0 /  ((BinarySolution) problemList.get(i)).getNumberOfBits(0) ;
+				 BitFlipMutation mutation = new BitFlipMutation(mutationProbability) ;
 
-		if (algorithmsSelected.contains("RNSGAII")) {
+				 BinaryTournamentSelection<BinarySolution> selection = new BinaryTournamentSelection<BinarySolution>() ;
 
+				 Algorithm<List<BinarySolution>> algorithm = new NSGAIIBuilder<BinarySolution>(problemList.get(i).getProblem(), crossover, mutation)
+				            .setSelectionOperator(selection)
+				            .setMaxEvaluations(25000)
+				            .setPopulationSize(100)
+				            .build() ;
+				    
+				 algorithms.add(new ExperimentAlgorithm<>(algorithm, "NSGAII", problemList.get(i).getTag()));
+
+			}
 		}
 
 		if (algorithmsSelected.contains("PAES")) {
@@ -505,11 +524,22 @@ public class Builders {
 		}
 
 		if (algorithmsSelected.contains("WASFGA")) {
+			for (int i = 0; i < problemList.size(); i++) { 
+			List<Double> referencePoint = new ArrayList<>();
+			    referencePoint.add(10.0);
+			    referencePoint.add(4.0);
 
-		}
+			   double crossoverProbability = 0.9 ;
+			   SinglePointCrossover crossover = new SinglePointCrossover(crossoverProbability) ;
 
-		if (algorithmsSelected.contains("PESA2")) {
+			    double mutationProbability = 1.0 / ((BinaryProblem) problemList.get(i).getProblem()).getNumberOfBits(0) ;
+			    BitFlipMutation mutation = new BitFlipMutation(mutationProbability) ;
 
+			    BinaryTournamentSelection<BinarySolution> selection = new BinaryTournamentSelection<BinarySolution>() ;
+
+			    Algorithm<List<BinarySolution>>  algorithm = new WASFGA<BinarySolution>(problemList.get(i).getProblem(), 100, 250, crossover, mutation, selection,new SequentialSolutionListEvaluator<BinarySolution>(),mutationProbability, referencePoint) ;
+			    algorithms.add(new ExperimentAlgorithm<>(algorithm, "WASFGA", problemList.get(i).getTag()));
+			}
 		}
 
 		if (algorithmsSelected.contains("RandomSearch")) {
@@ -521,7 +551,20 @@ public class Builders {
 		}
 
 		if (algorithmsSelected.contains("NSGAIII")) {
+			for (int i = 0; i < problemList.size(); i++) {
+		    double crossoverProbability = 0.9 ;
+		   CrossoverOperator<BinarySolution> crossover = new SinglePointCrossover(crossoverProbability) ;
 
+		    BinaryTournamentSelection<BinarySolution> selection = new BinaryTournamentSelection<BinarySolution>();
+		    
+		    Algorithm<List<BinarySolution>> algorithm = new NSGAIIIBuilder<BinarySolution>(problemList.get(i).getProblem())
+		            .setCrossoverOperator(crossover)
+		            .setSelectionOperator(selection)
+		            .setMaxIterations(300)
+		            .build() ;
+		    
+		    algorithms.add(new ExperimentAlgorithm<>(algorithm, "NSGAIII", problemList.get(i).getTag()));
+			}
 		}
 
 		return algorithms;
