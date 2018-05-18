@@ -5,18 +5,18 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 public class TableRowVariable {
-	private String rule;
+	private String name;
 	private String minimo;
 	private String maximo;
 	private String forbidden;
 
-	public String getRule() {
-		return rule;
+	public String getName() {
+		return name;
 	}
 
 	@XmlElement
-	public void setRule(String rule) {
-		this.rule = rule;
+	public void setName(String name) {
+		this.name = name;
 	}
 	
 	public String getMinimo() {

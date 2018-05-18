@@ -2,5 +2,6 @@
 <adminXmlObject>
     <email>tmrfo1@iscte-iul.pt</email>
     <pathInput>testJars/</pathInput>
-    <pathOutput>experimentsBaseDirectory/</pathOutput>
+    <pathOutput>es2.2018.eic2.02@gmail.com/</pathOutput>
+     <password>123PASSWORD/</password>
 </adminXmlObject>

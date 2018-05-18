@@ -45,7 +45,6 @@ import main.optimization.platform.jMetal.OptimizationProcess.DATA_TYPES;
 import main.optimization.platform.utils.Builders;
 import javax.swing.JCheckBox;
 import javax.swing.JToolBar;
-import javax.swing.JMenuBar;
 
 public class MainLayout {
 	public JFrame frame;
@@ -81,7 +80,6 @@ public class MainLayout {
 	@SuppressWarnings("unused")
 	private String pathOutput;
 	private JTextField txtSolutionKnown;
-	private JMenuBar menuBar;
 	private Container mainPanel;
 
 	public static void main(String[] args) {
@@ -182,7 +180,7 @@ public class MainLayout {
 		btnRunDemo.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// readProblemFromInterface();
+				readProblemFromInterface();
 				runDemo();
 			}
 		});
@@ -486,12 +484,12 @@ public class MainLayout {
 
 	public void loadData() {
 		txtProblemName.setText("AntiSpamFilterProblem");
-		txtVariablesName.setText("Anti Spam Rules");
+		txtVariablesName.setText("Anti Spam Names");
 		comboBoxType.setSelectedItem("Double");
 		txtEmail.setText("demo@email.com");
-		File file = new File("experimentsBaseDirectory/TestProblem/rules.cf");
+		File file = new File("experimentsBaseDirectory/TestProblem/Names.cf");
 		DefaultTableModel modelManual = new DefaultTableModel(new Object[][] {},
-				new String[] { "Rule", "Minimum", "Maximum", "Forbidden" }) {
+				new String[] { "Name", "Minimum", "Maximum", "Forbidden" }) {
 			private static final long serialVersionUID = 1L;
 			@SuppressWarnings("rawtypes")
 			Class[] columnTypes = new Class[] { String.class, Double.class, Double.class, Double.class };
@@ -605,7 +603,7 @@ public class MainLayout {
 		DefaultTableModel modelVariable = null;
 		if (comboBoxType.getSelectedItem().toString() == "Integer") {
 			modelVariable = new DefaultTableModel(new Object[][] {},
-					new String[] { "Rule", "Minimum", "Maximum", "Forbidden" }) {
+					new String[] { "Name", "Minimum", "Maximum", "Forbidden" }) {
 
 				Class[] columnTypes = new Class[] { String.class, Integer.class, Integer.class, Integer.class };
 
@@ -616,7 +614,7 @@ public class MainLayout {
 		}
 		if (comboBoxType.getSelectedItem().toString() == "Double") {
 			modelVariable = new DefaultTableModel(new Object[][] {},
-					new String[] { "Rule", "Minimum", "Maximum", "Forbidden" }) {
+					new String[] { "Name", "Minimum", "Maximum", "Forbidden" }) {
 
 				Class[] columnTypes = new Class[] { String.class, Double.class, Double.class, Double.class };
 
@@ -626,7 +624,7 @@ public class MainLayout {
 			};
 		}
 		if (comboBoxType.getSelectedItem().toString() == "Binary") {
-			modelVariable = new DefaultTableModel(new Object[][] {}, new String[] { "Rule", "Forbidden" }) {
+			modelVariable = new DefaultTableModel(new Object[][] {}, new String[] { "Name", "Forbidden" }) {
 
 				Class[] columnTypes = new Class[] { String.class, Integer.class };
 
@@ -685,7 +683,7 @@ public class MainLayout {
 			TableModel modelCriteria = tableCriteria.getModel();
 			if (comboBoxType.getSelectedItem() == "Double")
 				for (int i = 0; i < tableVariable.getRowCount(); i++) {
-					modelVariable.setValueAt(listVariable.get(i).getRule(), i, 0);
+					modelVariable.setValueAt(listVariable.get(i).getName(), i, 0);
 					modelVariable.setValueAt(Double.parseDouble(listVariable.get(i).getMinimo()), i, 1);
 					modelVariable.setValueAt(Double.parseDouble(listVariable.get(i).getMaximo()), i, 2);
 					if (listVariable.get(i).getForbidden() != null)
@@ -693,7 +691,7 @@ public class MainLayout {
 				}
 			if (comboBoxType.getSelectedItem() == "Integer")
 				for (int i = 0; i < tableVariable.getRowCount(); i++) {
-					modelVariable.setValueAt(listVariable.get(i).getRule(), i, 0);
+					modelVariable.setValueAt(listVariable.get(i).getName(), i, 0);
 					modelVariable.setValueAt(Integer.parseInt(listVariable.get(i).getMinimo()), i, 1);
 					modelVariable.setValueAt(Integer.parseInt(listVariable.get(i).getMaximo()), i, 2);
 					if (listVariable.get(i).getForbidden() != null)
@@ -701,7 +699,7 @@ public class MainLayout {
 				}
 			if (comboBoxType.getSelectedItem() == "Binary")
 				for (int i = 0; i < tableVariable.getRowCount(); i++) {
-					modelVariable.setValueAt(listVariable.get(i).getRule(), i, 0);
+					modelVariable.setValueAt(listVariable.get(i).getName(), i, 0);
 					if (listVariable.get(i).getForbidden() != null)
 						modelVariable.setValueAt(Integer.parseInt(listVariable.get(i).getForbidden()), i, 1);
 				}
@@ -757,7 +755,7 @@ public class MainLayout {
 		if (problemType == "Integer") {
 			for (int i = 0; i < tableVariable.getRowCount(); i++) {
 				TableRowVariable m = new TableRowVariable();
-				m.setRule((String) tableVariable.getValueAt(i, 0));
+				m.setName((String) tableVariable.getValueAt(i, 0));
 				m.setMinimo(Integer.toString((int) tableVariable.getValueAt(i, 1)));
 				m.setMaximo(Integer.toString((int) tableVariable.getValueAt(i, 2)));
 				m.setForbidden(Integer.toString((int) tableVariable.getValueAt(i, 3)));
@@ -767,7 +765,7 @@ public class MainLayout {
 		if (problemType == "Double") {
 			for (int i = 0; i < tableVariable.getRowCount(); i++) {
 				TableRowVariable m = new TableRowVariable();
-				m.setRule((String) tableVariable.getValueAt(i, 0));
+				m.setName((String) tableVariable.getValueAt(i, 0));
 				m.setMinimo(Double.toString((Double) tableVariable.getValueAt(i, 1)));
 				m.setMaximo(Double.toString((Double) tableVariable.getValueAt(i, 2)));
 				if (tableVariable.getValueAt(i, 3) != null) {
@@ -781,7 +779,7 @@ public class MainLayout {
 		if (problemType == "Binary") {
 			for (int i = 0; i < tableVariable.getRowCount(); i++) {
 				TableRowVariable m = new TableRowVariable();
-				m.setRule((String) tableVariable.getValueAt(i, 0));
+				m.setName((String) tableVariable.getValueAt(i, 0));
 
 				if (tableVariable.getValueAt(i, 1) != null) {
 					m.setForbidden(Integer.toString((int) tableVariable.getValueAt(i, 1)));

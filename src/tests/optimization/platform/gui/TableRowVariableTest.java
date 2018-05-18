@@ -11,8 +11,8 @@ public class TableRowVariableTest {
 	public void testGetterAndSetterForRule(){
 		TableRowVariable instance = new TableRowVariable();
 		String rule = "test";
-		instance.setRule(rule);
-		assertEquals("The getter for the field 'rule' is not returning the same value that was setted.", instance.getRule(), rule);
+		instance.setName(rule);
+		assertEquals("The getter for the field 'rule' is not returning the same value that was setted.", instance.getName(), rule);
 	}
 	
 	@Test

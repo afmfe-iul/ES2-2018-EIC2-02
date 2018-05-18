@@ -8,9 +8,16 @@ public class AdminXmlObject {
 	String email;
 	String pathInput;
 	String pathOutput;
-	
+	String password;
 	public String getEmail() {
 		return email;
+	}
+	@XmlElement
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	public String getPassword() {
+		return password;
 	}
 	@XmlElement
 	public void setEmail(String email) {
