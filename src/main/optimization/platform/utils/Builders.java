@@ -110,7 +110,9 @@ public class Builders {
 
 			for (int i = 0; i < problemList.size(); i++) {
 				Algorithm<List<DoubleSolution>> algorithm6 = new MOEADBuilder(problemList.get(i).getProblem(),
-						Variant.MOEAD).setMaxEvaluations(maxEvaluations).build();
+						Variant.MOEAD).setMaxEvaluations(maxEvaluations)
+						.build();
+						
 				algorithms.add(new ExperimentAlgorithm<>(algorithm6, "MOEAD", problemList.get(i).getTag()));
 			}
 		}
