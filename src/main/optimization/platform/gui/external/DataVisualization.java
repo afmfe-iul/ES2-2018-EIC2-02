@@ -1,5 +1,6 @@
 package main.optimization.platform.gui.external;
 
+import java.awt.Container;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -13,9 +14,17 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
+import javax.swing.JFrame;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import org.apache.commons.io.FileUtils;
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.Scene;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
@@ -26,6 +35,9 @@ public class DataVisualization  extends JFXPanel{
 	private static final String CURR_DIR = System.getProperty("curr.dir") == null ? "" : System.getProperty("curr.dir") + "/";
 	private boolean dataFileBuiltSuccessfuly = false;
 	private static int VERSION = 0;
+	private Button btnBack;
+	private Button btnReload;
+	private WebEngine webEngine;
 	
 	public DataVisualization(List<String> algorithmsNames, List<String> rsFilePaths, 
 			List<String> rfFilePaths, List<String> decisionVariables, Integer knownSolution) {
@@ -89,12 +101,17 @@ public class DataVisualization  extends JFXPanel{
 			String tempDir = CURR_DIR + "visualizations/temp" + VERSION;
 			File f = new File(tempDir + "/graphics.html");
 			try {
+				setName("Results Visualization");
+			    BorderPane root = new BorderPane();
+			    root.setTop(getButtonPanel());
+				
 				URL url = f.toURI().toURL();
 				Platform.runLater(() -> {
 					CookieHandler.setDefault(new CookieManager());
 				    WebView webView = new WebView();
-				    setScene(new Scene(webView));
-				    WebEngine webEngine = webView.getEngine();
+				    root.setCenter(webView);
+				    setScene(new Scene(root));
+				    webEngine = webView.getEngine();
 				    webEngine.load(url.toString());
 				});
 			} catch (MalformedURLException e) {
@@ -185,5 +202,42 @@ public class DataVisualization  extends JFXPanel{
 	    }else{
 	    	return dir.delete();
 	    }
+	}
+
+	public void addBackButtonActionListener(JFrame frame, Container mainPanel, DataVisualization dv) {
+		btnBack.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				frame.remove(dv);
+				frame.setContentPane(mainPanel);
+				frame.revalidate();
+				frame.repaint();
+				frame.setBounds(320, 30, 1000, 667);
+			}
+		});
+	}
+	
+	public HBox getButtonPanel() {
+	    HBox hbox = new HBox();
+	    hbox.setPadding(new Insets(5, 0, 5, 0));
+	    hbox.setSpacing(100);
+	    hbox.setStyle("-fx-background-color: #336699;");
+	    hbox.setAlignment(Pos.CENTER);
+
+	    btnBack = new Button("Go Back");
+	    btnBack.setStyle("-fx-font: 22 arial; -fx-font-weight: bold;");
+	    btnBack.setPrefSize(200, 30);
+	    btnReload = new Button("Reload Frame");
+	    btnReload.setStyle("-fx-font: 22 arial; -fx-font-weight: bold;");
+	    btnReload.setPrefSize(200, 30);
+		btnReload.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				webEngine.reload();
+			}
+		});
+	    
+	    hbox.getChildren().addAll(btnBack, btnReload);
+	    return hbox;
 	}
 }
