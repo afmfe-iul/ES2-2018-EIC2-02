@@ -220,6 +220,7 @@
 				.attr("transform", "translate(0," + leftHeight + ")")
 				.call(d3.axisBottom(leftX))
 				.append("text")
+				.style("font-size", "15px")
 				.attr("dy", "1em")
 				.style("fill", "black")
 				.attr("y", 20)
@@ -261,7 +262,7 @@
 		.attr("y", 20)
 		.attr("text-anchor", "middle")
 		.style("font", "20px sans-serif")
-		.text("Optimization Results");
+		.text("Optimization Results (click on a bar for comparison)");
 
 
 	///////////////	 END LEFT PART 	//////////////////
@@ -321,6 +322,7 @@
 			.attr("transform", "translate(0," + rightHeight + ")")
 			.call(d3.axisBottom(rightX))
 			.append("text")
+			.style("font-size", "15px")
 			.attr("dy", "1em")
 			.style("fill", "black")
 			.attr("y", 20)
