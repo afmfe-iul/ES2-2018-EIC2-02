@@ -1,6 +1,5 @@
 package main.optimization.platform.gui;
 
-import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -19,17 +18,12 @@ import javax.swing.JDialog;
 import java.awt.Color;
 
 public class HelpPage extends JDialog {
-
-	private JFrame frmHelp;
+	private static final long serialVersionUID = 1L;
 	private JTextField textField;
 	private JPasswordField passwordField;
 	private JTextField textField_1;
 	private JTextArea textArea;
 
-	/**
-	 * Initialize the contents of the frame.
-	 * @wbp.parser.entryPoint
-	 */
 	public HelpPage(JFrame frame)  {
 		
 		setBackground(Color.GRAY);
@@ -80,7 +74,7 @@ public class HelpPage extends JDialog {
 				//TODO substituir pela mail do ADMIN
 				ArrayList<String> to = new ArrayList<>();
 				to.add("tiago.mrf2@gmail.com");
-				EmailSender sender =  new EmailSender(textField.getText(), passwordField.getText(),to, textField_1.getText(), textArea.getText());
+				EmailSender sender =  new EmailSender(textField.getText(), new String(passwordField.getPassword()),to, textField_1.getText(), textArea.getText());
 				sender.sendFromGMail();
 			}
 		});
@@ -91,7 +85,5 @@ public class HelpPage extends JDialog {
 		setModal(true);
 		setResizable(false);
 		setVisible(true);
-		
-		
 	}
 }
