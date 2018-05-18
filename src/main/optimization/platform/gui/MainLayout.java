@@ -1,5 +1,7 @@
 package main.optimization.platform.gui;
 
+import java.awt.BorderLayout;
+import java.awt.Container;
 import java.awt.EventQueue;
 import java.util.List;
 import java.util.Scanner;
@@ -7,9 +9,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.text.DateFormat;
@@ -44,7 +43,6 @@ import main.optimization.platform.gui.external.DataVisualization;
 import main.optimization.platform.jMetal.OptimizationProcess;
 import main.optimization.platform.jMetal.OptimizationProcess.DATA_TYPES;
 import main.optimization.platform.utils.Builders;
-
 import javax.swing.JCheckBox;
 import javax.swing.JToolBar;
 import javax.swing.JMenuBar;
@@ -82,6 +80,7 @@ public class MainLayout {
 	private String pathOutput;
 	private JTextField txtSolutionKnown;
 	private JMenuBar menuBar;
+	private Container mainPanel;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -266,8 +265,7 @@ public class MainLayout {
 		toolBar.add(bttAgreement);
 
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
-		groupLayout
-				.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addGroup(groupLayout.createSequentialGroup().addContainerGap()
 								.addGroup(groupLayout.createParallelGroup(Alignment.LEADING).addGroup(groupLayout
 										.createSequentialGroup().addGroup(groupLayout
@@ -469,7 +467,8 @@ public class MainLayout {
 				.addContainerGap(41, Short.MAX_VALUE)));
 
 		resetTableModels();
-		frame.getContentPane().setLayout(groupLayout);
+		mainPanel = frame.getContentPane();
+		mainPanel.setLayout(groupLayout);
 
 		menuBar = new JMenuBar();
 		// menuBar.add(bttAgreement);
@@ -885,19 +884,16 @@ public class MainLayout {
 
 		DataVisualization dv = new DataVisualization(problem.getListAlgorithms(), rsFilePaths, rfFilePaths,
 				decisionVariables, problem.getSolutionKnown());
-
+		
 		if (dv.run()) {
-			JFrame frame = new JFrame("Graphical Visualization");
-			frame.getContentPane().add(dv);
-			WindowListener exitListener = new WindowAdapter() {
-				@Override
-				public void windowClosing(WindowEvent e) {
-					frame.remove(dv);
-				}
-			};
-			frame.addWindowListener(exitListener);
+			dv.addBackButtonActionListener(frame, mainPanel, dv);
+			frame.remove(mainPanel);
+			frame.setContentPane(new Container());
+			frame.getContentPane().setLayout(new BorderLayout());
+			frame.getContentPane().add(dv, BorderLayout.CENTER);
 			frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-			frame.setVisible(true);
+			frame.revalidate();
+			frame.repaint();
 		}else {
 			// TODO give a error message to the user informing that the visualizations couldn't be built
 		}

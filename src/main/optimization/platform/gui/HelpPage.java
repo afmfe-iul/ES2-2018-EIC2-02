@@ -1,6 +1,5 @@
 package main.optimization.platform.gui;
 
-import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -24,19 +23,22 @@ import javax.swing.JDialog;
 import java.awt.Color;
 
 public class HelpPage extends JDialog {
-
-	private JFrame frmHelp;
+	private static final long serialVersionUID = 1L;
 	private JTextField textField;
 	private JPasswordField passwordField;
 	private JTextField textField_1;
 	private JTextArea textArea;
 	private String adminEmail;
 
+
 	/**
 	 * Initialize the contents of the frame.
 	 * @wbp.parser.entryPoint
 	 */
 	public HelpPage(JFrame frame, String emailAdmin)  {
+	adminEmail=emailAdmin;
+
+
 		
 		setBackground(Color.GRAY);
 		setTitle("Help");
@@ -84,8 +86,12 @@ public class HelpPage extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				ArrayList<String> to = new ArrayList<>();
-				to.add(emailAdmin);
-				EmailSender sender =  new EmailSender(textField.getText(), passwordField.getText(),to, textField_1.getText(), textArea.getText());
+
+				to.add(adminEmail);
+				
+
+				EmailSender sender =  new EmailSender(textField.getText(), new String(passwordField.getPassword()),to, textField_1.getText(), textArea.getText());
+
 				sender.sendFromGMail();
 				JOptionPane.showMessageDialog(frame, "Email was sent");
 			}});
@@ -96,7 +102,5 @@ public class HelpPage extends JDialog {
 		setModal(true);
 		setResizable(false);
 		setVisible(true);
-		
-		
 	}
 }
