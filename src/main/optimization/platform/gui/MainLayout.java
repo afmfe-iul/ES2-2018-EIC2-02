@@ -47,6 +47,9 @@ import javax.swing.JCheckBox;
 import javax.swing.JToolBar;
 
 public class MainLayout {
+	public static String PATH_INPUT;
+	public static String PATH_OUTPUT;
+	
 	public JFrame frame;
 	private JTable tableVariable;
 	private JTable tableCriteria;
@@ -75,10 +78,6 @@ public class MainLayout {
 	private JLabel lblOptimizationImpliesMinimizing;
 	private LayoutProblem currentProblem;
 	private String emailAdmin;
-	@SuppressWarnings("unused")
-	private String pathInput;
-	@SuppressWarnings("unused")
-	private String pathOutput;
 	private JTextField txtSolutionKnown;
 	private Container mainPanel;
 
@@ -100,8 +99,8 @@ public class MainLayout {
 			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 			AdminXmlObject adminXmlObject = (AdminXmlObject) jaxbUnmarshaller.unmarshal(file);
 			emailAdmin = adminXmlObject.getEmail();
-			pathInput = adminXmlObject.getpathInput();
-			pathOutput = adminXmlObject.getpathOutput();
+			PATH_INPUT = adminXmlObject.getpathInput();
+			PATH_OUTPUT = adminXmlObject.getpathOutput();
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		}
@@ -114,10 +113,8 @@ public class MainLayout {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
 		frame.setBounds(320, 30, 1000, 667);
-		fileChooserJar = new JFileChooser();
-		JFileChooser fileChooserXml = new JFileChooser();
-		File k = new File("SavedProblems");
-		fileChooserXml.setCurrentDirectory(k);
+		fileChooserJar = new JFileChooser(new File(PATH_INPUT));
+		JFileChooser fileChooserXml = new JFileChooser(new File(PATH_INPUT));
 		FileNameExtensionFilter filterJar = new FileNameExtensionFilter("jar Files", "jar", "jar");
 		fileChooserJar.setFileFilter(filterJar);
 		scrollPanelTableVariable = new JScrollPane();
@@ -501,10 +498,8 @@ public class MainLayout {
 
 		try {
 			Scanner sc = new Scanner(file);
-			int i = 0;
 			while (sc.hasNextLine()) {
 				modelManual.addRow(new Object[] { sc.nextLine(), -5.0, 5.0 });
-				i++;
 			}
 			sc.close();
 			tableVariable.setModel(modelManual);
@@ -517,7 +512,6 @@ public class MainLayout {
 	}
 
 	public void promptUser(String message, boolean error) {
-
 		String title = error ? "Error!" : "Warning!";
 		int iconType = error ? JOptionPane.ERROR_MESSAGE : JOptionPane.WARNING_MESSAGE;
 		JOptionPane.showMessageDialog(frame, message, title, iconType);
@@ -541,7 +535,6 @@ public class MainLayout {
 		if (m.find() || txtProblemName.getText().contains(" ")) {
 			return false;
 		}
-
 		return true;
 	}
 
@@ -585,7 +578,6 @@ public class MainLayout {
 		scrollPanelTableCriteria.setViewportView(null);
 		tableCriteria.putClientProperty("terminateEditOnFocusLost", true);
 		tableVariable.putClientProperty("terminateEditOnFocusLost", true);
-
 	}
 
 	private void chooseFileTable(int m) {
@@ -799,8 +791,7 @@ public class MainLayout {
 			try {
 				Calendar calobj = Calendar.getInstance();
 				DateFormat df = new SimpleDateFormat("dd-MM-yy HH-mm-ss");
-				File file = new File(
-						"SavedProblems/" + txtProblemName.getText() + df.format(calobj.getTime()) + ".xml");
+				File file = new File("SavedProblems/" + txtProblemName.getText() + df.format(calobj.getTime()) + ".xml");
 				JAXBContext jaxbContext = JAXBContext.newInstance(LayoutProblem.class);
 				Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 
@@ -901,13 +892,10 @@ public class MainLayout {
 				frame.revalidate();
 				frame.repaint();
 			} else {
-				JOptionPane.showMessageDialog(frame, new JLabel(dv.getBuildErrorMessage()), "Error",
-						JOptionPane.ERROR_MESSAGE);
+				promptUser(dv.getBuildErrorMessage(), true);
 			}
 		} else {
-			JOptionPane.showMessageDialog(frame, new JLabel(
-					"Before trying to visualize results, you must load a Problem or define a new one and run it."),
-					"Error", JOptionPane.ERROR_MESSAGE);
+			promptUser("Before trying to visualize results, you must load a Problem or define a new one and run it.", true);
 		}
 	}
 }

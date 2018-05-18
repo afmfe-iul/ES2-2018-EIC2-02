@@ -8,21 +8,19 @@ import org.uma.jmetal.solution.BinarySolution;
 public class BinaryProblem extends AbstractBinaryProblem {
 	private static final long serialVersionUID = 1L;
 	private int numberOfObjectives;
-	private List<String> decisionVariables;
 	private List<ProblemHelper> problemHelpers;
 	private int bitsPerVariable;
 
-	public BinaryProblem(List<String> decisionVariables, List<String> jarPaths, String name, int bitsPerVariable) throws Exception {
+	public BinaryProblem(int numberOfVariables, List<String> jarPaths, String name, int bitsPerVariable) throws Exception {
 		numberOfObjectives = jarPaths.size();
-		this.decisionVariables = decisionVariables;
 		this.bitsPerVariable = bitsPerVariable;
 		problemHelpers = new ArrayList<ProblemHelper>();
 		for (int i = 0; i < numberOfObjectives; i++) {
-			problemHelpers.add(new ProblemHelper(jarPaths.get(i), this.decisionVariables));
+			problemHelpers.add(new ProblemHelper(jarPaths.get(i)));
 		}
 		
 		setNumberOfObjectives(numberOfObjectives);
-		setNumberOfVariables(decisionVariables.size());
+		setNumberOfVariables(numberOfVariables);
 		setName(name);
 	}
 

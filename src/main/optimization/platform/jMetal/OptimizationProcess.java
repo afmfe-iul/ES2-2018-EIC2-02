@@ -98,7 +98,6 @@ public class OptimizationProcess {
 
 	public boolean run(LayoutProblem currentProblem) {
 		List<TableRowVariable> rows = currentProblem.getListVariable();
-		List<String> decisionVariables = new ArrayList<>();
 		List<TableRowCriteria> jarRows = currentProblem.getListCriteria();
 		List<String> jarPaths = new ArrayList<>();
 		for (int i = 0; i < jarRows.size(); i++) {
@@ -115,29 +114,27 @@ public class OptimizationProcess {
 			List<Double> lowerBounds = new ArrayList<>();
 			List<Double> upperBounds = new ArrayList<>();
 			for (int i = 0; i < rows.size(); i++) {
-				decisionVariables.add(rows.get(i).getRule());
 				lowerBounds.add(Double.parseDouble(rows.get(i).getMinimo()));
 				upperBounds.add(Double.parseDouble(rows.get(i).getMaximo()));
 			}
-			return Builders.DoubleBuilder(currentProblem.getProblemTitle(), currentProblem.getListAlgorithms(),
-					decisionVariables, lowerBounds, upperBounds, jarPaths,currentProblem.getMaxWaitingTime());
+			return Builders.DoubleBuilder(currentProblem.getListVariable().size(), currentProblem.getProblemTitle(),
+					currentProblem.getListAlgorithms(), lowerBounds, upperBounds, jarPaths,currentProblem.getMaxWaitingTime());
 
 			// Build a Integer Problem
 		} else if (currentProblem.getType().equals("Integer")) {
 			List<Integer> lowerBounds = new ArrayList<>();
 			List<Integer> upperBounds = new ArrayList<>();
 			for (int i = 0; i < rows.size(); i++) {
-				decisionVariables.add(rows.get(i).getRule());
 				lowerBounds.add(Integer.valueOf(rows.get(i).getMinimo()));
 				upperBounds.add(Integer.valueOf(rows.get(i).getMaximo()));
 			}
-			return Builders.IntegerBuilder(currentProblem.getProblemTitle(), currentProblem.getListAlgorithms(),
-					decisionVariables, lowerBounds, upperBounds, jarPaths,currentProblem.getMaxWaitingTime());
+			return Builders.IntegerBuilder(currentProblem.getListVariable().size(), currentProblem.getProblemTitle(),
+					currentProblem.getListAlgorithms(), lowerBounds, upperBounds, jarPaths,currentProblem.getMaxWaitingTime());
 
 			// Build a Binary Problem
 		} else if (currentProblem.getType().equals("Binary")) {
-			return Builders.BinaryBuilder(currentProblem.getProblemTitle(), currentProblem.getListAlgorithms(),
-					decisionVariables, jarPaths, currentProblem.getBitsPerVariable(),currentProblem.getMaxWaitingTime());
+			return Builders.BinaryBuilder(currentProblem.getListVariable().size(), currentProblem.getProblemTitle(), 
+					currentProblem.getListAlgorithms(), jarPaths, currentProblem.getBitsPerVariable(),currentProblem.getMaxWaitingTime());
 		}
 		return false;
 	}

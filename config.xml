@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <adminXmlObject>
     <email>tmrfo1@iscte-iul.pt</email>
-    <pathInput>testJars/</pathInput>
-    <pathOutput>es2.2018.eic2.02@gmail.com/</pathOutput>
+    <pathInput>C:\Users\André Freire\Desktop\input</pathInput>
+    <pathOutput>C:\Users\André Freire\Desktop\output</pathOutput>
      <password>123PASSWORD/</password>
 </adminXmlObject>

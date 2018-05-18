@@ -28,11 +28,11 @@ import javafx.scene.control.Button;
 import javafx.scene.Scene;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import main.optimization.platform.utils.Builders;
 
 @SuppressWarnings("restriction")
 public class DataVisualization  extends JFXPanel{
 	private static final long serialVersionUID = 1L;
-	private static final String CURR_DIR = System.getProperty("curr.dir") == null ? "" : System.getProperty("curr.dir") + "/";
 	private boolean dataFileBuiltSuccessfuly = false;
 	private String buildErrorMessage;
 	private static int VERSION = 0;
@@ -101,7 +101,7 @@ public class DataVisualization  extends JFXPanel{
 
 	public boolean run() {
 		if(dataFileBuiltSuccessfuly){
-			String tempDir = CURR_DIR + "visualizations/temp" + VERSION;
+			String tempDir = Builders.BASE_DIRECTORY + "visualizations/temp" + VERSION;
 			File f = new File(tempDir + "/graphics.html");
 			try {
 				setName("Results Visualization");
@@ -134,9 +134,9 @@ public class DataVisualization  extends JFXPanel{
 	
 	private void writeVisualizationFiles(String rsFirstLine, String[] rsLines, String rfFirstLine, String rfSecondLine){
 		try {
-			deleteDirectory(new File(CURR_DIR + "visualizations"));
-			String tempDir = CURR_DIR + "visualizations/temp" + VERSION;
-			FileUtils.copyFile(new File(CURR_DIR + "visualizations/template.html"),
+			deleteDirectory(new File(Builders.BASE_DIRECTORY + "visualizations"));
+			String tempDir = Builders.BASE_DIRECTORY + "visualizations/temp" + VERSION;
+			FileUtils.copyFile(new File("resources/template.html"),
 					new File(tempDir + "/graphics.html"));
 			
 			// Write the data file in tsv format (tab separated values)

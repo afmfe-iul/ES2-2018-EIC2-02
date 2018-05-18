@@ -23,7 +23,7 @@ public class ProblemHelper {
 	 */
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public ProblemHelper(String jarPath, List<String> decisionVariables) throws Exception {
+	public ProblemHelper(String jarPath) throws Exception {
 		File file = new File(jarPath);
 		URL[] urls;
 		try {
@@ -32,7 +32,7 @@ public class ProblemHelper {
 			Class classToLoad = Class.forName("optimization.Evaluate", true, child);
 			Constructor c = classToLoad.getConstructor(List.class);
 			method = classToLoad.getDeclaredMethod("evaluate", Solution.class);
-			instance = c.newInstance(decisionVariables);
+			instance = c.newInstance();
 			Solution dummySolution = null;
 			method.invoke(instance, dummySolution);
 		} catch (MalformedURLException e) {

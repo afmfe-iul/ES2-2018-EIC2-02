@@ -7,7 +7,6 @@ import org.uma.jmetal.solution.IntegerSolution;
 
 public class IntegerProblem extends AbstractIntegerProblem {
 	private static final long serialVersionUID = 1L;
-	private List<String> decisionVariables;
 	private List<ProblemHelper> problemHelpers;
 	private int numberOfObjectives;
 
@@ -16,27 +15,19 @@ public class IntegerProblem extends AbstractIntegerProblem {
 	 * 
 	 * @throws Exception
 	 */
-	public IntegerProblem(List<String> decisionVariables, List<Integer> lowerBounds , List<Integer> upperBound,String problemname , List<String> jarPaths) throws Exception {
-		this.decisionVariables = decisionVariables;
+	public IntegerProblem(int numberOfVariables, List<Integer> lowerBounds , List<Integer> upperBound,String problemname , List<String> jarPaths) throws Exception {
 		numberOfObjectives = jarPaths.size();
 		
-		setNumberOfVariables(decisionVariables.size());
+		setNumberOfVariables(numberOfVariables);
 	    setNumberOfObjectives(jarPaths.size());
 	    
 	    setLowerLimit(lowerBounds);
 	    setUpperLimit(upperBound);
-	    
-//	    for (int i = 0; i < lowerBounds.size(); i++) {
-//			System.out.println(getLowerBound(i)+ " minimo");
-//			System.out.println(getUpperBound(i) + " maximo");
-//		}
-	    
-	    
 		setName(problemname);
 		
 		problemHelpers = new ArrayList<ProblemHelper>();
 		for (int i = 0; i < jarPaths.size(); i++) {
-			problemHelpers.add(new ProblemHelper(jarPaths.get(i), this.decisionVariables));
+			problemHelpers.add(new ProblemHelper(jarPaths.get(i)));
 		}
 	}
 	

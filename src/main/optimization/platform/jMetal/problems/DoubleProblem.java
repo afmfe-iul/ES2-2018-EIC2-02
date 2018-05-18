@@ -8,7 +8,6 @@ import org.uma.jmetal.solution.DoubleSolution;
 @SuppressWarnings("serial")
 public class DoubleProblem extends AbstractDoubleProblem {
 	private int numberOfObjectives;
-	private List<String> decisionVariables;
 	private List<ProblemHelper> problemHelpers;
 
 	/**
@@ -16,15 +15,14 @@ public class DoubleProblem extends AbstractDoubleProblem {
 	 * 
 	 * @throws Exception
 	 */
-	public DoubleProblem(List<String> decisionVariables, List<Double> lowerBounds , List<Double> upperBounds, List<String> jarPaths, String problemName) throws Exception {
-		this.decisionVariables = decisionVariables;
+	public DoubleProblem(int numberOfVariables, List<Double> lowerBounds , List<Double> upperBounds, List<String> jarPaths, String problemName) throws Exception {
 		numberOfObjectives = jarPaths.size();
 		
 		problemHelpers = new ArrayList<ProblemHelper>();
 		for (int i = 0; i < numberOfObjectives; i++) {
-			problemHelpers.add(new ProblemHelper(jarPaths.get(i), this.decisionVariables));
+			problemHelpers.add(new ProblemHelper(jarPaths.get(i)));
 		}
-		setNumberOfVariables(this.decisionVariables.size());
+		setNumberOfVariables(numberOfVariables);
 		setNumberOfObjectives(numberOfObjectives);
 		setName(problemName);
 

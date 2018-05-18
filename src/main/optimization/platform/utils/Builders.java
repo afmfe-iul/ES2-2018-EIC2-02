@@ -54,6 +54,8 @@ import org.uma.jmetal.util.experiment.component.GenerateReferenceParetoFront;
 import org.uma.jmetal.util.experiment.component.GenerateReferenceParetoSetAndFrontFromDoubleSolutions;
 import org.uma.jmetal.util.experiment.util.ExperimentAlgorithm;
 import org.uma.jmetal.util.experiment.util.ExperimentProblem;
+
+import main.optimization.platform.gui.MainLayout;
 import main.optimization.platform.jMetal.problems.BinaryProblem;
 import main.optimization.platform.jMetal.problems.DoubleProblem;
 import main.optimization.platform.jMetal.problems.IntegerProblem;
@@ -61,17 +63,17 @@ import main.optimization.platform.jMetal.problems.IntegerProblem;
 public class Builders {
 	public static final int DEFAULT_ITERATIONS = 2500;
 	private static final int INDEPENDENT_RUNS = 5;
-	
-	public static final String BASE_DIRECTORY = "experimentsBaseDirectory" + File.separator;
+	// TODO check if this worked
+	public static final String BASE_DIRECTORY = MainLayout.PATH_INPUT + "/experimentsBaseDirectory" + File.separator;
 
-	public static boolean DoubleBuilder(String problemName, List<String> algorithmsSelected,
-			List<String> decisionVariables, List<Double> lowerBounds, List<Double> upperBounds, List<String> jarPaths,int maxEvaluations) {
+	public static boolean DoubleBuilder(int numberOfVariables, String problemName, List<String> algorithmsSelected,
+			List<Double> lowerBounds, List<Double> upperBounds, List<String> jarPaths,int maxEvaluations) {
 		
 		List<ExperimentProblem<DoubleSolution>> problemList = new ArrayList<>();
 		DoubleProblem problem;
 		maxEvaluations = maxEvaluations/5;
 		try {
-			problem = new DoubleProblem(decisionVariables, lowerBounds, upperBounds, jarPaths, "DoubleProblem");
+			problem = new DoubleProblem(numberOfVariables, lowerBounds, upperBounds, jarPaths, "DoubleProblem");
 			problemList.add(new ExperimentProblem<>(problem));
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -259,14 +261,14 @@ public class Builders {
 		return algorithms;
 	}
 
-	public static boolean IntegerBuilder(String problemName, List<String> algorithmsSelected,
-			List<String> decisionVariables, List<Integer> lowerBounds, List<Integer> upperBounds,
+	public static boolean IntegerBuilder(int numberOfVariables, String problemName, List<String> algorithmsSelected,
+			List<Integer> lowerBounds, List<Integer> upperBounds,
 			List<String> jarPaths,int maxEvaluations) {
 		List<ExperimentProblem<IntegerSolution>> problemList = new ArrayList<>();
 		IntegerProblem problem;
 		maxEvaluations = maxEvaluations/5;
 		try {
-			problem = new IntegerProblem(decisionVariables, lowerBounds, upperBounds, problemName, jarPaths);
+			problem = new IntegerProblem(numberOfVariables, lowerBounds, upperBounds, problemName, jarPaths);
 			problemList.add(new ExperimentProblem<>(problem));
 		} catch (Exception e1) {
 			e1.printStackTrace();
@@ -400,13 +402,13 @@ public class Builders {
 		return algorithms;
 	}
 
-	public static boolean BinaryBuilder(String problemName, List<String> algorithmsSelected,
-			List<String> decisionVariables, List<String> jarPaths, int bitsPerVariable,int maxEvaluations) {
+	public static boolean BinaryBuilder(int numberOfVariables, String problemName, List<String> algorithmsSelected,
+			List<String> jarPaths, int bitsPerVariable,int maxEvaluations) {
 		List<ExperimentProblem<BinarySolution>> problemList = new ArrayList<>();
 		BinaryProblem problem;
 		maxEvaluations = maxEvaluations/5;
 		try {
-			problem = new BinaryProblem(decisionVariables, jarPaths, problemName, bitsPerVariable);
+			problem = new BinaryProblem(numberOfVariables, jarPaths, problemName, bitsPerVariable);
 			problemList.add(new ExperimentProblem<>(problem));
 		} catch (Exception e) {
 			e.printStackTrace();

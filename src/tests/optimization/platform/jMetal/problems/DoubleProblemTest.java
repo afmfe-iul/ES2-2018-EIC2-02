@@ -13,18 +13,16 @@ public class DoubleProblemTest {
 
 	@Test
 	public void constructorMustReturnAnObjectThatInheritsFromIntegerProblem() {
-		List<String> decisionVariables = new ArrayList<String>();
 		List<String> jarPaths = new ArrayList<String>();
 		List<Double> upperbounds = new ArrayList<Double>();
 		List<Double> lowerbounds = new ArrayList<Double>();
 		for(int i = 0; i<2;i++) {
-			decisionVariables.add(""+i);
 			jarPaths.add("testJars/FalseNegatives.jar");
 		}
 		DoubleProblem instance;
 		DoubleSolution solution =null;
 		try {
-			instance = new DoubleProblem(decisionVariables, upperbounds, lowerbounds, jarPaths, null);
+			instance = new DoubleProblem(2, upperbounds, lowerbounds, jarPaths, null);
 			assertTrue("DoubleProblem intances should extend the AbstractDoubleProblem class.",
 			instance.getClass().getSuperclass().equals(AbstractDoubleProblem.class));
 			
@@ -32,8 +30,6 @@ public class DoubleProblemTest {
 			instance.getNumberOfObjectives()==jarPaths.size());
 			
 			instance.evaluate(solution);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		} catch (Exception e) {}
 	}
 }

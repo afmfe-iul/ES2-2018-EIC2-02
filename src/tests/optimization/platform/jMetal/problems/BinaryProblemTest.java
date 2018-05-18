@@ -12,24 +12,20 @@ public class BinaryProblemTest {
 
 	@Test
 	public void constructorMustReturnAnObjectThatInheritsFromIntegerProblem() {
-		List<String> decisionVariables = new ArrayList<String>();
 		List<String> jarPaths = new ArrayList<String>();
 		BinaryProblem instance;
 		BinarySolution solution = null; 
 		for(int i = 0; i<2;i++) {
-			decisionVariables.add(""+i);
 			jarPaths.add("testJars/FalseNegatives.jar");
 		}
 		try {
-			instance = new BinaryProblem(decisionVariables, jarPaths, null, 5);
+			instance = new BinaryProblem(2, jarPaths, null, 5);
 			assertTrue("BinaryProblem intances should extend the AbstractBinaryProblem class.",
 					instance.getClass().getSuperclass().equals(AbstractBinaryProblem.class));
 			assertTrue("Number of bits returned by the getter shoud be equal to the variable passed in the "
 					+ "constructor", instance.getNumberOfBits(0)==5);
 			instance.evaluate(solution);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		} catch (Exception e) {}
 		
 	}
 }
