@@ -3,10 +3,14 @@ package main.optimization.platform.gui;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JTextField;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
 
 import main.optimization.platform.utils.EmailSender;
 
@@ -77,13 +81,21 @@ public class HelpPage extends JDialog {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//TODO substituir pela mail do ADMIN
+				File file = new File("config.xml");
+				JAXBContext jaxbContext;
+				try {
+					jaxbContext = JAXBContext.newInstance(AdminXmlObject.class);
+					Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+					AdminXmlObject adminXmlObject = (AdminXmlObject) jaxbUnmarshaller.unmarshal(file);
+					String emailAdmin = adminXmlObject.getEmail();
 				ArrayList<String> to = new ArrayList<>();
-				to.add("tiago.mrf2@gmail.com");
+				to.add(emailAdmin);
 				EmailSender sender =  new EmailSender(textField.getText(), passwordField.getText(),to, textField_1.getText(), textArea.getText());
 				sender.sendFromGMail();
-			}
-		});
+				} catch (JAXBException exception) {
+					exception.printStackTrace();
+				}
+			}});
 		
 		getContentPane().add(btnSend);
 		
