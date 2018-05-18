@@ -140,7 +140,6 @@ public class LayoutProblem {
 		return variablesName;
 	}
 
-	@XmlElement
 	public void setVariablesName(String variablesName) {
 		this.variablesName = variablesName;
 	}
@@ -150,11 +149,8 @@ public class LayoutProblem {
 		return bitsPerVariable;
 	}
 	
-	@XmlElement
 	public void setBitsPerVariable(int bitsPerVariable) {
 		// TODO this method is not beeing called by the UI yet
 		this.bitsPerVariable = bitsPerVariable;
 	}
-	
-	
 }

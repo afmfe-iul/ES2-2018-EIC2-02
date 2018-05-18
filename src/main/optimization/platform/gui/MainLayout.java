@@ -709,11 +709,13 @@ public class MainLayout {
 
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 			clearProblem();
 		}
 
 	}
 
+	// TODO check every input
 	private void readProblemFromInterface() {
 		String problemType = comboBoxType.getSelectedItem().toString();
 		currentProblem = new LayoutProblem();
@@ -861,7 +863,6 @@ public class MainLayout {
 
 	private void visualizeDemo(LayoutProblem problem) {
 		if(problem != null) {
-			
 			List<String> rfFilePaths = new ArrayList<String>();
 			List<String> rsFilePaths = new ArrayList<String>();
 			
