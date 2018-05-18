@@ -246,13 +246,13 @@ public class MainLayout {
 		Border emptyBorder = BorderFactory.createEmptyBorder();
 		JToolBar toolBar = new JToolBar();
 		JButton bttFaq = new JButton("Faq");
+		JButton bttHelp = new JButton("Help");
 		JButton bttAgreement = new JButton("Agreement");
 		bttFaq.setBorder(emptyBorder);
 		bttFaq.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				new LayoutFAQPage(frame);
-				new HelpPage(frame , emailAdmin);
 			}
 		});
 		bttAgreement.setBorder(emptyBorder);
@@ -262,9 +262,19 @@ public class MainLayout {
 				new LayoutDataAgreement(frame);
 			}
 		});
+		bttHelp.setBorder(emptyBorder);
+		bttHelp.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new HelpPage(frame, emailAdmin);
+			}
+		});
+		
 		toolBar.add(bttFaq);
 		toolBar.addSeparator();
 		toolBar.add(bttAgreement);
+		toolBar.addSeparator();
+		toolBar.add(bttHelp);
 
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
 		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.LEADING)
