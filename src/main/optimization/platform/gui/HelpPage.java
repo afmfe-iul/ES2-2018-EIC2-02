@@ -15,6 +15,7 @@ import javax.xml.bind.Unmarshaller;
 import main.optimization.platform.utils.EmailSender;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextArea;
 import javax.swing.JButton;
@@ -29,12 +30,13 @@ public class HelpPage extends JDialog {
 	private JPasswordField passwordField;
 	private JTextField textField_1;
 	private JTextArea textArea;
+	private String adminEmail;
 
 	/**
 	 * Initialize the contents of the frame.
 	 * @wbp.parser.entryPoint
 	 */
-	public HelpPage(JFrame frame)  {
+	public HelpPage(JFrame frame, String emailAdmin)  {
 		
 		setBackground(Color.GRAY);
 		setTitle("Help");
@@ -81,20 +83,11 @@ public class HelpPage extends JDialog {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				File file = new File("config.xml");
-				JAXBContext jaxbContext;
-				try {
-					jaxbContext = JAXBContext.newInstance(AdminXmlObject.class);
-					Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-					AdminXmlObject adminXmlObject = (AdminXmlObject) jaxbUnmarshaller.unmarshal(file);
-					String emailAdmin = adminXmlObject.getEmail();
 				ArrayList<String> to = new ArrayList<>();
 				to.add(emailAdmin);
 				EmailSender sender =  new EmailSender(textField.getText(), passwordField.getText(),to, textField_1.getText(), textArea.getText());
 				sender.sendFromGMail();
-				} catch (JAXBException exception) {
-					exception.printStackTrace();
-				}
+				JOptionPane.showMessageDialog(frame, "Email was sent");
 			}});
 		
 		getContentPane().add(btnSend);

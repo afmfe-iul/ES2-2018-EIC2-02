@@ -251,7 +251,7 @@ public class MainLayout {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				new LayoutFAQPage(frame);
-				new HelpPage(frame);
+				new HelpPage(frame , emailAdmin);
 			}
 		});
 		bttAgreement.setBorder(emptyBorder);
