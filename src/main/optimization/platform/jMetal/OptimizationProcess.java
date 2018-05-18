@@ -104,6 +104,11 @@ public class OptimizationProcess {
 		for (int i = 0; i < jarRows.size(); i++) {
 			jarPaths.add(jarRows.get(i).getPath());
 		}
+		
+		// In case the user did not specified a max running time, we use a default
+		if(currentProblem.getMaxWaitingTime() == 0) {
+			currentProblem.setMaxWaitingTime(Builders.DEFAULT_ITERATIONS);
+		}
 
 		// Build a Double Problem
 		if (currentProblem.getType().equals("Double")) {

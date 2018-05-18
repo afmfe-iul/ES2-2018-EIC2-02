@@ -34,6 +34,7 @@ public class DataVisualization  extends JFXPanel{
 	private static final long serialVersionUID = 1L;
 	private static final String CURR_DIR = System.getProperty("curr.dir") == null ? "" : System.getProperty("curr.dir") + "/";
 	private boolean dataFileBuiltSuccessfuly = false;
+	private String buildErrorMessage;
 	private static int VERSION = 0;
 	private Button btnBack;
 	private Button btnReload;
@@ -71,6 +72,7 @@ public class DataVisualization  extends JFXPanel{
 			            String[] weights = rsScanner.nextLine().split(" ");
 			            if(weights.length != decisionVariables.size()){
 			            	dataFileBuiltSuccessfuly = false;
+			            	buildErrorMessage = "The Problem format seems to have an error.";
 			            	rsScanner.close();
 			            	return;
 			            }
@@ -88,6 +90,7 @@ public class DataVisualization  extends JFXPanel{
 			        rfScanner.close();
 				} catch (FileNotFoundException e) {
 					dataFileBuiltSuccessfuly = false;
+	            	buildErrorMessage = "The Problem results are not ready to display yet, or the foler where they were written to was deleted.";
 					e.printStackTrace();
 					return;
 				}
@@ -217,7 +220,11 @@ public class DataVisualization  extends JFXPanel{
 		});
 	}
 	
-	public HBox getButtonPanel() {
+	public String getBuildErrorMessage() {
+		return buildErrorMessage;
+	}
+	
+	private HBox getButtonPanel() {
 	    HBox hbox = new HBox();
 	    hbox.setPadding(new Insets(5, 0, 5, 0));
 	    hbox.setSpacing(100);

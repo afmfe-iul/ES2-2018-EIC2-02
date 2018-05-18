@@ -59,8 +59,8 @@ import main.optimization.platform.jMetal.problems.DoubleProblem;
 import main.optimization.platform.jMetal.problems.IntegerProblem;
 
 public class Builders {
-	
-	private static final int INDEPENDENT_RUNS = 5; // TODO
+	public static final int DEFAULT_ITERATIONS = 2500;
+	private static final int INDEPENDENT_RUNS = 5;
 	
 	public static final String BASE_DIRECTORY = "experimentsBaseDirectory" + File.separator;
 
@@ -434,7 +434,6 @@ public class Builders {
 		}
 	}
 
-	// TODO finish the other builders
 	private static List<ExperimentAlgorithm<BinarySolution, List<BinarySolution>>> configureBinaryAlgorithmList(
 			List<ExperimentProblem<BinarySolution>> problemList, List<String> algorithmsSelected, int maxEvaluations) {
 
@@ -463,10 +462,6 @@ public class Builders {
 			}
 		}
 
-		if (algorithmsSelected.contains("IBEA")) {
-
-		}
-
 		if (algorithmsSelected.contains("SMSEMOA")) {
 			for (int i = 0; i < problemList.size(); i++) {
 				Algorithm<List<BinarySolution>> algorithm2 = new SMSEMOABuilder<>(problemList.get(i).getProblem(),
@@ -488,7 +483,6 @@ public class Builders {
 		}
 
 		if (algorithmsSelected.contains("NSGAII")) {
-			
 			for (int i = 0; i < problemList.size(); i++) {
 				 double crossoverProbability = 0.9 ;
 				 SinglePointCrossover  crossover = new SinglePointCrossover(crossoverProbability) ;
@@ -505,7 +499,6 @@ public class Builders {
 				            .build() ;
 				    
 				 algorithms.add(new ExperimentAlgorithm<>(algorithm, "NSGAII", problemList.get(i).getTag()));
-
 			}
 		}
 

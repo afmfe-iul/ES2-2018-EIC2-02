@@ -76,7 +76,9 @@ public class MainLayout {
 	private JLabel lblOptimizationImpliesMinimizing;
 	private LayoutProblem currentProblem;
 	private String emailAdmin;
+	@SuppressWarnings("unused")
 	private String pathInput;
+	@SuppressWarnings("unused")
 	private String pathOutput;
 	private JTextField txtSolutionKnown;
 	private JMenuBar menuBar;
@@ -716,7 +718,6 @@ public class MainLayout {
 		String problemType = comboBoxType.getSelectedItem().toString();
 		currentProblem = new LayoutProblem();
 		if (txtMaximumTime.getText().isEmpty()) {
-			// TODO verificar se este valor creio que não seja o correto
 			currentProblem.setMaxWaitingTime(0);
 		} else {
 			currentProblem.setMaxWaitingTime(Integer.parseInt(txtMaximumTime.getText()));
@@ -859,43 +860,50 @@ public class MainLayout {
 	}
 
 	private void visualizeDemo(LayoutProblem problem) {
-		List<String> rfFilePaths = new ArrayList<String>();
-		List<String> rsFilePaths = new ArrayList<String>();
-		
-		File folder = new File(Builders.BASE_DIRECTORY + problem.getProblemTitle() + "/referenceFronts");
-		File[] listOfFiles = folder.listFiles();
-
-	    for (int i = 0; i < listOfFiles.length; i++) {
-	    	// listOfFiles[i].getName().split(".").length > 2 is to prevent getting the DoubleProblem.rf/BinaryProblem.rf, etc files
-	    	// and take into account the rf and rs files for each specific algorithm, for example DoubleProblem.MOEAD.rf
-	    	if (listOfFiles[i].isFile() && listOfFiles[i].getName().split("\\.").length > 2) {
-				if(listOfFiles[i].getName().endsWith(".rf")) {
-					rfFilePaths.add(Builders.BASE_DIRECTORY + problem.getProblemTitle() + "/referenceFronts/" + listOfFiles[i].getName());
-				}else if(listOfFiles[i].getName().endsWith(".rs")) {
-					rsFilePaths.add(Builders.BASE_DIRECTORY + problem.getProblemTitle() + "/referenceFronts/" + listOfFiles[i].getName());
+		if(problem != null) {
+			
+			List<String> rfFilePaths = new ArrayList<String>();
+			List<String> rsFilePaths = new ArrayList<String>();
+			
+			File folder = new File(Builders.BASE_DIRECTORY + problem.getProblemTitle() + "/referenceFronts");
+			File[] listOfFiles = folder.listFiles();
+	
+		    for (int i = 0; i < listOfFiles.length; i++) {
+		    	// listOfFiles[i].getName().split(".").length > 2 is to prevent getting the DoubleProblem.rf/BinaryProblem.rf, etc files
+		    	// and take into account the rf and rs files for each specific algorithm, for example DoubleProblem.MOEAD.rf
+		    	if (listOfFiles[i].isFile() && listOfFiles[i].getName().split("\\.").length > 2) {
+					if(listOfFiles[i].getName().endsWith(".rf")) {
+						rfFilePaths.add(Builders.BASE_DIRECTORY + problem.getProblemTitle() + "/referenceFronts/" + listOfFiles[i].getName());
+					}else if(listOfFiles[i].getName().endsWith(".rs")) {
+						rsFilePaths.add(Builders.BASE_DIRECTORY + problem.getProblemTitle() + "/referenceFronts/" + listOfFiles[i].getName());
+					}
 				}
+		    }
+			
+			List<String> decisionVariables = new ArrayList<String>();
+			for (int i = 0; i < tableVariable.getModel().getRowCount(); i++) {
+				decisionVariables.add((String) tableVariable.getModel().getValueAt(i, 1));
 			}
-	    }
-		
-		List<String> decisionVariables = new ArrayList<String>();
-		for (int i = 0; i < tableVariable.getModel().getRowCount(); i++) {
-			decisionVariables.add((String) tableVariable.getModel().getValueAt(i, 1));
-		}
-
-		DataVisualization dv = new DataVisualization(problem.getListAlgorithms(), rsFilePaths, rfFilePaths,
-				decisionVariables, problem.getSolutionKnown());
-		
-		if (dv.run()) {
-			dv.addBackButtonActionListener(frame, mainPanel, dv);
-			frame.remove(mainPanel);
-			frame.setContentPane(new Container());
-			frame.getContentPane().setLayout(new BorderLayout());
-			frame.getContentPane().add(dv, BorderLayout.CENTER);
-			frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-			frame.revalidate();
-			frame.repaint();
+	
+			DataVisualization dv = new DataVisualization(problem.getListAlgorithms(), rsFilePaths, rfFilePaths,
+					decisionVariables, problem.getSolutionKnown());
+			
+			if (dv.run()) {
+				dv.addBackButtonActionListener(frame, mainPanel, dv);
+				frame.remove(mainPanel);
+				frame.setContentPane(new Container());
+				frame.getContentPane().setLayout(new BorderLayout());
+				frame.getContentPane().add(dv, BorderLayout.CENTER);
+				frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+				frame.revalidate();
+				frame.repaint();
+			}else {
+				JOptionPane.showMessageDialog(frame, new JLabel(dv.getBuildErrorMessage()),
+						"Error", JOptionPane.ERROR_MESSAGE);
+			}
 		}else {
-			// TODO give a error message to the user informing that the visualizations couldn't be built
+			JOptionPane.showMessageDialog(frame, new JLabel("Before trying to visualize results, you must load a Problem or define a new one and run it."),
+					"Error", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 }

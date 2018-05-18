@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <adminXmlObject>
     <email>tmrfo1@iscte-iul.pt</email>
-    <pathInput>inputTest</pathInput>
-    <pathOutput>outputhTest</pathOutput>
+    <pathInput>testJars/</pathInput>
+    <pathOutput>experimentsBaseDirectory/</pathOutput>
 </adminXmlObject>

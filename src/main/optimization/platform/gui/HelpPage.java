@@ -2,24 +2,16 @@ package main.optimization.platform.gui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 import java.util.ArrayList;
-
 import javax.swing.JFrame;
 import javax.swing.JTextField;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
-
 import main.optimization.platform.utils.EmailSender;
-
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextArea;
 import javax.swing.JButton;
 import javax.swing.JDialog;
-
 import java.awt.Color;
 
 public class HelpPage extends JDialog {
@@ -30,16 +22,8 @@ public class HelpPage extends JDialog {
 	private JTextArea textArea;
 	private String adminEmail;
 
-
-	/**
-	 * Initialize the contents of the frame.
-	 * @wbp.parser.entryPoint
-	 */
 	public HelpPage(JFrame frame, String emailAdmin)  {
-	adminEmail=emailAdmin;
-
-
-		
+		adminEmail=emailAdmin;
 		setBackground(Color.GRAY);
 		setTitle("Help");
 		setBounds(100, 100, 450, 300);
@@ -82,7 +66,6 @@ public class HelpPage extends JDialog {
 		JButton btnSend = new JButton("Send");
 		btnSend.setBounds(181, 217, 89, 23);
 		btnSend.addActionListener(new ActionListener() {
-			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				ArrayList<String> to = new ArrayList<>();
@@ -94,7 +77,7 @@ public class HelpPage extends JDialog {
 
 				sender.sendFromGMail();
 				JOptionPane.showMessageDialog(frame, "Email was sent");
-			}});
+		}});
 		
 		getContentPane().add(btnSend);
 		

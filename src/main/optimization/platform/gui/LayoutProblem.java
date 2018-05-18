@@ -8,16 +8,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class LayoutProblem {
 	private int maxWaitingTime;
-	
 	private int numberVariables;
 	private int numberCriteria;
+	private int bitsPerVariable;
 	private String variablesName;
 	private String problemTitle;
 	private String problemDescription;
 	private String email;
 	private boolean automatic;
 	private int solutionKnown;
-	// Integer/Double/Boolean
 	private String type;
 	private List<String> listAlgorithms;
 	private List<TableRowVariable> listVariable;
@@ -136,6 +135,7 @@ public class LayoutProblem {
 		this.numberCriteria = numberCriteria;
 	}
 
+	@XmlElement
 	public String getVariablesName() {
 		return variablesName;
 	}
@@ -147,7 +147,14 @@ public class LayoutProblem {
 
 	@XmlElement
 	public int getBitsPerVariable() {
-		// TODO Auto-generated method stub
-		return 10;
+		return bitsPerVariable;
 	}
+	
+	@XmlElement
+	public void setBitsPerVariable(int bitsPerVariable) {
+		// TODO this method is not beeing called by the UI yet
+		this.bitsPerVariable = bitsPerVariable;
+	}
+	
+	
 }

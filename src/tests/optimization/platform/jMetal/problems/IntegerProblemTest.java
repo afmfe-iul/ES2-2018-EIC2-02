@@ -36,7 +36,6 @@ public class IntegerProblemTest {
 			
 			instance.evaluate(solution);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

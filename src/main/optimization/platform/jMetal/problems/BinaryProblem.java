@@ -34,7 +34,6 @@ public class BinaryProblem extends AbstractBinaryProblem {
 	}
 
 	@Override
-	//TODO check later
 	protected int getBitsPerVariable(int index) {
 		return bitsPerVariable;
 	}
