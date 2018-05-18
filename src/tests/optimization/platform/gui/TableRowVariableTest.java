@@ -6,13 +6,6 @@ import main.optimization.platform.gui.TableRowVariable;
 
 public class TableRowVariableTest {
 	
-	@Test
-	public void testGetterAndSetterForName(){
-		TableRowVariable instance = new TableRowVariable();
-		String name = "test";
-		instance.setName(name);
-		assertEquals("The getter for the field 'name' is not returning the same value that was setted.", instance.getName(), name);
-	}
 	
 	@Test
 	public void testGetterAndSetterForRule(){

@@ -182,7 +182,7 @@ public class MainLayout {
 		btnRunDemo.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				readProblemFromInterface();
+				// readProblemFromInterface();
 				runDemo();
 			}
 		});
@@ -269,7 +269,7 @@ public class MainLayout {
 				new HelpPage(frame, emailAdmin);
 			}
 		});
-		
+
 		toolBar.add(bttFaq);
 		toolBar.addSeparator();
 		toolBar.add(bttAgreement);
@@ -277,7 +277,8 @@ public class MainLayout {
 		toolBar.add(bttHelp);
 
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
-		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+		groupLayout
+				.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addGroup(groupLayout.createSequentialGroup().addContainerGap()
 								.addGroup(groupLayout.createParallelGroup(Alignment.LEADING).addGroup(groupLayout
 										.createSequentialGroup().addGroup(groupLayout
@@ -481,10 +482,6 @@ public class MainLayout {
 		resetTableModels();
 		mainPanel = frame.getContentPane();
 		mainPanel.setLayout(groupLayout);
-
-		menuBar = new JMenuBar();
-		// menuBar.add(bttAgreement);
-		frame.setJMenuBar(menuBar);
 	}
 
 	public void loadData() {
@@ -494,10 +491,10 @@ public class MainLayout {
 		txtEmail.setText("demo@email.com");
 		File file = new File("experimentsBaseDirectory/TestProblem/rules.cf");
 		DefaultTableModel modelManual = new DefaultTableModel(new Object[][] {},
-				new String[] { "Name", "Rule", "Minimum", "Maximum", "Forbidden" }) {
+				new String[] { "Rule", "Minimum", "Maximum", "Forbidden" }) {
 			private static final long serialVersionUID = 1L;
 			@SuppressWarnings("rawtypes")
-			Class[] columnTypes = new Class[] { String.class, String.class, Double.class, Double.class, Double.class };
+			Class[] columnTypes = new Class[] { String.class, Double.class, Double.class, Double.class };
 
 			public Class<?> getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
@@ -508,7 +505,7 @@ public class MainLayout {
 			Scanner sc = new Scanner(file);
 			int i = 0;
 			while (sc.hasNextLine()) {
-				modelManual.addRow(new Object[] { "Name" + i, sc.nextLine(), -5.0, 5.0 });
+				modelManual.addRow(new Object[] { sc.nextLine(), -5.0, 5.0 });
 				i++;
 			}
 			sc.close();
@@ -608,10 +605,9 @@ public class MainLayout {
 		DefaultTableModel modelVariable = null;
 		if (comboBoxType.getSelectedItem().toString() == "Integer") {
 			modelVariable = new DefaultTableModel(new Object[][] {},
-					new String[] { "Name", "Rule", "Minimum", "Maximum", "Forbidden" }) {
+					new String[] { "Rule", "Minimum", "Maximum", "Forbidden" }) {
 
-				Class[] columnTypes = new Class[] { String.class, String.class, Integer.class, Integer.class,
-						Integer.class };
+				Class[] columnTypes = new Class[] { String.class, Integer.class, Integer.class, Integer.class };
 
 				public Class<?> getColumnClass(int columnIndex) {
 					return columnTypes[columnIndex];
@@ -620,10 +616,9 @@ public class MainLayout {
 		}
 		if (comboBoxType.getSelectedItem().toString() == "Double") {
 			modelVariable = new DefaultTableModel(new Object[][] {},
-					new String[] { "Name", "Rule", "Minimum", "Maximum", "Forbidden" }) {
+					new String[] { "Rule", "Minimum", "Maximum", "Forbidden" }) {
 
-				Class[] columnTypes = new Class[] { String.class, String.class, Double.class, Double.class,
-						Double.class };
+				Class[] columnTypes = new Class[] { String.class, Double.class, Double.class, Double.class };
 
 				public Class<?> getColumnClass(int columnIndex) {
 					return columnTypes[columnIndex];
@@ -631,9 +626,9 @@ public class MainLayout {
 			};
 		}
 		if (comboBoxType.getSelectedItem().toString() == "Binary") {
-			modelVariable = new DefaultTableModel(new Object[][] {}, new String[] { "Name", "Rule", "Forbidden" }) {
+			modelVariable = new DefaultTableModel(new Object[][] {}, new String[] { "Rule", "Forbidden" }) {
 
-				Class[] columnTypes = new Class[] { String.class, String.class, Boolean.class };
+				Class[] columnTypes = new Class[] { String.class, Integer.class };
 
 				public Class<?> getColumnClass(int columnIndex) {
 					return columnTypes[columnIndex];
@@ -690,28 +685,25 @@ public class MainLayout {
 			TableModel modelCriteria = tableCriteria.getModel();
 			if (comboBoxType.getSelectedItem() == "Double")
 				for (int i = 0; i < tableVariable.getRowCount(); i++) {
-					modelVariable.setValueAt(listVariable.get(i).getName(), i, 0);
-					modelVariable.setValueAt(listVariable.get(i).getRule(), i, 1);
-					modelVariable.setValueAt(Double.parseDouble(listVariable.get(i).getMinimo()), i, 2);
-					modelVariable.setValueAt(Double.parseDouble(listVariable.get(i).getMaximo()), i, 3);
+					modelVariable.setValueAt(listVariable.get(i).getRule(), i, 0);
+					modelVariable.setValueAt(Double.parseDouble(listVariable.get(i).getMinimo()), i, 1);
+					modelVariable.setValueAt(Double.parseDouble(listVariable.get(i).getMaximo()), i, 2);
 					if (listVariable.get(i).getForbidden() != null)
-						modelVariable.setValueAt(Double.parseDouble(listVariable.get(i).getForbidden()), i, 4);
+						modelVariable.setValueAt(Double.parseDouble(listVariable.get(i).getForbidden()), i, 3);
 				}
 			if (comboBoxType.getSelectedItem() == "Integer")
 				for (int i = 0; i < tableVariable.getRowCount(); i++) {
-					modelVariable.setValueAt(listVariable.get(i).getName(), i, 0);
-					modelVariable.setValueAt(listVariable.get(i).getRule(), i, 1);
-					modelVariable.setValueAt(Integer.parseInt(listVariable.get(i).getMinimo()), i, 2);
-					modelVariable.setValueAt(Integer.parseInt(listVariable.get(i).getMaximo()), i, 3);
+					modelVariable.setValueAt(listVariable.get(i).getRule(), i, 0);
+					modelVariable.setValueAt(Integer.parseInt(listVariable.get(i).getMinimo()), i, 1);
+					modelVariable.setValueAt(Integer.parseInt(listVariable.get(i).getMaximo()), i, 2);
 					if (listVariable.get(i).getForbidden() != null)
-						modelVariable.setValueAt(Integer.parseInt(listVariable.get(i).getForbidden()), i, 4);
+						modelVariable.setValueAt(Integer.parseInt(listVariable.get(i).getForbidden()), i, 3);
 				}
-			if (comboBoxType.getSelectedItem() == "Boolean")
+			if (comboBoxType.getSelectedItem() == "Binary")
 				for (int i = 0; i < tableVariable.getRowCount(); i++) {
-					modelVariable.setValueAt(listVariable.get(i).getName(), i, 0);
-					modelVariable.setValueAt(listVariable.get(i).getRule(), i, 1);
+					modelVariable.setValueAt(listVariable.get(i).getRule(), i, 0);
 					if (listVariable.get(i).getForbidden() != null)
-						modelVariable.setValueAt(Boolean.parseBoolean(listVariable.get(i).getForbidden()), i, 4);
+						modelVariable.setValueAt(Integer.parseInt(listVariable.get(i).getForbidden()), i, 1);
 				}
 			for (int i = 0; i < tableCriteria.getRowCount(); i++) {
 				modelCriteria.setValueAt(listCriteria.get(i).getName(), i, 0);
@@ -765,27 +757,21 @@ public class MainLayout {
 		if (problemType == "Integer") {
 			for (int i = 0; i < tableVariable.getRowCount(); i++) {
 				TableRowVariable m = new TableRowVariable();
-				m.setName((String) tableVariable.getValueAt(i, 0));
-				m.setRule((String) tableVariable.getValueAt(i, 1));
-				m.setMinimo(Integer.toString((int) tableVariable.getValueAt(i, 2)));
-				m.setMaximo(Integer.toString((int) tableVariable.getValueAt(i, 3)));
-				m.setForbidden(Integer.toString((int) tableVariable.getValueAt(i, 4)));
+				m.setRule((String) tableVariable.getValueAt(i, 0));
+				m.setMinimo(Integer.toString((int) tableVariable.getValueAt(i, 1)));
+				m.setMaximo(Integer.toString((int) tableVariable.getValueAt(i, 2)));
+				m.setForbidden(Integer.toString((int) tableVariable.getValueAt(i, 3)));
 				listVariable.add(m);
 			}
 		}
 		if (problemType == "Double") {
 			for (int i = 0; i < tableVariable.getRowCount(); i++) {
 				TableRowVariable m = new TableRowVariable();
-				if (tableVariable.getValueAt(i, 0) != null) {
-					m.setName((String) tableVariable.getValueAt(i, 0));
-				} else {
-					m.setName(null);
-				}
-				m.setRule((String) tableVariable.getValueAt(i, 1));
-				m.setMinimo(Double.toString((Double) tableVariable.getValueAt(i, 2)));
-				m.setMaximo(Double.toString((Double) tableVariable.getValueAt(i, 3)));
-				if (tableVariable.getValueAt(i, 4) != null) {
-					m.setForbidden(Double.toString((Double) tableVariable.getValueAt(i, 4)));
+				m.setRule((String) tableVariable.getValueAt(i, 0));
+				m.setMinimo(Double.toString((Double) tableVariable.getValueAt(i, 1)));
+				m.setMaximo(Double.toString((Double) tableVariable.getValueAt(i, 2)));
+				if (tableVariable.getValueAt(i, 3) != null) {
+					m.setForbidden(Double.toString((Double) tableVariable.getValueAt(i, 3)));
 				} else {
 					m.setForbidden(null);
 				}
@@ -795,9 +781,13 @@ public class MainLayout {
 		if (problemType == "Binary") {
 			for (int i = 0; i < tableVariable.getRowCount(); i++) {
 				TableRowVariable m = new TableRowVariable();
-				m.setName((String) tableVariable.getValueAt(i, 0));
-				m.setRule((String) tableVariable.getValueAt(i, 1));
-				m.setForbidden(Boolean.toString((Boolean) tableVariable.getValueAt(i, 2)));
+				m.setRule((String) tableVariable.getValueAt(i, 0));
+
+				if (tableVariable.getValueAt(i, 1) != null) {
+					m.setForbidden(Integer.toString((int) tableVariable.getValueAt(i, 1)));
+				} else {
+					m.setForbidden(null);
+				}
 				listVariable.add(m);
 			}
 		}
@@ -872,33 +862,37 @@ public class MainLayout {
 	}
 
 	private void visualizeDemo(LayoutProblem problem) {
-		if(problem != null) {
+		if (problem != null) {
 			List<String> rfFilePaths = new ArrayList<String>();
 			List<String> rsFilePaths = new ArrayList<String>();
-			
+
 			File folder = new File(Builders.BASE_DIRECTORY + problem.getProblemTitle() + "/referenceFronts");
 			File[] listOfFiles = folder.listFiles();
-	
-		    for (int i = 0; i < listOfFiles.length; i++) {
-		    	// listOfFiles[i].getName().split(".").length > 2 is to prevent getting the DoubleProblem.rf/BinaryProblem.rf, etc files
-		    	// and take into account the rf and rs files for each specific algorithm, for example DoubleProblem.MOEAD.rf
-		    	if (listOfFiles[i].isFile() && listOfFiles[i].getName().split("\\.").length > 2) {
-					if(listOfFiles[i].getName().endsWith(".rf")) {
-						rfFilePaths.add(Builders.BASE_DIRECTORY + problem.getProblemTitle() + "/referenceFronts/" + listOfFiles[i].getName());
-					}else if(listOfFiles[i].getName().endsWith(".rs")) {
-						rsFilePaths.add(Builders.BASE_DIRECTORY + problem.getProblemTitle() + "/referenceFronts/" + listOfFiles[i].getName());
+
+			for (int i = 0; i < listOfFiles.length; i++) {
+				// listOfFiles[i].getName().split(".").length > 2 is to prevent getting the
+				// DoubleProblem.rf/BinaryProblem.rf, etc files
+				// and take into account the rf and rs files for each specific algorithm, for
+				// example DoubleProblem.MOEAD.rf
+				if (listOfFiles[i].isFile() && listOfFiles[i].getName().split("\\.").length > 2) {
+					if (listOfFiles[i].getName().endsWith(".rf")) {
+						rfFilePaths.add(Builders.BASE_DIRECTORY + problem.getProblemTitle() + "/referenceFronts/"
+								+ listOfFiles[i].getName());
+					} else if (listOfFiles[i].getName().endsWith(".rs")) {
+						rsFilePaths.add(Builders.BASE_DIRECTORY + problem.getProblemTitle() + "/referenceFronts/"
+								+ listOfFiles[i].getName());
 					}
 				}
-		    }
-			
+			}
+
 			List<String> decisionVariables = new ArrayList<String>();
 			for (int i = 0; i < tableVariable.getModel().getRowCount(); i++) {
 				decisionVariables.add((String) tableVariable.getModel().getValueAt(i, 1));
 			}
-	
+
 			DataVisualization dv = new DataVisualization(problem.getListAlgorithms(), rsFilePaths, rfFilePaths,
 					decisionVariables, problem.getSolutionKnown());
-			
+
 			if (dv.run()) {
 				dv.addBackButtonActionListener(frame, mainPanel, dv);
 				frame.remove(mainPanel);
@@ -908,12 +902,13 @@ public class MainLayout {
 				frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 				frame.revalidate();
 				frame.repaint();
-			}else {
-				JOptionPane.showMessageDialog(frame, new JLabel(dv.getBuildErrorMessage()),
-						"Error", JOptionPane.ERROR_MESSAGE);
+			} else {
+				JOptionPane.showMessageDialog(frame, new JLabel(dv.getBuildErrorMessage()), "Error",
+						JOptionPane.ERROR_MESSAGE);
 			}
-		}else {
-			JOptionPane.showMessageDialog(frame, new JLabel("Before trying to visualize results, you must load a Problem or define a new one and run it."),
+		} else {
+			JOptionPane.showMessageDialog(frame, new JLabel(
+					"Before trying to visualize results, you must load a Problem or define a new one and run it."),
 					"Error", JOptionPane.ERROR_MESSAGE);
 		}
 	}

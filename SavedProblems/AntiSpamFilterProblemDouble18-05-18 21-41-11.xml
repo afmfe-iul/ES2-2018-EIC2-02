@@ -1,2038 +1,1708 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <layoutProblem>
     <automatic>false</automatic>
+    <bitsPerVariable>0</bitsPerVariable>
     <email>demo@email.com</email>
     <listAlgorithms>
-        <listAlgorithms>MOEADD</listAlgorithms>
+        <listAlgorithms>IBEA</listAlgorithms>
+        <listAlgorithms>SPEA2</listAlgorithms>
+        <listAlgorithms>NSGAII</listAlgorithms>
+        <listAlgorithms>RandomSearch</listAlgorithms>
+        <listAlgorithms>MOEADSTM</listAlgorithms>
     </listAlgorithms>
     <listCriteria>
         <listCriteria>
-            <name>FP</name>
-            <path>C:\Users\André Freire\workspaceJAVA\ES2-2018-EIC2-02\testJars\FalseNegatives.jar</path>
+            <name>testejar1</name>
+            <path>C:\Users\d\Downloads\jmetal-algorithm-5.5.1-sources.jar</path>
         </listCriteria>
         <listCriteria>
-            <name>FN</name>
-            <path>C:\Users\André Freire\workspaceJAVA\ES2-2018-EIC2-02\testJars\FalsePositives.jar</path>
+            <name>testejar2</name>
+            <path>C:\Users\d\Downloads\jmetal-algorithm-5.5.1-sources.jar</path>
         </listCriteria>
     </listCriteria>
     <listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name0</name>
             <rule>BAYES_00</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name1</name>
             <rule>FREEMAIL_FROM</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name2</name>
             <rule>RDNS_NONE</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name3</name>
             <rule>FREEMAIL_REPLYTO_END_DIGIT</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name4</name>
             <rule>MSOE_MID_WRONG_CASE</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name5</name>
             <rule>DATE_IN_PAST_24_48</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name6</name>
             <rule>T_LOTS_OF_MONEY</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name7</name>
             <rule>SPF_HELO_FAIL</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name8</name>
             <rule>ALL_TRUSTED</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name9</name>
             <rule>DNS_FROM_RFC_DSN</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name10</name>
             <rule>DATE_IN_PAST_06_12</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name11</name>
             <rule>HTML_IMAGE_RATIO_04</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name12</name>
             <rule>HTML_MESSAGE</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name13</name>
             <rule>NO_DNS_FOR_FROM</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name14</name>
             <rule>URIBL_GREY</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name15</name>
             <rule>PLING_QUERY</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name16</name>
             <rule>HTTP_ESCAPED_HOST</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name17</name>
             <rule>MIME_HEADER_CTYPE_ONLY</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name18</name>
             <rule>MIME_HTML_ONLY</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name19</name>
             <rule>NORMAL_HTTP_TO_IP</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name20</name>
             <rule>DATE_IN_PAST_03_06</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name21</name>
             <rule>HK_NAME_DRUGS</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name22</name>
             <rule>HS_INDEX_PARAM</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name23</name>
             <rule>LOW_PRICE</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name24</name>
             <rule>SPF_SOFTFAIL</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name25</name>
             <rule>MSGID_FROM_MTA_HEADER</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name26</name>
             <rule>RCVD_IN_DNSWL_LOW</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name27</name>
             <rule>MISSING_HEADERS</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name28</name>
             <rule>NO_RECEIVED</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name29</name>
             <rule>NO_RELAYS</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name30</name>
             <rule>RCVD_IN_NJABL_PROXY</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name31</name>
             <rule>BAYES_05</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name32</name>
             <rule>SPF_FAIL</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name33</name>
             <rule>SUBJECT_NEEDS_ENCODING</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name34</name>
             <rule>HTML_FONT_FACE_BAD</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name35</name>
             <rule>RCVD_IN_DNSWL_MED</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name36</name>
             <rule>TVD_SPACE_RATIO</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name37</name>
             <rule>SUBJ_DOLLARS</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name38</name>
             <rule>FROM_LOCAL_NOVOWEL</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name39</name>
             <rule>MIME_QP_LONG_LINE</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name40</name>
             <rule>APOSTROPHE_FROM</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name41</name>
             <rule>RCVD_IN_DNSWL_HI</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name42</name>
             <rule>RCVD_NUMERIC_HELO</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name43</name>
             <rule>HTML_TAG_BALANCE_BODY</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name44</name>
             <rule>RDNS_DYNAMIC</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name45</name>
             <rule>URIBL_SBL</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name46</name>
             <rule>ACT_NOW_CAPS</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name47</name>
             <rule>BAYES_50</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name48</name>
             <rule>DEAR_EMAIL</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name49</name>
             <rule>DRUGS_ANXIETY</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name50</name>
             <rule>ENV_AND_HDR_SPF_MATCH</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name51</name>
             <rule>SPF_PASS</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name52</name>
             <rule>URI_HEX</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name53</name>
             <rule>USER_IN_DEF_SPF_WL</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name54</name>
             <rule>SPF_HELO_SOFTFAIL</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name55</name>
             <rule>DATE_IN_PAST_12_24</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name56</name>
             <rule>RCVD_IN_DNSWL_NONE</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name57</name>
             <rule>FH_HOST_EQ_PACBELL_D</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name58</name>
             <rule>MSGID_SPAM_CAPS</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name59</name>
             <rule>SUBJECT_DRUG_GAP_C</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name60</name>
             <rule>HTML_IMAGE_RATIO_02</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name61</name>
             <rule>URG_BIZ</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name62</name>
             <rule>FS_START_DOYOU2</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name63</name>
             <rule>XMAILER_MIMEOLE_OL_3AC1D</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name64</name>
             <rule>DATE_IN_FUTURE_12_24</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name65</name>
             <rule>MSGID_RANDY</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name66</name>
             <rule>FREEMAIL_REPLY</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name67</name>
             <rule>FROM_LOCAL_DIGITS</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name68</name>
             <rule>FROM_LOCAL_HEX</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name69</name>
             <rule>HTTP_EXCESSIVE_ESCAPES</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name70</name>
             <rule>FAKE_REPLY_C</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name71</name>
             <rule>SPF_NEUTRAL</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name72</name>
             <rule>T_FILL_THIS_FORM_SHORT</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name73</name>
             <rule>BODY_ENHANCEMENT</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name74</name>
             <rule>HK_RANDOM_ENVFROM</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name75</name>
             <rule>MISSING_SUBJECT</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name76</name>
             <rule>SUBJ_BUY</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name77</name>
             <rule>HTML_TAG_BALANCE_HEAD</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name78</name>
             <rule>MISSING_MIMEOLE</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name79</name>
             <rule>MPART_ALT_DIFF</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name80</name>
             <rule>BASE64_LENGTH_78_79</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name81</name>
             <rule>DIET_1</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name82</name>
             <rule>SUBJ_ALL_CAPS</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name83</name>
             <rule>TO_NO_BRKTS_DYNIP</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name84</name>
             <rule>BAYES_20</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name85</name>
             <rule>HTML_IMAGE_RATIO_08</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name86</name>
             <rule>HTML_COMMENT_SAVED_URL</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name87</name>
             <rule>WEIRD_PORT</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name88</name>
             <rule>BAYES_40</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name89</name>
             <rule>MARKETING_PARTNERS</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name90</name>
             <rule>HTML_EMBEDS</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name91</name>
             <rule>HTML_IMAGE_ONLY_28</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name92</name>
             <rule>FRT_ADOBE2</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name93</name>
             <rule>RCVD_IN_NJABL_SPAM</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name94</name>
             <rule>ANY_BOUNCE_MESSAGE</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name95</name>
             <rule>VBOUNCE_MESSAGE</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name96</name>
             <rule>RCVD_IN_RP_RNBL</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name97</name>
             <rule>DRUGS_ERECTILE</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name98</name>
             <rule>UNPARSEABLE_RELAY</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name99</name>
             <rule>RCVD_IN_SORBS_DUL</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name100</name>
             <rule>FSL_HELO_NON_FQDN_1</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name101</name>
             <rule>HELO_NO_DOMAIN</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name102</name>
             <rule>INVALID_MSGID</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name103</name>
             <rule>HTML_IMAGE_RATIO_06</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name104</name>
             <rule>DATE_IN_FUTURE_03_06</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name105</name>
             <rule>FU_COMMON_SUBS2</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name106</name>
             <rule>SPOOF_COM2COM</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name107</name>
             <rule>MIME_HTML_MOSTLY</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name108</name>
             <rule>SPF_HELO_PASS</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name109</name>
             <rule>DATE_IN_FUTURE_06_12</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name110</name>
             <rule>TVD_APPROVED</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name111</name>
             <rule>DEAR_SOMETHING</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name112</name>
             <rule>T_FROM_MISSPACED</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name113</name>
             <rule>EXTRA_MPART_TYPE</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name114</name>
             <rule>TVD_FW_GRAPHIC_NAME_LONG</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name115</name>
             <rule>TVD_FW_GRAPHIC_NAME_MID</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name116</name>
             <rule>MONEY_FROM_MISSP</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name117</name>
             <rule>FRT_SOMA2</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name118</name>
             <rule>TVD_SUBJ_ACC_NUM</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name119</name>
             <rule>RCVD_IN_PBL</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name120</name>
             <rule>BODY_ENHANCEMENT2</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name121</name>
             <rule>FRT_SOMA</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name122</name>
             <rule>MONEY_BACK</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name123</name>
             <rule>FRT_BIGGERMEM1</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name124</name>
             <rule>BAYES_60</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name125</name>
             <rule>CTYPE_001C_B</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name126</name>
             <rule>USER_IN_DEF_WHITELIST</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name127</name>
             <rule>RATWARE_MS_HASH</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name128</name>
             <rule>FUZZY_VPILL</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name129</name>
             <rule>FREEMAIL_REPLYTO</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name130</name>
             <rule>UPPERCASE_50_75</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name131</name>
             <rule>HTML_FONT_SIZE_LARGE</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name132</name>
             <rule>DATE_IN_FUTURE_96_XX</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name133</name>
             <rule>BAYES_99</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name134</name>
             <rule>FORGED_HOTMAIL_RCVD2</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name135</name>
             <rule>RCVD_IN_BRBL_LASTEXT</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name136</name>
             <rule>HTML_IMAGE_ONLY_16</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name137</name>
             <rule>MIME_BASE64_TEXT</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name138</name>
             <rule>HTML_IMAGE_ONLY_24</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name139</name>
             <rule>BAD_CREDIT</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name140</name>
             <rule>BUG6152_INVALID_DATE_TZ_ABSURD</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name141</name>
             <rule>INVALID_DATE_TZ_ABSURD</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name142</name>
             <rule>MSGID_OUTLOOK_INVALID</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name143</name>
             <rule>NO_RDNS_DOTCOM_HELO</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name144</name>
             <rule>HTML_IMAGE_ONLY_20</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name145</name>
             <rule>HTML_SHORT_LINK_IMG_3</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name146</name>
             <rule>IP_LINK_PLUS</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name147</name>
             <rule>RATWARE_OUTLOOK_NONAME</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name148</name>
             <rule>FORGED_MUA_MOZILLA</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name149</name>
             <rule>INVALID_DATE</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name150</name>
             <rule>NA_DOLLARS</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name151</name>
             <rule>RCVD_FAKE_HELO_DOTCOM</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name152</name>
             <rule>FORGED_MUA_OUTLOOK</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name153</name>
             <rule>FROM_ILLEGAL_CHARS</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name154</name>
             <rule>HTML_FONT_LOW_CONTRAST</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name155</name>
             <rule>HTML_OBFUSCATE_05_10</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name156</name>
             <rule>MIME_HTML_ONLY_MULTI</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name157</name>
             <rule>MSGID_SHORT</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name158</name>
             <rule>FORGED_YAHOO_RCVD</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name159</name>
             <rule>HTML_IMAGE_ONLY_04</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name160</name>
             <rule>HTML_SHORT_LINK_IMG_1</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name161</name>
             <rule>BANG_GUAR</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name162</name>
             <rule>GUARANTEED_100_PERCENT</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name163</name>
             <rule>FIN_FREE</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name164</name>
             <rule>DOS_OE_TO_MX</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name165</name>
             <rule>FORGED_OUTLOOK_HTML</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name166</name>
             <rule>FSL_HELO_BARE_IP_1</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name167</name>
             <rule>RCVD_HELO_IP_MISMATCH</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name168</name>
             <rule>TWO_IPS_RCVD</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name169</name>
             <rule>DNS_FROM_RFC_BOGUSMX</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name170</name>
             <rule>FB_NO_SCRIP_NEEDED</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name171</name>
             <rule>FORGED_OUTLOOK_TAGS</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name172</name>
             <rule>FREEMAIL_ENVFROM_END_DIGIT</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name173</name>
             <rule>HTML_MIME_NO_HTML_TAG</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name174</name>
             <rule>HTML_SHORT_LINK_IMG_2</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name175</name>
             <rule>NO_PRESCRIPTION</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name176</name>
             <rule>RCVD_IN_SBL</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name177</name>
             <rule>ENGLISH_UCE_SUBJECT</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name178</name>
             <rule>FREE_QUOTE_INSTANT</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name179</name>
             <rule>HTML_IMAGE_ONLY_12</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name180</name>
             <rule>HIDE_WIN_STATUS</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name181</name>
             <rule>OBFUSCATING_COMMENT</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name182</name>
             <rule>SUSPICIOUS_RECIPS</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name183</name>
             <rule>ADVANCE_FEE_2</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name184</name>
             <rule>FORGED_MUA_IMS</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name185</name>
             <rule>HTML_EXTRA_CLOSE</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name186</name>
             <rule>SUBJECT_DIET</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name187</name>
             <rule>EXCUSE_REMOVE</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name188</name>
             <rule>FREEMAIL_FORGED_REPLYTO</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name189</name>
             <rule>EXCUSE_24</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name190</name>
             <rule>TRACKER_ID</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name191</name>
             <rule>SUBJ_ILLEGAL_CHARS</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name192</name>
             <rule>FILL_THIS_FORM_LOAN</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name193</name>
             <rule>T_FILL_THIS_FORM</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name194</name>
             <rule>HTML_FONT_SIZE_HUGE</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name195</name>
             <rule>DATE_IN_FUTURE_24_48</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name196</name>
             <rule>FORGED_MUA_EUDORA</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name197</name>
             <rule>RATWARE_EGROUPS</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name198</name>
             <rule>EXCUSE_4</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name199</name>
             <rule>FUZZY_CREDIT</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name200</name>
             <rule>HTML_IMAGE_ONLY_08</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name201</name>
             <rule>URIBL_DBL_SPAM</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name202</name>
             <rule>FM_SUBJ_APPROVE</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name203</name>
             <rule>MIME_BASE64_BLANKS</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name204</name>
             <rule>WEIRD_QUOTING</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name205</name>
             <rule>DATE_IN_PAST_96_XX</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name206</name>
             <rule>FROM_OFFERS</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name207</name>
             <rule>ADVANCE_FEE_3</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name208</name>
             <rule>ADVANCE_FEE_4</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name209</name>
             <rule>DEAR_FRIEND</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name210</name>
             <rule>MILLION_USD</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name211</name>
             <rule>UPPERCASE_75_100</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name212</name>
             <rule>US_DOLLARS_3</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name213</name>
             <rule>TVD_SUBJ_WIPE_DEBT</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name214</name>
             <rule>BAYES_95</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name215</name>
             <rule>DOS_OUTLOOK_TO_MX</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name216</name>
             <rule>SPF_HELO_NEUTRAL</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name217</name>
             <rule>FH_DATE_IS_19XX</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name218</name>
             <rule>BAYES_80</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name219</name>
             <rule>FROM_MISSP_FREEMAIL</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name220</name>
             <rule>FH_FROM_CASH</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name221</name>
             <rule>LOCALPART_IN_SUBJECT</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name222</name>
             <rule>UNCLAIMED_MONEY</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name223</name>
             <rule>HTML_TITLE_SUBJ_DIFF</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name224</name>
             <rule>HK_NAME_FREE</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name225</name>
             <rule>REPTO_QUOTE_YAHOO</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name226</name>
             <rule>TO_MALFORMED</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name227</name>
             <rule>MPART_ALT_DIFF_COUNT</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name228</name>
             <rule>FR_TITLE_NUMS</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name229</name>
             <rule>FILL_THIS_FORM_LONG</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name230</name>
             <rule>FS_LARGE_PERCENT2</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name231</name>
             <rule>REPLYTO_WITHOUT_TO_CC</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name232</name>
             <rule>FORGED_TELESP_RCVD</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name233</name>
             <rule>DYN_RDNS_SHORT_HELO_HTML</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name234</name>
             <rule>DOS_OE_TO_MX_IMAGE</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name235</name>
             <rule>PART_CID_STOCK_LESS</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name236</name>
             <rule>FS_WEIGHT_LOSS</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name237</name>
             <rule>GAPPY_SUBJECT</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name238</name>
             <rule>FS_START_LOSE</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name239</name>
             <rule>FB_INCREASE_YOUR</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name240</name>
             <rule>MORE_SEX</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name241</name>
             <rule>DRUG_ED_CAPS</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name242</name>
             <rule>DRUG_ED_ONLINE</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name243</name>
             <rule>MISSING_MIME_HB_SEP</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name244</name>
             <rule>T_MIME_NO_TEXT</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name245</name>
             <rule>URIBL_JP_SURBL</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name246</name>
             <rule>SHORT_TERM_PRICE</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name247</name>
             <rule>FH_FROMEML_NOTLD</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name248</name>
             <rule>FROM_NO_USER</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name249</name>
             <rule>TVD_INCREASE_SIZE</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name250</name>
             <rule>HK_SCAM_N2</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name251</name>
             <rule>TVD_PH_SUBJ_URGENT</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name252</name>
             <rule>FORGED_MUA_OIMO</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name253</name>
             <rule>FUZZY_MILLION</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name254</name>
             <rule>HELO_OEM</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name255</name>
             <rule>URIBL_WS_SURBL</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name256</name>
             <rule>DRUGS_DIET</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name257</name>
             <rule>FB_GVR</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name258</name>
             <rule>HEADER_SPAM</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name259</name>
             <rule>FAKE_HELO_MAIL_COM_DOM</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name260</name>
             <rule>IMPOTENCE</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name261</name>
             <rule>HTML_IMAGE_ONLY_32</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name262</name>
             <rule>ONE_TIME</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name263</name>
             <rule>RCVD_ILLEGAL_IP</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name264</name>
             <rule>FS_REPLICA</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name265</name>
             <rule>FROM_EXCESS_BASE64</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name266</name>
             <rule>DOS_HIGHBIT_HDRS_BODY</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name267</name>
             <rule>NUMERIC_HTTP_ADDR</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name268</name>
             <rule>URIBL_BLACK</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name269</name>
             <rule>FILL_THIS_FORM_FRAUD_PHISH</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name270</name>
             <rule>FORGED_MSGID_YAHOO</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name271</name>
             <rule>FROM_STARTS_WITH_NUMS</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name272</name>
             <rule>SUBJ_YOUR_DEBT</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name273</name>
             <rule>RCVD_IN_IADB_DOPTIN_LT50</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name274</name>
             <rule>RCVD_IN_IADB_LISTED</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name275</name>
             <rule>RCVD_IN_NJABL_RELAY</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name276</name>
             <rule>ONLINE_PHARMACY</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name277</name>
             <rule>TVD_VISIT_PHARMA</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name278</name>
             <rule>FB_SAVE_PERSC</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name279</name>
             <rule>FORGED_MUA_THEBAT_BOUN</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name280</name>
             <rule>FB_LOSE_WEIGHT_CAP</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name281</name>
             <rule>RCVD_DOUBLE_IP_LOOSE</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name282</name>
             <rule>FB_SPACED_FREE</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name283</name>
             <rule>BASE64_LENGTH_79_INF</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name284</name>
             <rule>SHORT_HELO_AND_INLINE_IMAGE</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name285</name>
             <rule>FM_LOTTO_YOU_WON</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name286</name>
             <rule>SUBJ_AS_SEEN</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name287</name>
             <rule>DATE_IN_FUTURE_48_96</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name288</name>
             <rule>HTML_OBFUSCATE_10_20</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name289</name>
             <rule>FUZZY_XPILL</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name290</name>
             <rule>PERCENT_RANDOM</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name291</name>
             <rule>TVD_RCVD_SINGLE</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name292</name>
             <rule>FM_SCHOOLING</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name293</name>
             <rule>FM_SCHOOL_DIPLOMA</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name294</name>
             <rule>SORTED_RECIPS</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name295</name>
             <rule>FH_HOST_IN_ADDRARPA</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name296</name>
             <rule>FROM_BLANK_NAME</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name297</name>
             <rule>HTML_SHORT_CENTER</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name298</name>
             <rule>MISSING_DATE</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name299</name>
             <rule>MISSING_MID</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name300</name>
             <rule>NO_HEADERS_MESSAGE</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name301</name>
             <rule>MANY_SPAN_IN_TEXT</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name302</name>
             <rule>DYN_RDNS_AND_INLINE_IMAGE</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name303</name>
             <rule>TVD_RCVD_IP</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name304</name>
             <rule>TVD_RCVD_IP4</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name305</name>
             <rule>FROM_MISSP_MSFT</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name306</name>
             <rule>SUBJ_YOUR_FAMILY</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name307</name>
             <rule>FRT_DIPLOMA</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name308</name>
             <rule>BANKING_LAWS</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name309</name>
             <rule>RCVD_IN_SORBS_WEB</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name310</name>
             <rule>SANE_91eb43f705d25c804374a746d7519660</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name311</name>
             <rule>FH_HELO_EQ_D_D_D_D</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name312</name>
             <rule>HELO_DYNAMIC_DHCP</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name313</name>
             <rule>S25R_6</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name314</name>
             <rule>DRUG_ED_SILD</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name315</name>
             <rule>RATWARE_EFROM</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name316</name>
             <rule>FROM_MISSP_DYNIP</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name317</name>
             <rule>FH_FROM_GET_NAME</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name318</name>
             <rule>HTML_NONELEMENT_30_40</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name319</name>
             <rule>T_KHOP_FOREIGN_CLICK</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name320</name>
             <rule>FS_ABIGGER</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name321</name>
             <rule>UNRESOLVED_TEMPLATE</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name322</name>
             <rule>FUZZY_PHARMACY</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name323</name>
             <rule>FB_GET_MEDS</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name324</name>
             <rule>HK_LOTTO</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name325</name>
             <rule>KAM_LOTTO1</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name326</name>
             <rule>LOTTO_AGENT</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name327</name>
             <rule>URI_NOVOWEL</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name328</name>
             <rule>FS_NUDE</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name329</name>
             <rule>HELO_LOCALHOST</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name330</name>
             <rule>DRUGS_MUSCLE</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name331</name>
             <rule>MSGID_MULTIPLE_AT</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name332</name>
             <rule>BILLION_DOLLARS</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name333</name>
             <rule>TVD_PH_BODY_ACCOUNTS_PRE</rule>
         </listVariable>
         <listVariable>
             <maximo>5.0</maximo>
             <minimo>-5.0</minimo>
-            <name>Name334</name>
             <rule>FUZZY_PHENT</rule>
         </listVariable>
     </listVariable>
-    <maxWaitingTime>1</maxWaitingTime>
+    <maxWaitingTime>10</maxWaitingTime>
     <numberCriteria>2</numberCriteria>
     <numberVariables>335</numberVariables>
     <problemDescription>testDescription</problemDescription>
-    <problemTitle>AntiSpamFilterProblem</problemTitle>
-    <solutionKnown>5</solutionKnown>
+    <problemTitle>AntiSpamFilterProblemDouble</problemTitle>
+    <solutionKnown>6</solutionKnown>
     <type>Double</type>
     <variablesName>Anti Spam Rules</variablesName>
 </layoutProblem>
