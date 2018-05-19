@@ -47,7 +47,8 @@ import javax.swing.JCheckBox;
 import javax.swing.JToolBar;
 
 /**
- *GUI of the optimizaion platform
+ * GUI of the optimizaion platform
+ * 
  * @author Daniel Caldeira, Hugo Alexandre, André Freire, Tiago Feliciano
  * 
  *
@@ -55,7 +56,7 @@ import javax.swing.JToolBar;
 public class MainLayout {
 	public static String PATH_INPUT;
 	public static String PATH_OUTPUT;
-	
+
 	public JFrame frame;
 	private JTable tableVariable;
 	private JTable tableCriteria;
@@ -98,7 +99,7 @@ public class MainLayout {
 	}
 
 	/**
-	 * Loads config.xml file into different variables in the MainLayout class 
+	 * Loads config.xml file into different variables in the MainLayout class
 	 */
 	public void loadAdminCfgFile() {
 		File file = new File("config.xml");
@@ -189,8 +190,10 @@ public class MainLayout {
 		btnRunDemo.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				readProblemFromInterface();
-				runDemo();
+				if (validateProblemFields()) {
+					readProblemFromInterface();
+					runDemo();
+				}
 			}
 		});
 
@@ -528,8 +531,12 @@ public class MainLayout {
 
 	/**
 	 * Prompt user with a message passed in the method's arguments
-	 * @param message Message to be displayed
-	 * @param error Indicates if the Message dialog displayed is an error message or not
+	 * 
+	 * @param message
+	 *            Message to be displayed
+	 * @param error
+	 *            Indicates if the Message dialog displayed is an error message or
+	 *            not
 	 */
 	public void promptUser(String message, boolean error) {
 		String title = error ? "Error!" : "Warning!";
@@ -538,7 +545,7 @@ public class MainLayout {
 	}
 
 	/**
-	 * Clears graphical user interface 
+	 * Clears graphical user interface
 	 */
 	public void clearProblem() {
 		resetTableModels();
@@ -551,18 +558,68 @@ public class MainLayout {
 		txtNumberVariables.setText("");
 	}
 
+	/**
+	 * checks inputs for wrong data
+	 */
 	public boolean validateProblemFields() {
 		// If problem name contains spaces or special characters
-		Pattern p = Pattern.compile("[^a-z0-9 ]", Pattern.CASE_INSENSITIVE);
-		Matcher m = p.matcher(txtProblemName.getText());
-		if (m.find() || txtProblemName.getText().contains(" ")) {
+		Pattern Namepattern = Pattern.compile("[^a-z0-9 ]", Pattern.CASE_INSENSITIVE);
+		Matcher matcherName = Namepattern.matcher(txtProblemName.getText());
+		Pattern stringPattern = Pattern.compile("[^a-z ]", Pattern.CASE_INSENSITIVE);
+		Pattern numbersPattern = Pattern.compile("[^0-9]", Pattern.CASE_INSENSITIVE);
+		Matcher matcher;
+		String textboxText=txtProblemName.getText();
+		
+		if (textboxText.isEmpty()|| matcherName.find() || textboxText.contains(" ")) {
+			promptUser("Problem name contains invalid characters", true);
 			return false;
 		}
+		matcher = stringPattern.matcher(txtVariablesName.getText());
+		textboxText=txtVariablesName.getText();
+		if (textboxText.isEmpty() || matcher.find()) {
+			promptUser("Variables name contains invalid input", true);
+			return false;
+		}
+		matcher = numbersPattern.matcher(txtNumberVariables.getText());
+		textboxText=txtNumberVariables.getText();
+		if (textboxText.isEmpty() || matcher.find()
+				|| Integer.parseInt(textboxText) != tableVariable.getRowCount()) {
+			promptUser("Variables number contains invalid input", true);
+			return false;
+		}
+		matcher = numbersPattern.matcher(txtMaximumTime.getText());
+		textboxText=txtMaximumTime.getText();
+		if (textboxText.isEmpty() || matcher.find()) {
+			promptUser("Maximum Time contains invalid input", true);
+			return false;
+		}
+		matcher = numbersPattern.matcher(txtNumberCriteria.getText() );
+		textboxText=txtNumberCriteria.getText();
+		if (textboxText.isEmpty() || matcher.find() || Integer.parseInt(textboxText) != tableCriteria.getRowCount()) {
+			promptUser("Number Criteria contains invalid input", true);
+			return false;
+		}
+		matcher = numbersPattern.matcher(txtSolutionKnown.getText());
+		textboxText=txtSolutionKnown.getText();
+		if (textboxText.isEmpty() || matcher.find()) {
+			promptUser("Solution Known contains invalid input", true);
+			return false;
+		}
+		if(txtProblemDescription.getText().isEmpty()) {
+			promptUser("Problem description is empty", true);
+			return false;
+		}
+		if(txtEmail.getText().isEmpty()) {
+			promptUser("Email is empty", true);
+			return false;
+		}
+
 		return true;
 	}
 
 	/**
-	 * Loads a table model for the decision variables with a number of rows inputed by the user in the JTextField txtNumberCriteria 
+	 * Loads a table model for the decision variables with a number of rows inputed
+	 * by the user in the JTextField txtNumberCriteria
 	 */
 	private void loadTableCriteria() {
 		tableCriteria.setModel(modelTableButton = new DefaultTableModel(
@@ -611,6 +668,7 @@ public class MainLayout {
 
 	/**
 	 * File chooser for the decision variable Jars
+	 * 
 	 * @param m
 	 */
 	private void chooseFileTable(int m) {
@@ -624,7 +682,8 @@ public class MainLayout {
 	}
 
 	/**
-	 * Loads a different table model for the problem variables for each problem type inputed by the user 
+	 * Loads a different table model for the problem variables for each problem type
+	 * inputed by the user
 	 */
 	@SuppressWarnings({ "serial", "rawtypes" })
 	private void loadTableVariable() {
@@ -661,18 +720,25 @@ public class MainLayout {
 				}
 			};
 		}
-
-		int counter = Integer.parseInt(txtNumberVariables.getText());
-		for (int i = 0; i < counter; i++) {
-			modelVariable.addRow(new Object[] { null, null });
+		try {
+			int counter = Integer.parseInt(txtNumberVariables.getText());
+			for (int i = 0; i < counter; i++) {
+				modelVariable.addRow(new Object[] { null, null });
+			}
+			scrollPanelTableVariable.setViewportView(tableVariable);
+			tableVariable.setModel(modelVariable);
+		} catch (Exception e) {
+			System.out.println("Invalid data in Variables number field ");
 		}
-		scrollPanelTableVariable.setViewportView(tableVariable);
-		tableVariable.setModel(modelVariable);
+
 	}
 
 	/**
 	 * Loads a already saved problem from a given .xml file name
-	 * @param xmlFile String that indicates the name of the .xml supposed to be loaded to the GUI
+	 * 
+	 * @param xmlFile
+	 *            String that indicates the name of the .xml supposed to be loaded
+	 *            to the GUI
 	 */
 	private void loadXmlProblem(String xmlFile) {
 		File file = new File(xmlFile);
@@ -746,6 +812,7 @@ public class MainLayout {
 		}
 
 	}
+
 	/**
 	 * Reads the problem inputed by the user on the optimization platform
 	 */
@@ -828,7 +895,8 @@ public class MainLayout {
 	}
 
 	/**
-	 * Saves a problem definition inputed by the user to a .xml file on the input directory
+	 * Saves a problem definition inputed by the user to a .xml file on the input
+	 * directory
 	 */
 	private void saveXmlProblem() {
 		if (validateProblemFields()) {
@@ -837,7 +905,8 @@ public class MainLayout {
 				Calendar calobj = Calendar.getInstance();
 				DateFormat df = new SimpleDateFormat("dd-MM-yy HH-mm-ss");
 				// TODO fix this path
-				File file = new File("SavedProblems/" + txtProblemName.getText() + df.format(calobj.getTime()) + ".xml");
+				File file = new File(
+						"SavedProblems/" + txtProblemName.getText() + df.format(calobj.getTime()) + ".xml");
 				JAXBContext jaxbContext = JAXBContext.newInstance(LayoutProblem.class);
 				Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 
@@ -854,7 +923,8 @@ public class MainLayout {
 	}
 
 	/**
-	 * Loads the table that shows available algorithms capable to solve the problem type inputed
+	 * Loads the table that shows available algorithms capable to solve the problem
+	 * type inputed
 	 */
 	private void loadTableAlgorithm() {
 		OptimizationProcess k = new OptimizationProcess();
@@ -885,7 +955,7 @@ public class MainLayout {
 	}
 
 	/**
-	 * Runs problem 
+	 * Runs problem
 	 */
 	private void runDemo() {
 		OptimizationProcess op = new OptimizationProcess();
@@ -903,8 +973,11 @@ public class MainLayout {
 	}
 
 	/**
-	 * Allows the user to check the solutions discovered by the platform thru the external DataVisualization class
-	 * @param problem LayoutProblem
+	 * Allows the user to check the solutions discovered by the platform thru the
+	 * external DataVisualization class
+	 * 
+	 * @param problem
+	 *            LayoutProblem
 	 */
 	private void visualizeDemo(LayoutProblem problem) {
 		if (problem != null) {
@@ -951,7 +1024,8 @@ public class MainLayout {
 				promptUser(dv.getBuildErrorMessage(), true);
 			}
 		} else {
-			promptUser("Before trying to visualize results, you must load a Problem or define a new one and run it.", true);
+			promptUser("Before trying to visualize results, you must load a Problem or define a new one and run it.",
+					true);
 		}
 	}
 }
