@@ -8,6 +8,11 @@ import javax.swing.JTextField;
 import java.awt.Color;
 import java.awt.SystemColor;
 
+/**
+ *Extends JDialog class and provides a user interface to check for the most asked questions and considered
+ *usefull for a more clear user experience from other users 
+ *@author Tiago Feliciano
+ */
 public class LayoutFAQPage extends JDialog{
 	private static final long serialVersionUID = 1L;
 	private static JTextField question1;
@@ -21,6 +26,10 @@ public class LayoutFAQPage extends JDialog{
 	private static JTextPane answer2;
 	private static JTextPane answer1;
 	
+	/**Constructor
+	 * 
+	 * @param frame  Parent JFrame
+	 */
 	public LayoutFAQPage(JFrame frame){
 		setTitle("FAQ Page");
 		setLayout(null);

@@ -13,7 +13,11 @@ import javax.swing.JTextArea;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import java.awt.Color;
-
+/**
+ *Extends JDialog class and provides a user interface pop-up to send emails 
+ *from the user to the administrator, providing a mean to clarify possible problems about the optimization platform
+ *@author Tiago Feliciano
+ */
 public class HelpPage extends JDialog {
 	private static final long serialVersionUID = 1L;
 	private JTextField textField;
@@ -22,6 +26,11 @@ public class HelpPage extends JDialog {
 	private JTextArea textArea;
 	private String adminEmail;
 
+	/**Constructor
+	 * 
+	 * @param frame  Parent JFrame
+	 * @param emailAdmin  Admin´s email previously read from config.xml
+	 */
 	public HelpPage(JFrame frame, String emailAdmin)  {
 		adminEmail=emailAdmin;
 		setBackground(Color.GRAY);

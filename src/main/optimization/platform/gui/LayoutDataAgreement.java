@@ -6,9 +6,17 @@ import javax.swing.JTextPane;
 import javax.swing.UIManager;
 import java.awt.Font;
 
+/**
+ *Extends JDialog class and provides a user interface pop-up to show the Data Agreement associated with the platform.
+ *@author Tiago Feliciano
+ */
 public class LayoutDataAgreement extends JDialog{
 	private static final long serialVersionUID = 1L;
 
+	/**Constructor
+	 * 
+	 * @param frame  Parent JFrame
+	 */
 	public LayoutDataAgreement(JFrame frame) {
 		setFont(new Font("Tahoma", Font.PLAIN, 11));
 		setTitle("Data protection declaration");

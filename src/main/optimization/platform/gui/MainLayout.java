@@ -46,6 +46,12 @@ import main.optimization.platform.utils.Builders;
 import javax.swing.JCheckBox;
 import javax.swing.JToolBar;
 
+/**
+ *GUI of the optimizaion platform
+ * @author Daniel Caldeira, Hugo Alexandre, André Freire, Tiago Feliciano
+ * 
+ *
+ */
 public class MainLayout {
 	public static String PATH_INPUT;
 	public static String PATH_OUTPUT;
@@ -91,6 +97,9 @@ public class MainLayout {
 		});
 	}
 
+	/**
+	 * Loads config.xml file into different variables in the MainLayout class 
+	 */
 	public void loadAdminCfgFile() {
 		File file = new File("config.xml");
 		JAXBContext jaxbContext;
@@ -106,6 +115,9 @@ public class MainLayout {
 		}
 	}
 
+	/**
+	 * Initializes every graphical component
+	 */
 	public void initialize() {
 		loadAdminCfgFile();
 		FileNameExtensionFilter filterXml = new FileNameExtensionFilter("Xml files", "xml", "xml");
@@ -479,6 +491,9 @@ public class MainLayout {
 		mainPanel.setLayout(groupLayout);
 	}
 
+	/**
+	 * Loads data from default testing problem Anti Spam filter
+	 */
 	public void loadData() {
 		txtProblemName.setText("AntiSpamFilterProblem");
 		txtVariablesName.setText("Anti Spam Names");
@@ -511,12 +526,20 @@ public class MainLayout {
 
 	}
 
+	/**
+	 * Prompt user with a message passed in the method's arguments
+	 * @param message Message to be displayed
+	 * @param error Indicates if the Message dialog displayed is an error message or not
+	 */
 	public void promptUser(String message, boolean error) {
 		String title = error ? "Error!" : "Warning!";
 		int iconType = error ? JOptionPane.ERROR_MESSAGE : JOptionPane.WARNING_MESSAGE;
 		JOptionPane.showMessageDialog(frame, message, title, iconType);
 	}
 
+	/**
+	 * Clears graphical user interface 
+	 */
 	public void clearProblem() {
 		resetTableModels();
 		txtNumberCriteria.setText("");
@@ -538,6 +561,9 @@ public class MainLayout {
 		return true;
 	}
 
+	/**
+	 * Loads a table model for the decision variables with a number of rows inputed by the user in the JTextField txtNumberCriteria 
+	 */
 	private void loadTableCriteria() {
 		tableCriteria.setModel(modelTableButton = new DefaultTableModel(
 
@@ -569,6 +595,9 @@ public class MainLayout {
 		ButtonColumn buttonColumn = new ButtonColumn(tableCriteria, insertPath, 2);
 	}
 
+	/**
+	 * Resets all table models
+	 */
 	public void resetTableModels() {
 		tableVariable = new JTable();
 		tableCriteria = new JTable();
@@ -580,6 +609,10 @@ public class MainLayout {
 		tableVariable.putClientProperty("terminateEditOnFocusLost", true);
 	}
 
+	/**
+	 * File chooser for the decision variable Jars
+	 * @param m
+	 */
 	private void chooseFileTable(int m) {
 		int result = fileChooserJar.showOpenDialog(null);
 		if (result == JFileChooser.APPROVE_OPTION) {
@@ -590,6 +623,9 @@ public class MainLayout {
 		}
 	}
 
+	/**
+	 * Loads a different table model for the problem variables for each problem type inputed by the user 
+	 */
 	@SuppressWarnings({ "serial", "rawtypes" })
 	private void loadTableVariable() {
 		DefaultTableModel modelVariable = null;
@@ -634,6 +670,10 @@ public class MainLayout {
 		tableVariable.setModel(modelVariable);
 	}
 
+	/**
+	 * Loads a already saved problem from a given .xml file name
+	 * @param xmlFile String that indicates the name of the .xml supposed to be loaded to the GUI
+	 */
 	private void loadXmlProblem(String xmlFile) {
 		File file = new File(xmlFile);
 		JAXBContext jaxbContext;
@@ -706,7 +746,9 @@ public class MainLayout {
 		}
 
 	}
-
+	/**
+	 * Reads the problem inputed by the user on the optimization platform
+	 */
 	// TODO check every input
 	private void readProblemFromInterface() {
 		String problemType = comboBoxType.getSelectedItem().toString();
@@ -785,6 +827,9 @@ public class MainLayout {
 		currentProblem.setListCriteria(listCriteria);
 	}
 
+	/**
+	 * Saves a problem definition inputed by the user to a .xml file on the input directory
+	 */
 	private void saveXmlProblem() {
 		if (validateProblemFields()) {
 			readProblemFromInterface();
@@ -808,6 +853,9 @@ public class MainLayout {
 		}
 	}
 
+	/**
+	 * Loads the table that shows available algorithms capable to solve the problem type inputed
+	 */
 	private void loadTableAlgorithm() {
 		OptimizationProcess k = new OptimizationProcess();
 		try {
@@ -836,6 +884,9 @@ public class MainLayout {
 		}
 	}
 
+	/**
+	 * Runs problem 
+	 */
 	private void runDemo() {
 		OptimizationProcess op = new OptimizationProcess();
 		Thread t = new Thread(new Runnable() {
@@ -851,6 +902,10 @@ public class MainLayout {
 		t.start();
 	}
 
+	/**
+	 * Allows the user to check the solutions discovered by the platform thru the external DataVisualization class
+	 * @param problem LayoutProblem
+	 */
 	private void visualizeDemo(LayoutProblem problem) {
 		if (problem != null) {
 			List<String> rfFilePaths = new ArrayList<String>();
