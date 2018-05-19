@@ -60,6 +60,7 @@ import main.optimization.platform.jMetal.problems.BinaryProblem;
 import main.optimization.platform.jMetal.problems.DoubleProblem;
 import main.optimization.platform.jMetal.problems.IntegerProblem;
 
+//TODO Test all builders 
 public class Builders {
 	public static final int DEFAULT_ITERATIONS = 2500;
 	private static final int INDEPENDENT_RUNS = 5;
