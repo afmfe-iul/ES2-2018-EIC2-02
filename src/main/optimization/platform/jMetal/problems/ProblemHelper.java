@@ -9,6 +9,11 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import org.uma.jmetal.solution.Solution;
 
+/**
+ * Class responsible for instantiating and invoking the evaluated method inside each jar provided by the user 
+ * @author Tiago Feliciano
+ *
+ */
 public class ProblemHelper {
 
 	private Object instance;
@@ -17,10 +22,9 @@ public class ProblemHelper {
 	/**
 	 * Instantiates the class where the evaluate method provided is and invokes
 	 * it.
-	 * 
+	 * @param jarpath String where the jar with evaluate method is located
 	 * @throws Exception
 	 */
-
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public ProblemHelper(String jarPath) throws Exception {
 		File file = new File(jarPath);
@@ -53,6 +57,11 @@ public class ProblemHelper {
 		}
 	}
 
+	
+	/**
+	 * Invokes evaluate method present inside the jar 
+	 * @param solution Solution passed as a parameter to the jar evaluate method
+	 */
 	@SuppressWarnings("rawtypes")
 	public void evaluate(Solution solution) {
 		try {

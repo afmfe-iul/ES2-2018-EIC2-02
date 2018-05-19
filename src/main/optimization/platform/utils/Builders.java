@@ -59,13 +59,27 @@ import main.optimization.platform.gui.MainLayout;
 import main.optimization.platform.jMetal.problems.BinaryProblem;
 import main.optimization.platform.jMetal.problems.DoubleProblem;
 import main.optimization.platform.jMetal.problems.IntegerProblem;
-
+/**
+ * Class with all  the builders for all three types of problems
+ * @author Tiago Feliciano, Hugo Alexandre, André Freire
+ *
+ */
 //TODO Test all builders 
 public class Builders {
 	public static final int DEFAULT_ITERATIONS = 2500;
 	private static final int INDEPENDENT_RUNS = 5;
 	public static final String BASE_DIRECTORY = MainLayout.PATH_OUTPUT + "/experimentsBaseDirectory" + File.separator;
-
+/**
+ * Method that instantiates and runs every chosen algorithm from GUI for Double Problems
+ * @param numberOfVariables Int that represents the  number of variables for the problem instantiated
+ * @param problemName String Problem name
+ * @param algorithmsSelected List of algorithms select by the user
+ * @param lowerBounds List of Doubles that represent the minimum value for each problem variable
+ * @param upperBounds List of Doubles that represent the maximum value for each problem variable
+ * @param jarPaths List with paths for each decision variable jar with evaluate method
+ * @param maxEvaluations
+ * @return
+ */
 	public static boolean DoubleBuilder(int numberOfVariables, String problemName, List<String> algorithmsSelected,
 			List<Double> lowerBounds, List<Double> upperBounds, List<String> jarPaths,int maxEvaluations) {
 		
@@ -102,6 +116,13 @@ public class Builders {
 		}
 	}
 
+	/**
+	 * Builds algorithms for the type Double
+	 * @param problemList
+	 * @param algorithmsSelected
+	 * @param maxEvaluations
+	 * @return
+	 */
 	private static List<ExperimentAlgorithm<DoubleSolution, List<DoubleSolution>>> configureDoubleAlgorithmList(
 			List<ExperimentProblem<DoubleSolution>> problemList, List<String> algorithmsSelected,int maxEvaluations) {
 		List<ExperimentAlgorithm<DoubleSolution, List<DoubleSolution>>> algorithms = new ArrayList<>();
@@ -261,6 +282,17 @@ public class Builders {
 		return algorithms;
 	}
 
+	/**
+	 * Method that instantiates and runs every chosen algorithm from GUI for Integer Problems
+	 * @param numberOfVariables Int that represents the  number of variables for the problem instantiated
+	 * @param problemName String Problem name
+	 * @param algorithmsSelected List of algorithms select by the user
+	 * @param lowerBounds List of Integers that represent the minimum value for each problem variable
+	 * @param upperBounds List of Integers that represent the maximum value for each problem variable
+	 * @param jarPaths List with paths for each decision variable jar with evaluate method
+	 * @param maxEvaluations
+	 * @return
+	 */
 	public static boolean IntegerBuilder(int numberOfVariables, String problemName, List<String> algorithmsSelected,
 			List<Integer> lowerBounds, List<Integer> upperBounds,
 			List<String> jarPaths,int maxEvaluations) {
@@ -298,7 +330,13 @@ public class Builders {
 		}
 
 	}
-
+	/**
+	 * Builds algorithms for the type Integer
+	 * @param problemList
+	 * @param algorithmsSelected
+	 * @param maxEvaluations
+	 * @return
+	 */
 	private static List<ExperimentAlgorithm<IntegerSolution, List<IntegerSolution>>> configureIntegerAlgorithmList(
 			List<ExperimentProblem<IntegerSolution>> problemList, List<String> algorithmsSelected, int maxEvaluations) {
 
@@ -402,6 +440,16 @@ public class Builders {
 		return algorithms;
 	}
 
+	/**
+	 * Method that instantiates and runs every chosen algorithm from GUI for Binary Problems
+	 * @param numberOfVariables Int that represents the  number of variables for the problem instantiated
+	 * @param problemName String Problem name
+	 * @param algorithmsSelected List of algorithms select by the user
+	 * @param jarPaths List with paths for each decision variable jar with evaluate method
+	 * @param bitsPerVariable Int bits per variable
+	 * @param maxEvaluations
+	 * @return
+	 */
 	public static boolean BinaryBuilder(int numberOfVariables, String problemName, List<String> algorithmsSelected,
 			List<String> jarPaths, int bitsPerVariable,int maxEvaluations) {
 		List<ExperimentProblem<BinarySolution>> problemList = new ArrayList<>();
@@ -438,6 +486,13 @@ public class Builders {
 		}
 	}
 
+	/**
+	 * Builds algorithms for the type Binary
+	 * @param problemList
+	 * @param algorithmsSelected
+	 * @param maxEvaluations
+	 * @return
+	 */
 	private static List<ExperimentAlgorithm<BinarySolution, List<BinarySolution>>> configureBinaryAlgorithmList(
 			List<ExperimentProblem<BinarySolution>> problemList, List<String> algorithmsSelected, int maxEvaluations) {
 

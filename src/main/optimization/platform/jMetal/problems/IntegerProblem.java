@@ -4,15 +4,23 @@ import java.util.ArrayList;
 import java.util.List;
 import org.uma.jmetal.problem.impl.AbstractIntegerProblem;
 import org.uma.jmetal.solution.IntegerSolution;
-
+/**
+ * 
+ * @author Tiago Feliciano
+ *
+ */
 public class IntegerProblem extends AbstractIntegerProblem {
 	private static final long serialVersionUID = 1L;
 	private List<ProblemHelper> problemHelpers;
 	private int numberOfObjectives;
 
 	/**
-	 * Constructor instantiates a IntegerProblem.
-	 * 
+	 * Constructor that instantiates a Integer Problem
+	 * @param numberOfVariables Int that represents the number of variables for the problem instantiated
+	 * @param lowerBounds List of Integers that represent the minimum value for each problem variable
+	 * @param upperBound List of Integers that represent the maximum value for each problem variable
+	 * @param problemname String Problem name
+	 * @param jarPaths List with paths for each decision variable jar with evaluate method
 	 * @throws Exception
 	 */
 	public IntegerProblem(int numberOfVariables, List<Integer> lowerBounds , List<Integer> upperBound,String problemname , List<String> jarPaths) throws Exception {
@@ -33,6 +41,8 @@ public class IntegerProblem extends AbstractIntegerProblem {
 	
 	/**
 	 * Evaluates the fitness of a vector of weights.
+	 * Calls the evaluate inside the specific jar for each decision variable thru the ProblemHelper class 
+	 * @param DoubleSolution
 	 */
 	@Override
 	public void evaluate(IntegerSolution solution) {

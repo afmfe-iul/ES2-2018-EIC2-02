@@ -96,6 +96,11 @@ public class OptimizationProcess {
 		return totalAlgo;
 	}
 
+	/**
+	 * Builds different types of problems considering the LayoutProblem passed as an argument
+	 * @param currentProblem LayoutProblem object that indicates the specification from the user input on the GUI about the problem 
+	 * to be optimized 
+	 */
 	public boolean run(LayoutProblem currentProblem) {
 		List<TableRowVariable> rows = currentProblem.getListVariable();
 		List<TableRowCriteria> jarRows = currentProblem.getListCriteria();
@@ -139,6 +144,12 @@ public class OptimizationProcess {
 		return false;
 	}
 
+	/**
+	 * 
+	 * @param list List of Strings that is going to have all the possible algorithms for the specified dataType 
+	 * @param dataType String indicates the type of problem  
+	 * @throws IOException
+	 */
 	@SuppressWarnings("resource")
 	private void getGenericAlgo(ArrayList<String> list, String dataType) throws IOException {
 
