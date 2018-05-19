@@ -94,6 +94,7 @@ public class MainLayout {
 				MainLayout window = new MainLayout();
 				window.initialize();
 				window.frame.setVisible(true);
+
 			}
 		});
 	}
@@ -114,6 +115,7 @@ public class MainLayout {
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		}
+
 	}
 
 	/**
@@ -217,6 +219,7 @@ public class MainLayout {
 		});
 
 		chckbxAutomatic = new JCheckBox("Automatic");
+		chckbxAutomatic.setSelected(true);
 		chckbxAutomatic.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -243,12 +246,11 @@ public class MainLayout {
 			}
 		});
 
-		JLabel lblAlgorithms = new JLabel("Algorithms");
+		JLabel lblAlgorithms = new JLabel("    Algorithms");
 
 		lblOptimizationImpliesMinimizing = new JLabel("Optimization implies minimizing jars results");
 
 		scrollPanelAlgorithms = new JScrollPane();
-
 		txtSolutionKnown = new JTextField();
 		txtSolutionKnown.setColumns(10);
 
@@ -286,147 +288,88 @@ public class MainLayout {
 		toolBar.addSeparator();
 		toolBar.add(bttHelp);
 
+		JButton btnEmail = new JButton("Email Help");
+
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
-		groupLayout
-				.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(groupLayout.createSequentialGroup().addContainerGap()
-								.addGroup(groupLayout.createParallelGroup(Alignment.LEADING).addGroup(groupLayout
-										.createSequentialGroup().addGroup(groupLayout
-												.createParallelGroup(Alignment.LEADING).addGroup(groupLayout
-														.createSequentialGroup().addGroup(groupLayout
-																.createParallelGroup(Alignment.TRAILING, false)
-																.addGroup(groupLayout.createSequentialGroup()
-																		.addComponent(comboBoxType,
-																				GroupLayout.PREFERRED_SIZE, 80,
-																				GroupLayout.PREFERRED_SIZE)
-																		.addPreferredGap(ComponentPlacement.RELATED)
-																		.addComponent(txtNumberVariables,
-																				GroupLayout.PREFERRED_SIZE,
-																				GroupLayout.DEFAULT_SIZE,
-																				GroupLayout.PREFERRED_SIZE))
-																.addGroup(groupLayout.createSequentialGroup().addGap(21)
-																		.addComponent(lblType).addPreferredGap(
-																				ComponentPlacement.RELATED,
-																				GroupLayout.DEFAULT_SIZE,
-																				Short.MAX_VALUE)
-																		.addComponent(lblVariablesNumber)))
-														.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-																.addGroup(groupLayout.createSequentialGroup()
-																		.addPreferredGap(ComponentPlacement.RELATED)
-																		.addComponent(txtVariablesName,
-																				GroupLayout.PREFERRED_SIZE, 230,
-																				GroupLayout.PREFERRED_SIZE))
-																.addGroup(
-																		groupLayout.createSequentialGroup().addGap(74)
-																				.addComponent(lblNameVariables))))
-												.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-														.addComponent(
-																txtProblemDescription, GroupLayout.DEFAULT_SIZE, 447,
-																Short.MAX_VALUE)
-														.addComponent(lblDescrio)
-														.addGroup(groupLayout.createSequentialGroup().addGroup(
-																groupLayout.createParallelGroup(Alignment.TRAILING)
-																		.addComponent(
-																				lblNameProblem)
-																		.addComponent(lblEmail))
-																.addPreferredGap(ComponentPlacement.UNRELATED)
-																.addGroup(groupLayout
-																		.createParallelGroup(Alignment.LEADING, false)
-																		.addComponent(txtProblemName).addComponent(
-																				txtEmail, GroupLayout.DEFAULT_SIZE, 363,
-																				Short.MAX_VALUE)))
-														.addComponent(scrollPanelTableVariable,
-																GroupLayout.DEFAULT_SIZE, 447, Short.MAX_VALUE)))
-										.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-												.addGroup(
-														groupLayout
-																.createSequentialGroup().addPreferredGap(
-																		ComponentPlacement.RELATED)
-																.addGroup(groupLayout.createParallelGroup(
-																		Alignment.LEADING, false).addComponent(
-																				txtMaximumTime)
-																		.addComponent(lblMaximumtime,
-																				GroupLayout.DEFAULT_SIZE,
-																				GroupLayout.DEFAULT_SIZE,
-																				Short.MAX_VALUE))
-																.addPreferredGap(
-																		ComponentPlacement.RELATED,
-																		GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-												.addGroup(groupLayout.createSequentialGroup().addGroup(groupLayout
-														.createParallelGroup(Alignment.LEADING)
-														.addGroup(groupLayout.createSequentialGroup().addGap(18)
-																.addGroup(groupLayout
-																		.createParallelGroup(Alignment.LEADING)
-																		.addGroup(groupLayout
-																				.createSequentialGroup()
-																				.addComponent(
-																						scrollPanelAlgorithms,
-																						GroupLayout.DEFAULT_SIZE, 154,
-																						Short.MAX_VALUE)
-																				.addPreferredGap(
-																						ComponentPlacement.RELATED))
-																		.addComponent(btnOpenXmlProblem)
-																		.addComponent(btnSaveXmlProblemL)))
-														.addGroup(groupLayout.createSequentialGroup()
-																.addPreferredGap(ComponentPlacement.RELATED, 33,
-																		Short.MAX_VALUE)
-																.addGroup(groupLayout.createParallelGroup(
-																		Alignment.TRAILING)
-																		.addGroup(groupLayout.createSequentialGroup()
-																				.addGroup(groupLayout
-																						.createParallelGroup(
-																								Alignment.TRAILING,
-																								false)
-																						.addComponent(
-																								chckbxAutomatic,
-																								GroupLayout.DEFAULT_SIZE,
-																								GroupLayout.DEFAULT_SIZE,
-																								Short.MAX_VALUE)
-																						.addComponent(
-																								chckbxManual,
-																								GroupLayout.DEFAULT_SIZE,
-																								GroupLayout.DEFAULT_SIZE,
-																								Short.MAX_VALUE)
-																						.addGroup(groupLayout
-																								.createSequentialGroup()
-																								.addComponent(
-																										lblAlgorithms)
-																								.addGap(11)))
-																				.addGap(29))
-																		.addGroup(groupLayout.createSequentialGroup()
-																				.addGroup(groupLayout
-																						.createParallelGroup(
-																								Alignment.LEADING,
-																								false)
-																						.addGroup(groupLayout
-																								.createSequentialGroup()
-																								.addGap(18)
-																								.addComponent(
-																										btnVisDemo))
-																						.addGroup(groupLayout
-																								.createSequentialGroup()
-																								.addGap(29)
-																								.addComponent(
-																										btnRunDemo)))
-																				.addGap(18)))))
-														.addGap(11)))
-										.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-												.addGroup(groupLayout.createSequentialGroup()
-														.addComponent(txtNumberCriteria, GroupLayout.PREFERRED_SIZE,
-																GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-														.addPreferredGap(ComponentPlacement.UNRELATED)
-														.addComponent(btnCriteria))
-												.addComponent(scrollPanelTableCriteria, GroupLayout.PREFERRED_SIZE, 223,
+		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.LEADING).addGroup(groupLayout
+				.createSequentialGroup().addContainerGap()
+				.addGroup(groupLayout.createParallelGroup(Alignment.LEADING).addGroup(groupLayout
+						.createSequentialGroup()
+						.addGroup(groupLayout.createParallelGroup(Alignment.LEADING).addGroup(groupLayout
+								.createSequentialGroup()
+								.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
+										.addGroup(groupLayout.createSequentialGroup()
+												.addComponent(comboBoxType, GroupLayout.PREFERRED_SIZE, 80,
 														GroupLayout.PREFERRED_SIZE)
-												.addGroup(groupLayout.createSequentialGroup().addGap(24)
-														.addComponent(lblSolutionKnown).addGap(18)
-														.addComponent(txtSolutionKnown, GroupLayout.PREFERRED_SIZE, 76,
-																GroupLayout.PREFERRED_SIZE)))
-										.addGap(132)).addComponent(lblOptimizationImpliesMinimizing)
-										.addComponent(btnloadTableVariable).addComponent(toolBar,
-												GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-												GroupLayout.PREFERRED_SIZE))
-								.addContainerGap()));
+												.addPreferredGap(ComponentPlacement.RELATED)
+												.addComponent(txtNumberVariables, GroupLayout.PREFERRED_SIZE,
+														GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+										.addGroup(groupLayout.createSequentialGroup().addGap(21).addComponent(lblType)
+												.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE,
+														Short.MAX_VALUE)
+												.addComponent(lblVariablesNumber)))
+								.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+										.addGroup(groupLayout.createSequentialGroup()
+												.addPreferredGap(ComponentPlacement.RELATED)
+												.addComponent(txtVariablesName, GroupLayout.PREFERRED_SIZE, 230,
+														GroupLayout.PREFERRED_SIZE))
+										.addGroup(groupLayout.createSequentialGroup().addGap(74)
+												.addComponent(lblNameVariables))))
+								.addGroup(
+										groupLayout.createParallelGroup(Alignment.LEADING).addComponent(
+												txtProblemDescription, GroupLayout.DEFAULT_SIZE, 447, Short.MAX_VALUE)
+												.addComponent(lblDescrio).addGroup(groupLayout.createSequentialGroup()
+														.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+																.addComponent(lblNameProblem).addComponent(lblEmail))
+														.addPreferredGap(ComponentPlacement.UNRELATED)
+														.addGroup(groupLayout.createParallelGroup(Alignment.LEADING,
+																false).addComponent(txtProblemName).addComponent(
+																		txtEmail, GroupLayout.DEFAULT_SIZE, 363,
+																		Short.MAX_VALUE)))
+												.addComponent(scrollPanelTableVariable, GroupLayout.DEFAULT_SIZE, 447,
+														Short.MAX_VALUE)))
+						.addGroup(groupLayout.createParallelGroup(Alignment.LEADING).addGroup(groupLayout
+								.createSequentialGroup().addPreferredGap(ComponentPlacement.RELATED)
+								.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
+										.addComponent(txtMaximumTime).addComponent(lblMaximumtime,
+												GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+								.addGroup(groupLayout.createSequentialGroup().addGap(51).addGroup(groupLayout
+										.createParallelGroup(Alignment.LEADING, false)
+										.addComponent(btnRunDemo, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE,
+												Short.MAX_VALUE)
+										.addComponent(btnVisDemo, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE,
+												Short.MAX_VALUE)
+										.addGroup(groupLayout.createSequentialGroup().addGap(11)
+												.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+														.addComponent(chckbxAutomatic, GroupLayout.PREFERRED_SIZE, 83,
+																GroupLayout.PREFERRED_SIZE)
+														.addComponent(chckbxManual, GroupLayout.PREFERRED_SIZE, 72,
+																GroupLayout.PREFERRED_SIZE)
+														.addComponent(lblAlgorithms)))))
+								.addGroup(groupLayout.createSequentialGroup().addGap(18).addGroup(groupLayout
+										.createParallelGroup(Alignment.LEADING).addComponent(btnOpenXmlProblem)
+										.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
+												.addComponent(btnEmail, GroupLayout.DEFAULT_SIZE,
+														GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+												.addComponent(btnSaveXmlProblemL))
+										.addComponent(scrollPanelAlgorithms, GroupLayout.DEFAULT_SIZE, 159,
+												Short.MAX_VALUE))))
+						.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addGroup(groupLayout.createSequentialGroup()
+										.addComponent(txtNumberCriteria, GroupLayout.PREFERRED_SIZE,
+												GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+										.addPreferredGap(ComponentPlacement.UNRELATED).addComponent(btnCriteria))
+								.addComponent(scrollPanelTableCriteria, GroupLayout.PREFERRED_SIZE, 223,
+										GroupLayout.PREFERRED_SIZE)
+								.addGroup(groupLayout.createSequentialGroup().addGap(24).addComponent(lblSolutionKnown)
+										.addGap(18).addComponent(txtSolutionKnown, GroupLayout.PREFERRED_SIZE, 76,
+												GroupLayout.PREFERRED_SIZE)))
+						.addGap(132)).addComponent(btnloadTableVariable)
+						.addComponent(toolBar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+								GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblOptimizationImpliesMinimizing))
+				.addContainerGap()));
 		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(Alignment.TRAILING).addGroup(groupLayout
 				.createSequentialGroup().addGap(5)
 				.addComponent(toolBar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
@@ -465,19 +408,17 @@ public class MainLayout {
 										.addComponent(txtEmail, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
 												GroupLayout.PREFERRED_SIZE)
 										.addComponent(lblEmail))
-								.addGap(5).addComponent(lblDescrio).addGap(7)
-								.addComponent(txtProblemDescription, GroupLayout.PREFERRED_SIZE, 160,
-										GroupLayout.PREFERRED_SIZE)
-								.addGap(23).addComponent(lblOptimizationImpliesMinimizing))
+								.addGap(5).addComponent(lblDescrio).addGap(7).addComponent(txtProblemDescription,
+										GroupLayout.PREFERRED_SIZE, 160, GroupLayout.PREFERRED_SIZE))
 						.addGroup(groupLayout.createSequentialGroup().addComponent(btnRunDemo)
 								.addPreferredGap(ComponentPlacement.RELATED).addComponent(btnVisDemo)
 								.addPreferredGap(ComponentPlacement.RELATED).addComponent(lblAlgorithms)
-								.addPreferredGap(ComponentPlacement.RELATED).addComponent(chckbxAutomatic)
-								.addPreferredGap(ComponentPlacement.UNRELATED).addComponent(chckbxManual)
-								.addPreferredGap(ComponentPlacement.UNRELATED)
+								.addPreferredGap(ComponentPlacement.RELATED).addComponent(chckbxAutomatic).addGap(3)
+								.addComponent(chckbxManual).addPreferredGap(ComponentPlacement.UNRELATED)
 								.addComponent(scrollPanelAlgorithms, GroupLayout.PREFERRED_SIZE, 210,
 										GroupLayout.PREFERRED_SIZE)
-								.addGap(50).addComponent(btnSaveXmlProblemL)
+								.addPreferredGap(ComponentPlacement.RELATED).addComponent(btnEmail)
+								.addPreferredGap(ComponentPlacement.RELATED).addComponent(btnSaveXmlProblemL)
 								.addPreferredGap(ComponentPlacement.UNRELATED).addComponent(btnOpenXmlProblem))
 						.addGroup(groupLayout.createSequentialGroup()
 								.addComponent(scrollPanelTableCriteria, GroupLayout.PREFERRED_SIZE, 222,
@@ -487,11 +428,15 @@ public class MainLayout {
 										.addComponent(lblSolutionKnown).addComponent(txtSolutionKnown,
 												GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
 												GroupLayout.PREFERRED_SIZE))))
-				.addContainerGap(41, Short.MAX_VALUE)));
-
+				.addPreferredGap(ComponentPlacement.UNRELATED).addComponent(lblOptimizationImpliesMinimizing)
+				.addContainerGap(52, Short.MAX_VALUE)));
 		resetTableModels();
 		mainPanel = frame.getContentPane();
 		mainPanel.setLayout(groupLayout);
+		scrollPanelAlgorithms.setBorder(BorderFactory.createEmptyBorder());
+		scrollPanelTableCriteria.setBorder(BorderFactory.createEmptyBorder());
+		scrollPanelTableVariable.setBorder(BorderFactory.createEmptyBorder());
+
 	}
 
 	/**
@@ -568,48 +513,47 @@ public class MainLayout {
 		Pattern stringPattern = Pattern.compile("[^a-z ]", Pattern.CASE_INSENSITIVE);
 		Pattern numbersPattern = Pattern.compile("[^0-9]", Pattern.CASE_INSENSITIVE);
 		Matcher matcher;
-		String textboxText=txtProblemName.getText();
-		
-		if (textboxText.isEmpty()|| matcherName.find() || textboxText.contains(" ")) {
+		String textboxText = txtProblemName.getText();
+
+		if (textboxText.isEmpty() || matcherName.find() || textboxText.contains(" ")) {
 			promptUser("Problem name contains invalid characters", true);
 			return false;
 		}
 		matcher = stringPattern.matcher(txtVariablesName.getText());
-		textboxText=txtVariablesName.getText();
+		textboxText = txtVariablesName.getText();
 		if (textboxText.isEmpty() || matcher.find()) {
 			promptUser("Variables name contains invalid input", true);
 			return false;
 		}
 		matcher = numbersPattern.matcher(txtNumberVariables.getText());
-		textboxText=txtNumberVariables.getText();
-		if (textboxText.isEmpty() || matcher.find()
-				|| Integer.parseInt(textboxText) != tableVariable.getRowCount()) {
+		textboxText = txtNumberVariables.getText();
+		if (textboxText.isEmpty() || matcher.find() || Integer.parseInt(textboxText) != tableVariable.getRowCount()) {
 			promptUser("Variables number contains invalid input", true);
 			return false;
 		}
 		matcher = numbersPattern.matcher(txtMaximumTime.getText());
-		textboxText=txtMaximumTime.getText();
+		textboxText = txtMaximumTime.getText();
 		if (textboxText.isEmpty() || matcher.find()) {
 			promptUser("Maximum Time contains invalid input", true);
 			return false;
 		}
-		matcher = numbersPattern.matcher(txtNumberCriteria.getText() );
-		textboxText=txtNumberCriteria.getText();
+		matcher = numbersPattern.matcher(txtNumberCriteria.getText());
+		textboxText = txtNumberCriteria.getText();
 		if (textboxText.isEmpty() || matcher.find() || Integer.parseInt(textboxText) != tableCriteria.getRowCount()) {
 			promptUser("Number Criteria contains invalid input", true);
 			return false;
 		}
 		matcher = numbersPattern.matcher(txtSolutionKnown.getText());
-		textboxText=txtSolutionKnown.getText();
+		textboxText = txtSolutionKnown.getText();
 		if (textboxText.isEmpty() || matcher.find()) {
 			promptUser("Solution Known contains invalid input", true);
 			return false;
 		}
-		if(txtProblemDescription.getText().isEmpty()) {
+		if (txtProblemDescription.getText().isEmpty()) {
 			promptUser("Problem description is empty", true);
 			return false;
 		}
-		if(txtEmail.getText().isEmpty()) {
+		if (txtEmail.getText().isEmpty()) {
 			promptUser("Email is empty", true);
 			return false;
 		}
@@ -664,6 +608,7 @@ public class MainLayout {
 		scrollPanelTableCriteria.setViewportView(null);
 		tableCriteria.putClientProperty("terminateEditOnFocusLost", true);
 		tableVariable.putClientProperty("terminateEditOnFocusLost", true);
+
 	}
 
 	/**
