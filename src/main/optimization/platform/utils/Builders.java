@@ -63,8 +63,7 @@ import main.optimization.platform.jMetal.problems.IntegerProblem;
 public class Builders {
 	public static final int DEFAULT_ITERATIONS = 2500;
 	private static final int INDEPENDENT_RUNS = 5;
-	// TODO check if this worked
-	public static final String BASE_DIRECTORY = MainLayout.PATH_INPUT + "/experimentsBaseDirectory" + File.separator;
+	public static final String BASE_DIRECTORY = MainLayout.PATH_OUTPUT + "/experimentsBaseDirectory" + File.separator;
 
 	public static boolean DoubleBuilder(int numberOfVariables, String problemName, List<String> algorithmsSelected,
 			List<Double> lowerBounds, List<Double> upperBounds, List<String> jarPaths,int maxEvaluations) {

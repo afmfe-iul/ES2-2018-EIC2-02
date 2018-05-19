@@ -791,6 +791,7 @@ public class MainLayout {
 			try {
 				Calendar calobj = Calendar.getInstance();
 				DateFormat df = new SimpleDateFormat("dd-MM-yy HH-mm-ss");
+				// TODO fix this path
 				File file = new File("SavedProblems/" + txtProblemName.getText() + df.format(calobj.getTime()) + ".xml");
 				JAXBContext jaxbContext = JAXBContext.newInstance(LayoutProblem.class);
 				Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
@@ -876,7 +877,7 @@ public class MainLayout {
 
 			List<String> decisionVariables = new ArrayList<String>();
 			for (int i = 0; i < tableVariable.getModel().getRowCount(); i++) {
-				decisionVariables.add((String) tableVariable.getModel().getValueAt(i, 1));
+				decisionVariables.add((String) tableVariable.getModel().getValueAt(i, 0));
 			}
 
 			DataVisualization dv = new DataVisualization(problem.getListAlgorithms(), rsFilePaths, rfFilePaths,

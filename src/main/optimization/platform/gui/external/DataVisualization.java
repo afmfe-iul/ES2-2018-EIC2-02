@@ -4,6 +4,7 @@ import java.awt.Container;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.net.CookieHandler;
 import java.net.CookieManager;
@@ -136,8 +137,8 @@ public class DataVisualization  extends JFXPanel{
 		try {
 			deleteDirectory(new File(Builders.BASE_DIRECTORY + "visualizations"));
 			String tempDir = Builders.BASE_DIRECTORY + "visualizations/temp" + VERSION;
-			FileUtils.copyFile(new File("resources/template.html"),
-					new File(tempDir + "/graphics.html"));
+			InputStream inputStream =  this.getClass().getResourceAsStream("/template.html");
+			FileUtils.copyInputStreamToFile(inputStream, new File(tempDir + "/graphics.html"));
 			
 			// Write the data file in tsv format (tab separated values)
 			PrintWriter writer = new PrintWriter(tempDir + "/data.tsv");

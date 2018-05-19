@@ -7,7 +7,6 @@ import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.List;
 import org.uma.jmetal.solution.Solution;
 
 public class ProblemHelper {
@@ -30,7 +29,7 @@ public class ProblemHelper {
 			urls = new URL[] { file.toURI().toURL() };
 			URLClassLoader child = new URLClassLoader(urls);
 			Class classToLoad = Class.forName("optimization.Evaluate", true, child);
-			Constructor c = classToLoad.getConstructor(List.class);
+			Constructor c = classToLoad.getConstructor();
 			method = classToLoad.getDeclaredMethod("evaluate", Solution.class);
 			instance = c.newInstance();
 			Solution dummySolution = null;
