@@ -290,6 +290,8 @@ public class MainLayout {
 
 		JButton btnEmail = new JButton("Email Help");
 
+		JLabel lblCriteria = new JLabel("Number of Criterias");
+
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
 		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.LEADING).addGroup(groupLayout
 				.createSequentialGroup().addContainerGap()
@@ -364,7 +366,8 @@ public class MainLayout {
 										GroupLayout.PREFERRED_SIZE)
 								.addGroup(groupLayout.createSequentialGroup().addGap(24).addComponent(lblSolutionKnown)
 										.addGap(18).addComponent(txtSolutionKnown, GroupLayout.PREFERRED_SIZE, 76,
-												GroupLayout.PREFERRED_SIZE)))
+												GroupLayout.PREFERRED_SIZE))
+								.addComponent(lblCriteria))
 						.addGap(132)).addComponent(btnloadTableVariable)
 						.addComponent(toolBar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
 								GroupLayout.PREFERRED_SIZE)
@@ -375,8 +378,10 @@ public class MainLayout {
 				.addComponent(toolBar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 				.addPreferredGap(ComponentPlacement.RELATED)
 				.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE).addComponent(lblVariablesNumber)
-						.addComponent(lblType).addComponent(lblNameVariables).addComponent(lblMaximumtime,
-								GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+						.addComponent(lblType).addComponent(lblNameVariables)
+						.addComponent(lblMaximumtime, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE,
+								Short.MAX_VALUE)
+						.addComponent(lblCriteria))
 				.addPreferredGap(ComponentPlacement.RELATED)
 				.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(comboBoxType, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
@@ -577,23 +582,29 @@ public class MainLayout {
 				return columnTypes[columnIndex];
 			}
 		});
-		int i = Integer.parseInt(txtNumberCriteria.getText());
-		for (; i > 0; i--) {
-			modelTableButton.addRow(new Object[] { null, null, null });
-		}
-		tableCriteria.getColumnModel().getColumn(0).setResizable(false);
-		tableCriteria.getColumnModel().getColumn(1).setResizable(false);
-		scrollPanelTableCriteria.setViewportView(tableCriteria);
-		Action insertPath = new AbstractAction() {
-			private static final long serialVersionUID = 1L;
-
-			public void actionPerformed(ActionEvent e) {
-				int modelRow = Integer.valueOf(e.getActionCommand());
-				chooseFileTable(modelRow);
+		try {
+			int i = Integer.parseInt(txtNumberCriteria.getText());
+			for (; i > 0; i--) {
+				modelTableButton.addRow(new Object[] { null, null, null });
 			}
-		};
-		@SuppressWarnings("unused")
-		ButtonColumn buttonColumn = new ButtonColumn(tableCriteria, insertPath, 2);
+			tableCriteria.getColumnModel().getColumn(0).setResizable(false);
+			tableCriteria.getColumnModel().getColumn(1).setResizable(false);
+			scrollPanelTableCriteria.setViewportView(tableCriteria);
+			Action insertPath = new AbstractAction() {
+				private static final long serialVersionUID = 1L;
+
+				public void actionPerformed(ActionEvent e) {
+					int modelRow = Integer.valueOf(e.getActionCommand());
+					chooseFileTable(modelRow);
+				}
+			};
+			@SuppressWarnings("unused")
+			ButtonColumn buttonColumn = new ButtonColumn(tableCriteria, insertPath, 2);
+
+		} catch (Exception e) {
+			promptUser("Invalid data on number of criterias field", true);
+		}
+
 	}
 
 	/**
@@ -673,7 +684,7 @@ public class MainLayout {
 			scrollPanelTableVariable.setViewportView(tableVariable);
 			tableVariable.setModel(modelVariable);
 		} catch (Exception e) {
-			System.out.println("Invalid data in Variables number field ");
+			promptUser("Invalid data on Variable number field", true);
 		}
 
 	}
