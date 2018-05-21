@@ -288,7 +288,7 @@ public class MainLayout {
 		toolBar.addSeparator();
 		toolBar.add(bttHelp);
 
-		JButton btnEmail = new JButton("Email Help");
+		
 
 		JLabel lblCriteria = new JLabel("Number of Criterias");
 
@@ -351,8 +351,8 @@ public class MainLayout {
 								.addGroup(groupLayout.createSequentialGroup().addGap(18).addGroup(groupLayout
 										.createParallelGroup(Alignment.LEADING).addComponent(btnOpenXmlProblem)
 										.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
-												.addComponent(btnEmail, GroupLayout.DEFAULT_SIZE,
-														GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+												
+													
 												.addComponent(btnSaveXmlProblemL))
 										.addComponent(scrollPanelAlgorithms, GroupLayout.DEFAULT_SIZE, 159,
 												Short.MAX_VALUE))))
@@ -422,7 +422,6 @@ public class MainLayout {
 								.addComponent(chckbxManual).addPreferredGap(ComponentPlacement.UNRELATED)
 								.addComponent(scrollPanelAlgorithms, GroupLayout.PREFERRED_SIZE, 210,
 										GroupLayout.PREFERRED_SIZE)
-								.addPreferredGap(ComponentPlacement.RELATED).addComponent(btnEmail)
 								.addPreferredGap(ComponentPlacement.RELATED).addComponent(btnSaveXmlProblemL)
 								.addPreferredGap(ComponentPlacement.UNRELATED).addComponent(btnOpenXmlProblem))
 						.addGroup(groupLayout.createSequentialGroup()
