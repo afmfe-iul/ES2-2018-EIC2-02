@@ -546,7 +546,7 @@ public class Builders {
 				 double crossoverProbability = 0.9 ;
 				 SinglePointCrossover  crossover = new SinglePointCrossover(crossoverProbability) ;
 
-				 double mutationProbability = 1.0 /  ((BinarySolution) problemList.get(i)).getNumberOfBits(0) ;
+				 double mutationProbability = 1.0 /  ((BinaryProblem) problemList.get(i).getProblem()).getNumberOfBits(0) ;
 				 BitFlipMutation mutation = new BitFlipMutation(mutationProbability) ;
 
 				 BinaryTournamentSelection<BinarySolution> selection = new BinaryTournamentSelection<BinarySolution>() ;

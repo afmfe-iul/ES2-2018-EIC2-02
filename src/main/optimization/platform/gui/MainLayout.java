@@ -779,7 +779,8 @@ public class MainLayout {
 		} else {
 			currentProblem.setMaxWaitingTime(Integer.parseInt(txtMaximumTime.getText()));
 		}
-
+		
+		currentProblem.setBitsPerVariable(512);
 		currentProblem.setSolutionKnown(Integer.parseInt(txtSolutionKnown.getText()));
 		currentProblem.setVariablesName(txtVariablesName.getText());
 		currentProblem.setNumberVariables(Integer.parseInt(txtNumberVariables.getText()));
