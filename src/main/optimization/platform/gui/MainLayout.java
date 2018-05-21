@@ -772,7 +772,6 @@ public class MainLayout {
 	/**
 	 * Reads the problem inputed by the user on the optimization platform
 	 */
-	// TODO check every input
 	private void readProblemFromInterface() {
 		String problemType = comboBoxType.getSelectedItem().toString();
 		currentProblem = new LayoutProblem();
@@ -860,9 +859,8 @@ public class MainLayout {
 			try {
 				Calendar calobj = Calendar.getInstance();
 				DateFormat df = new SimpleDateFormat("dd-MM-yy HH-mm-ss");
-				// TODO fix this path
-				File file = new File(
-						"SavedProblems/" + txtProblemName.getText() + df.format(calobj.getTime()) + ".xml");
+
+				File file = new File(PATH_INPUT + txtProblemName.getText() + df.format(calobj.getTime()) + ".xml");
 				JAXBContext jaxbContext = JAXBContext.newInstance(LayoutProblem.class);
 				Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 
