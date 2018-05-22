@@ -199,12 +199,4 @@ public class OptimizationProcess {
 		}
 	}
 
-	public static void main(String[] args) throws Exception {
-
-		OptimizationProcess op = new OptimizationProcess();
-		for (String s : op.getAlgorithmsFor("Double")) {
-			System.out.println(s);
-		}
-	}
-
 }
