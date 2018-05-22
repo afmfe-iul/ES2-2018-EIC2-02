@@ -72,6 +72,7 @@ public class MainLayout {
 	private JTextField txtVariablesName;
 	private JLabel lblMaximumtime;
 	private JTextField txtMaximumTime;
+	private JLabel lblBitsPerVariable;
 	private JLabel lblType;
 	private JLabel lblVariablesNumber;
 	private JTextField txtNumberVariables;
@@ -87,6 +88,7 @@ public class MainLayout {
 	private String emailAdmin;
 	private JTextField txtSolutionKnown;
 	private Container mainPanel;
+	private JTextField txtBitsPerVariable;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -161,6 +163,14 @@ public class MainLayout {
 		JButton btnloadTableVariable = new JButton("Load Table");
 		btnloadTableVariable.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				if (comboBoxType.getSelectedItem().toString() == "Binary") {
+					txtBitsPerVariable.setVisible(true);
+					lblBitsPerVariable.setVisible(true);
+				}
+				else {
+					txtBitsPerVariable.setVisible(false);
+					lblBitsPerVariable.setVisible(false);
+				}
 				loadTableVariable();
 
 			}
@@ -288,9 +298,14 @@ public class MainLayout {
 		toolBar.addSeparator();
 		toolBar.add(bttHelp);
 
-		
-
 		JLabel lblCriteria = new JLabel("Number of Criterias");
+
+		lblBitsPerVariable = new JLabel("BitsPerVariable");
+
+		txtBitsPerVariable = new JTextField();
+		txtBitsPerVariable.setColumns(10);
+		lblBitsPerVariable.setVisible(false);
+		txtBitsPerVariable.setVisible(false);
 
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
 		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.LEADING).addGroup(groupLayout
@@ -350,12 +365,9 @@ public class MainLayout {
 														.addComponent(lblAlgorithms)))))
 								.addGroup(groupLayout.createSequentialGroup().addGap(18).addGroup(groupLayout
 										.createParallelGroup(Alignment.LEADING).addComponent(btnOpenXmlProblem)
-										.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
-												
-													
-												.addComponent(btnSaveXmlProblemL))
 										.addComponent(scrollPanelAlgorithms, GroupLayout.DEFAULT_SIZE, 159,
-												Short.MAX_VALUE))))
+												Short.MAX_VALUE)
+										.addComponent(btnSaveXmlProblemL))))
 						.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 						.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 								.addGroup(groupLayout.createSequentialGroup()
@@ -364,10 +376,14 @@ public class MainLayout {
 										.addPreferredGap(ComponentPlacement.UNRELATED).addComponent(btnCriteria))
 								.addComponent(scrollPanelTableCriteria, GroupLayout.PREFERRED_SIZE, 223,
 										GroupLayout.PREFERRED_SIZE)
-								.addGroup(groupLayout.createSequentialGroup().addGap(24).addComponent(lblSolutionKnown)
-										.addGap(18).addComponent(txtSolutionKnown, GroupLayout.PREFERRED_SIZE, 76,
-												GroupLayout.PREFERRED_SIZE))
-								.addComponent(lblCriteria))
+								.addComponent(lblCriteria)
+								.addGroup(groupLayout.createSequentialGroup().addGap(24).addGroup(groupLayout
+										.createParallelGroup(Alignment.LEADING, false)
+										.addGroup(groupLayout.createSequentialGroup().addComponent(lblBitsPerVariable)
+												.addGap(18).addComponent(txtBitsPerVariable, 0, 0, Short.MAX_VALUE))
+										.addGroup(groupLayout.createSequentialGroup().addComponent(lblSolutionKnown)
+												.addGap(18).addComponent(txtSolutionKnown, GroupLayout.PREFERRED_SIZE,
+														76, GroupLayout.PREFERRED_SIZE)))))
 						.addGap(132)).addComponent(btnloadTableVariable)
 						.addComponent(toolBar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
 								GroupLayout.PREFERRED_SIZE)
@@ -430,6 +446,11 @@ public class MainLayout {
 								.addPreferredGap(ComponentPlacement.RELATED)
 								.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 										.addComponent(lblSolutionKnown).addComponent(txtSolutionKnown,
+												GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+												GroupLayout.PREFERRED_SIZE))
+								.addPreferredGap(ComponentPlacement.UNRELATED)
+								.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+										.addComponent(lblBitsPerVariable).addComponent(txtBitsPerVariable,
 												GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
 												GroupLayout.PREFERRED_SIZE))))
 				.addPreferredGap(ComponentPlacement.UNRELATED).addComponent(lblOptimizationImpliesMinimizing)
@@ -514,19 +535,18 @@ public class MainLayout {
 		// If problem name contains spaces or special characters
 		Pattern Namepattern = Pattern.compile("[^a-z0-9 ]", Pattern.CASE_INSENSITIVE);
 		Matcher matcherName = Namepattern.matcher(txtProblemName.getText());
-		// TODO this patterns doesnt let you run names with "acentos"
 		Pattern stringPattern = Pattern.compile("[^a-z ]", Pattern.CASE_INSENSITIVE);
 		Pattern numbersPattern = Pattern.compile("[^0-9]", Pattern.CASE_INSENSITIVE);
 		Matcher matcher;
 		String textboxText = txtProblemName.getText();
 
 		if (textboxText.isEmpty() || matcherName.find() || textboxText.contains(" ")) {
-			promptUser("Problem name contains invalid characters", true);
+			promptUser("Problem name contains invalid input", true);
 			return false;
 		}
 		matcher = stringPattern.matcher(txtVariablesName.getText());
 		textboxText = txtVariablesName.getText();
-		if (textboxText.isEmpty() || matcher.find()) {
+		if (textboxText.isEmpty()) {
 			promptUser("Variables name contains invalid input", true);
 			return false;
 		}
@@ -538,8 +558,7 @@ public class MainLayout {
 		}
 		matcher = numbersPattern.matcher(txtMaximumTime.getText());
 		textboxText = txtMaximumTime.getText();
-		// TODO should let null values
-		if (textboxText.isEmpty() || matcher.find()) {
+		if (matcher.find()) {
 			promptUser("Maximum Time contains invalid input", true);
 			return false;
 		}
@@ -551,8 +570,7 @@ public class MainLayout {
 		}
 		matcher = numbersPattern.matcher(txtSolutionKnown.getText());
 		textboxText = txtSolutionKnown.getText();
-		// TODO should let null values
-		if (textboxText.isEmpty() || matcher.find()) {
+		if (matcher.find()) {
 			promptUser("Solution Known contains invalid input", true);
 			return false;
 		}
@@ -562,6 +580,12 @@ public class MainLayout {
 		}
 		if (txtEmail.getText().isEmpty()) {
 			promptUser("Email is empty", true);
+			return false;
+		}
+		matcher = numbersPattern.matcher(txtBitsPerVariable.getText());
+		textboxText = txtBitsPerVariable.getText();
+		if (comboBoxType.getSelectedItem().toString() == "Binary" && (matcher.find() || textboxText.isEmpty())) {
+			promptUser("BitsPerVariable contains invalid input",true);
 			return false;
 		}
 
@@ -712,8 +736,20 @@ public class MainLayout {
 			txtProblemDescription.setText(currentProblem.getProblemDescription());
 			txtProblemName.setText(currentProblem.getProblemTitle());
 			txtVariablesName.setText(currentProblem.getVariablesName());
-			txtMaximumTime.setText(Integer.toString(currentProblem.getMaxWaitingTime()));
-			txtSolutionKnown.setText(Integer.toString(currentProblem.getSolutionKnown()));
+			
+			if(currentProblem.getMaxWaitingTime()!=0) {
+				txtMaximumTime.setText(Integer.toString(currentProblem.getMaxWaitingTime()));
+			}
+			else {
+				txtMaximumTime.setText("");
+			}
+			if(currentProblem.getSolutionKnown()!=0) {
+				txtSolutionKnown.setText(Integer.toString(currentProblem.getSolutionKnown()));
+			}
+			else {
+				txtSolutionKnown.setText("");
+			}
+			
 			loadTableVariable();
 			loadTableCriteria();
 			List<String> listAlgorithm = currentProblem.getListAlgorithms();
@@ -739,6 +775,8 @@ public class MainLayout {
 			TableModel modelCriteria = tableCriteria.getModel();
 			if (comboBoxType.getSelectedItem() == "Double")
 				for (int i = 0; i < tableVariable.getRowCount(); i++) {
+					txtBitsPerVariable.setVisible(false);
+					lblBitsPerVariable.setVisible(false);
 					modelVariable.setValueAt(listVariable.get(i).getName(), i, 0);
 					modelVariable.setValueAt(Double.parseDouble(listVariable.get(i).getMinimo()), i, 1);
 					modelVariable.setValueAt(Double.parseDouble(listVariable.get(i).getMaximo()), i, 2);
@@ -746,6 +784,8 @@ public class MainLayout {
 						modelVariable.setValueAt(Double.parseDouble(listVariable.get(i).getForbidden()), i, 3);
 				}
 			if (comboBoxType.getSelectedItem() == "Integer")
+				txtBitsPerVariable.setVisible(false);
+				lblBitsPerVariable.setVisible(false);
 				for (int i = 0; i < tableVariable.getRowCount(); i++) {
 					modelVariable.setValueAt(listVariable.get(i).getName(), i, 0);
 					modelVariable.setValueAt(Integer.parseInt(listVariable.get(i).getMinimo()), i, 1);
@@ -753,12 +793,16 @@ public class MainLayout {
 					if (listVariable.get(i).getForbidden() != null)
 						modelVariable.setValueAt(Integer.parseInt(listVariable.get(i).getForbidden()), i, 3);
 				}
-			if (comboBoxType.getSelectedItem() == "Binary")
+			if (comboBoxType.getSelectedItem() == "Binary") {
+				txtBitsPerVariable.setVisible(true);
+				lblBitsPerVariable.setVisible(true);
+				txtBitsPerVariable.setText(Integer.toString(currentProblem.getBitsPerVariable()));
 				for (int i = 0; i < tableVariable.getRowCount(); i++) {
 					modelVariable.setValueAt(listVariable.get(i).getName(), i, 0);
 					if (listVariable.get(i).getForbidden() != null)
 						modelVariable.setValueAt(Integer.parseInt(listVariable.get(i).getForbidden()), i, 1);
 				}
+			}
 			for (int i = 0; i < tableCriteria.getRowCount(); i++) {
 				modelCriteria.setValueAt(listCriteria.get(i).getName(), i, 0);
 				modelCriteria.setValueAt(listCriteria.get(i).getPath(), i, 1);
@@ -777,14 +821,10 @@ public class MainLayout {
 	private void readProblemFromInterface() {
 		String problemType = comboBoxType.getSelectedItem().toString();
 		currentProblem = new LayoutProblem();
-		if (txtMaximumTime.getText().isEmpty()) {
-			currentProblem.setMaxWaitingTime(0);
-		} else {
+		if (!txtMaximumTime.getText().isEmpty())
 			currentProblem.setMaxWaitingTime(Integer.parseInt(txtMaximumTime.getText()));
-		}
-		
-		currentProblem.setBitsPerVariable(512);
-		currentProblem.setSolutionKnown(Integer.parseInt(txtSolutionKnown.getText()));
+		if (!txtSolutionKnown.getText().isEmpty())
+			currentProblem.setSolutionKnown(Integer.parseInt(txtSolutionKnown.getText()));
 		currentProblem.setVariablesName(txtVariablesName.getText());
 		currentProblem.setNumberVariables(Integer.parseInt(txtNumberVariables.getText()));
 		currentProblem.setNumberCriteria(Integer.parseInt(txtNumberCriteria.getText()));
@@ -798,11 +838,11 @@ public class MainLayout {
 			currentProblem.setAutomatic(false);
 		}
 		ArrayList<String> listAlgorithms = new ArrayList<String>();
-		// TODO doesnt work if you dont chose automatic before manual
-		for (int i = 0; i < tableAlgorithms.getRowCount(); i++) {
-			if ((Boolean) tableAlgorithms.getValueAt(i, 1))
-				listAlgorithms.add(tableAlgorithms.getValueAt(i, 0).toString());
-		}
+		if (chckbxManual.isSelected())
+			for (int i = 0; i < tableAlgorithms.getRowCount(); i++) {
+				if ((Boolean) tableAlgorithms.getValueAt(i, 1))
+					listAlgorithms.add(tableAlgorithms.getValueAt(i, 0).toString());
+			}
 		currentProblem.setListAlgorithms(listAlgorithms);
 		ArrayList<TableRowVariable> listVariable = new ArrayList<TableRowVariable>();
 		ArrayList<TableRowCriteria> listCriteria = new ArrayList<TableRowCriteria>();
@@ -818,7 +858,12 @@ public class MainLayout {
 				m.setName((String) tableVariable.getValueAt(i, 0));
 				m.setMinimo(Integer.toString((int) tableVariable.getValueAt(i, 1)));
 				m.setMaximo(Integer.toString((int) tableVariable.getValueAt(i, 2)));
-				m.setForbidden(Integer.toString((int) tableVariable.getValueAt(i, 3)));
+				if (tableVariable.getValueAt(i, 3) != null) {
+					m.setForbidden(Integer.toString((int) tableVariable.getValueAt(i, 3)));
+
+				} else {
+					m.setForbidden(null);
+				}
 				listVariable.add(m);
 			}
 		}
@@ -837,6 +882,7 @@ public class MainLayout {
 			}
 		}
 		if (problemType == "Binary") {
+			currentProblem.setBitsPerVariable(Integer.parseInt(txtBitsPerVariable.getText()));
 			for (int i = 0; i < tableVariable.getRowCount(); i++) {
 				TableRowVariable m = new TableRowVariable();
 				m.setName((String) tableVariable.getValueAt(i, 0));
@@ -864,7 +910,8 @@ public class MainLayout {
 				Calendar calobj = Calendar.getInstance();
 				DateFormat df = new SimpleDateFormat("dd-MM-yy HH-mm-ss");
 
-				File file = new File(PATH_INPUT  + "savedProblems" + File.separator + txtProblemName.getText() + df.format(calobj.getTime()) + ".xml");
+				File file = new File(PATH_INPUT + "savedProblems" + File.separator + txtProblemName.getText()
+						+ df.format(calobj.getTime()) + ".xml");
 				JAXBContext jaxbContext = JAXBContext.newInstance(LayoutProblem.class);
 				Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 
