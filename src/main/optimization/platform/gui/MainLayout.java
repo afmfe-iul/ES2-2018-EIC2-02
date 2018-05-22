@@ -848,6 +848,7 @@ public class MainLayout {
 		ArrayList<TableRowCriteria> listCriteria = new ArrayList<TableRowCriteria>();
 		for (int i = 0; i < tableCriteria.getRowCount(); i++) {
 			TableRowCriteria m = new TableRowCriteria();
+			
 			m.setName(tableCriteria.getValueAt(i, 0).toString());
 			m.setPath(tableCriteria.getValueAt(i, 1).toString());
 			listCriteria.add(m);
