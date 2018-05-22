@@ -798,6 +798,7 @@ public class MainLayout {
 			currentProblem.setAutomatic(false);
 		}
 		ArrayList<String> listAlgorithms = new ArrayList<String>();
+		// TODO doesnt work if you dont chose automatic before manual
 		for (int i = 0; i < tableAlgorithms.getRowCount(); i++) {
 			if ((Boolean) tableAlgorithms.getValueAt(i, 1))
 				listAlgorithms.add(tableAlgorithms.getValueAt(i, 0).toString());
@@ -863,7 +864,7 @@ public class MainLayout {
 				Calendar calobj = Calendar.getInstance();
 				DateFormat df = new SimpleDateFormat("dd-MM-yy HH-mm-ss");
 
-				File file = new File(PATH_INPUT + txtProblemName.getText() + df.format(calobj.getTime()) + ".xml");
+				File file = new File(PATH_INPUT  + "savedProblems" + File.separator + txtProblemName.getText() + df.format(calobj.getTime()) + ".xml");
 				JAXBContext jaxbContext = JAXBContext.newInstance(LayoutProblem.class);
 				Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
 
