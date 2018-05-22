@@ -21,8 +21,9 @@
 	    display:inline-block;
 	}
 
-	.svgHeader{
-		align-items: center;
+	.mainSVG {
+	    width:100%;
+	    clear:left;
 	}
 
 	h1, h2{		
@@ -31,8 +32,9 @@
 </style>
 </head>
 <body>
-	<svg id="left_part" height="250"></svg>
+	<svg id="left_part"></svg>
 	<svg id="right_part" height="250"></svg>
+	<div class="mainSVG"></div>
 <script>
 	var WIDTH = 1200;
 	var HEIGTH = 200;
@@ -41,13 +43,11 @@
 
 	///////////////	 SVG PART 	//////////////////
 	///////////////	 SVG PART 	//////////////////
-	d3.select("body")
-	    .append('div')
-	    .html('<h1>Variables by Algorithm</h1>')
-	    .attr("class", "svgHeader");
+	d3.select(".mainSVG").append("div")
+	    .html('<h1>Variables by Algorithm</h1>');
 
 
-	var svgMain = d3.select("body").append("svg")
+	var svgMain = d3.select(".mainSVG").append("svg")
 	.attr("width", WIDTH)
 	.attr("id", "svg");
 	
@@ -97,7 +97,7 @@
 		      	.text(algorithms[i]);
 			
 			yScale.domain(extent);
-			var chartHeight = d3.select(".svgHeader").node().getBoundingClientRect()["bottom"] + 20;
+			var chartHeight = d3.select(".mainSVG").node().getBoundingClientRect()["bottom"] + 20;
 			// variable name tooltip
 			tooltips.push(
 					d3.select("body")
@@ -187,32 +187,36 @@
 	///////////////	 LEFT PART 	//////////////////
 	var svg_left = d3.select("#left_part"),
 		margin = {top: 25, right: 20, bottom: 40, left: 80},
-		leftWidth = svg_left.node().getBoundingClientRect().width - margin.left - margin.right,
-		leftHeight = svg_left.attr("height") - margin.top - margin.bottom,
-		g = svg_left.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-	
-	var	leftX = d3.scaleLinear().rangeRound([0, leftWidth]),
-		leftY = d3.scaleBand().rangeRound([leftHeight, 0]).padding(0.2);
-
+		leftWidth = svg_left.node().getBoundingClientRect().width - margin.left - margin.right;
 	//load data
 	var userSolution = -1;
+
 	d3.tsv("auxRF.tsv", function(data){
 			// converts strings to integers
 			data.Result = +data.Result
-			if(data.Result > -1){
-				if(data.Algorithm == "User Solution"){
-					userSolution = data.Result
-					buildRightSVG(null);
-				}
-				return data;	
+			if(data.Result > -1 && data.Algorithm == "User Solution"){
+				userSolution = data.Result
+				buildRightSVG(null);
 			}
+			return data;
+			
 		}, function (error, data) {
 			if(error) throw error;
-
 			data.sort(function(a,b) { return b.Result - a.Result;});
+			
+			svg_left.attr("height", Math.max(250, data.length * 20));
 
-			leftX.domain([-.1, d3.max(data, function(d) { return d.Result; })]);
+			var leftHeight = svg_left.attr("height") - margin.top - margin.bottom,
+				g = svg_left.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+			var	leftX = d3.scaleLinear().rangeRound([0, leftWidth]),
+				leftY = d3.scaleBand().rangeRound([leftHeight, 0]).padding(0.2);
+			
+			if(data[1].Result < 0){
+				leftX.domain([data[1].Result - 0.1, d3.max(data, function(d) { return d.Result; })]);
+			}else{	
+				leftX.domain([-.1, d3.max(data, function(d) { return d.Result; })]);	
+			}
 			leftY.domain(data.map(function(d) { return d.Algorithm; }));
 
 			g.append("g")

@@ -786,6 +786,7 @@ public class MainLayout {
 						modelVariable.setValueAt(Double.parseDouble(listVariable.get(i).getForbidden()), i, 3);
 				}
 			}
+
 			if (comboBoxType.getSelectedItem() == "Integer") {
 				txtBitsPerVariable.setVisible(false);
 				lblBitsPerVariable.setVisible(false);
