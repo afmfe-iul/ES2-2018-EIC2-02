@@ -17,12 +17,12 @@ public class DoubleProblemTest {
 		List<Double> upperbounds = new ArrayList<Double>();
 		List<Double> lowerbounds = new ArrayList<Double>();
 		for(int i = 0; i<2;i++) {
-			jarPaths.add("testJars/FalseNegatives.jar");
+			jarPaths.add("input/FalseNegatives.jar");
 		}
 		DoubleProblem instance;
 		DoubleSolution solution =null;
 		try {
-			instance = new DoubleProblem(2, upperbounds, lowerbounds, jarPaths, null);
+			instance = new DoubleProblem(2, upperbounds, lowerbounds, jarPaths, "teste");
 			assertTrue("DoubleProblem intances should extend the AbstractDoubleProblem class.",
 			instance.getClass().getSuperclass().equals(AbstractDoubleProblem.class));
 			
