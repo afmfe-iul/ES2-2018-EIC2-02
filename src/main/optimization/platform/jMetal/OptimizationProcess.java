@@ -97,9 +97,12 @@ public class OptimizationProcess {
 	}
 
 	/**
-	 * Builds different types of problems considering the LayoutProblem passed as an argument
-	 * @param currentProblem LayoutProblem object that indicates the specification from the user input on the GUI about the problem 
-	 * to be optimized 
+	 * Builds different types of problems considering the LayoutProblem passed as an
+	 * argument
+	 * 
+	 * @param currentProblem
+	 *            LayoutProblem object that indicates the specification from the
+	 *            user input on the GUI about the problem to be optimized
 	 */
 	public boolean run(LayoutProblem currentProblem) {
 		List<TableRowVariable> rows = currentProblem.getListVariable();
@@ -108,9 +111,9 @@ public class OptimizationProcess {
 		for (int i = 0; i < jarRows.size(); i++) {
 			jarPaths.add(jarRows.get(i).getPath());
 		}
-		
+
 		// In case the user did not specified a max running time, we use a default
-		if(currentProblem.getMaxWaitingTime() == 0) {
+		if (currentProblem.getMaxWaitingTime() == 0) {
 			currentProblem.setMaxWaitingTime(Builders.DEFAULT_ITERATIONS);
 		}
 
@@ -123,7 +126,8 @@ public class OptimizationProcess {
 				upperBounds.add(Double.parseDouble(rows.get(i).getMaximo()));
 			}
 			return Builders.DoubleBuilder(currentProblem.getListVariable().size(), currentProblem.getProblemTitle(),
-					currentProblem.getListAlgorithms(), lowerBounds, upperBounds, jarPaths,currentProblem.getMaxWaitingTime());
+					currentProblem.getListAlgorithms(), lowerBounds, upperBounds, jarPaths,
+					currentProblem.getMaxWaitingTime());
 
 			// Build a Integer Problem
 		} else if (currentProblem.getType().equals("Integer")) {
@@ -134,20 +138,25 @@ public class OptimizationProcess {
 				upperBounds.add(Integer.valueOf(rows.get(i).getMaximo()));
 			}
 			return Builders.IntegerBuilder(currentProblem.getListVariable().size(), currentProblem.getProblemTitle(),
-					currentProblem.getListAlgorithms(), lowerBounds, upperBounds, jarPaths,currentProblem.getMaxWaitingTime());
+					currentProblem.getListAlgorithms(), lowerBounds, upperBounds, jarPaths,
+					currentProblem.getMaxWaitingTime());
 
 			// Build a Binary Problem
 		} else if (currentProblem.getType().equals("Binary")) {
-			return Builders.BinaryBuilder(currentProblem.getListVariable().size(), currentProblem.getProblemTitle(), 
-					currentProblem.getListAlgorithms(), jarPaths, currentProblem.getBitsPerVariable(),currentProblem.getMaxWaitingTime());
+			return Builders.BinaryBuilder(currentProblem.getListVariable().size(), currentProblem.getProblemTitle(),
+					currentProblem.getListAlgorithms(), jarPaths, currentProblem.getBitsPerVariable(),
+					currentProblem.getMaxWaitingTime());
 		}
 		return false;
 	}
 
 	/**
 	 * 
-	 * @param list List of Strings that is going to have all the possible algorithms for the specified dataType 
-	 * @param dataType String indicates the type of problem  
+	 * @param list
+	 *            List of Strings that is going to have all the possible algorithms
+	 *            for the specified dataType
+	 * @param dataType
+	 *            String indicates the type of problem
 	 * @throws IOException
 	 */
 	@SuppressWarnings("resource")
@@ -158,7 +167,6 @@ public class OptimizationProcess {
 		zip = new ZipInputStream(this.getClass().getResourceAsStream("/jmetal-algorithm-5.5.1-sources.jar"));
 
 		for (ZipEntry entry = zip.getNextEntry(); entry != null; entry = zip.getNextEntry()) {
-
 			if (!entry.isDirectory() && entry.getName().endsWith(".java") && entry.getName().contains("multiobjective")
 					&& !entry.getName().contains("CellDE") && !entry.getName().contains("GWASFGA")
 					&& !entry.getName().contains("MOMBI") && !entry.getName().contains("util")
@@ -166,10 +174,9 @@ public class OptimizationProcess {
 					&& !entry.getName().contains("45") && !entry.getName().contains("Steady")
 					&& !entry.getName().contains("Stopping") && !entry.getName().contains("DMOPSO")
 					&& !entry.getName().contains("SMPSO") && !entry.getName().contains("RNSGAII")
-					&& !entry.getName().contains("WASFGA")) {
+					&& !entry.getName().contains("WASFGA") && !entry.getName().contains("PESA2")) {
 				String className = entry.getName().replace('/', '.'); // including ".class"
 				classNames.add(className.substring(0, className.length() - ".class".length() + 1));
-
 				Scanner sc = new Scanner(zip);
 				while (sc.hasNextLine()) {
 					String line = sc.nextLine();
@@ -178,6 +185,7 @@ public class OptimizationProcess {
 								&& !line.contains("Double") && !line.contains("Binary") && !line.contains("IBEA")) {
 							String[] array = className.split("\\.");
 							list.add(array[array.length - 2]);
+
 						}
 					} else {
 						if (line.contains("public class") && !line.startsWith(" ") && !line.contains("CellDE ")
