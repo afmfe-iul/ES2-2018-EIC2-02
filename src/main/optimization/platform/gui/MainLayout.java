@@ -669,39 +669,7 @@ public class MainLayout {
 	 */
 	@SuppressWarnings({ "serial", "rawtypes" })
 	private void loadTableVariable() {
-		DefaultTableModel modelVariable = null;
-		if (comboBoxType.getSelectedItem().toString() == "Integer") {
-			modelVariable = new DefaultTableModel(new Object[][] {},
-					new String[] { "Name", "Minimum", "Maximum", "Forbidden" }) {
-
-				Class[] columnTypes = new Class[] { String.class, Integer.class, Integer.class, Integer.class };
-
-				public Class<?> getColumnClass(int columnIndex) {
-					return columnTypes[columnIndex];
-				}
-			};
-		}
-		if (comboBoxType.getSelectedItem().toString() == "Double") {
-			modelVariable = new DefaultTableModel(new Object[][] {},
-					new String[] { "Name", "Minimum", "Maximum", "Forbidden" }) {
-
-				Class[] columnTypes = new Class[] { String.class, Double.class, Double.class, Double.class };
-
-				public Class<?> getColumnClass(int columnIndex) {
-					return columnTypes[columnIndex];
-				}
-			};
-		}
-		if (comboBoxType.getSelectedItem().toString() == "Binary") {
-			modelVariable = new DefaultTableModel(new Object[][] {}, new String[] { "Name", "Forbidden" }) {
-
-				Class[] columnTypes = new Class[] { String.class, Integer.class };
-
-				public Class<?> getColumnClass(int columnIndex) {
-					return columnTypes[columnIndex];
-				}
-			};
-		}
+		DefaultTableModel modelVariable = modelVariable();
 		try {
 			int counter = Integer.parseInt(txtNumberVariables.getText());
 			for (int i = 0; i < counter; i++) {
@@ -713,6 +681,40 @@ public class MainLayout {
 			promptUser("Invalid data on Variable number field", true);
 		}
 
+	}
+
+	private DefaultTableModel modelVariable() {
+		DefaultTableModel modelVariable = null;
+		if (comboBoxType.getSelectedItem().toString() == "Integer") {
+			modelVariable = new DefaultTableModel(new Object[][] {},
+					new String[] { "Name", "Minimum", "Maximum", "Forbidden" }) {
+				Class[] columnTypes = new Class[] { String.class, Integer.class, Integer.class, Integer.class };
+
+				public Class<?> getColumnClass(int columnIndex) {
+					return columnTypes[columnIndex];
+				}
+			};
+		}
+		if (comboBoxType.getSelectedItem().toString() == "Double") {
+			modelVariable = new DefaultTableModel(new Object[][] {},
+					new String[] { "Name", "Minimum", "Maximum", "Forbidden" }) {
+				Class[] columnTypes = new Class[] { String.class, Double.class, Double.class, Double.class };
+
+				public Class<?> getColumnClass(int columnIndex) {
+					return columnTypes[columnIndex];
+				}
+			};
+		}
+		if (comboBoxType.getSelectedItem().toString() == "Binary") {
+			modelVariable = new DefaultTableModel(new Object[][] {}, new String[] { "Name", "Forbidden" }) {
+				Class[] columnTypes = new Class[] { String.class, Integer.class };
+
+				public Class<?> getColumnClass(int columnIndex) {
+					return columnTypes[columnIndex];
+				}
+			};
+		}
+		return modelVariable;
 	}
 
 	/**
@@ -773,17 +775,18 @@ public class MainLayout {
 			List<TableRowCriteria> listCriteria = currentProblem.getListCriteria();
 			TableModel modelVariable = tableVariable.getModel();
 			TableModel modelCriteria = tableCriteria.getModel();
-			if (comboBoxType.getSelectedItem() == "Double")
+			if (comboBoxType.getSelectedItem() == "Double") {
+				txtBitsPerVariable.setVisible(false);
+			lblBitsPerVariable.setVisible(false);
 				for (int i = 0; i < tableVariable.getRowCount(); i++) {
-					txtBitsPerVariable.setVisible(false);
-					lblBitsPerVariable.setVisible(false);
 					modelVariable.setValueAt(listVariable.get(i).getName(), i, 0);
 					modelVariable.setValueAt(Double.parseDouble(listVariable.get(i).getMinimo()), i, 1);
 					modelVariable.setValueAt(Double.parseDouble(listVariable.get(i).getMaximo()), i, 2);
 					if (listVariable.get(i).getForbidden() != null)
 						modelVariable.setValueAt(Double.parseDouble(listVariable.get(i).getForbidden()), i, 3);
 				}
-			if (comboBoxType.getSelectedItem() == "Integer")
+			}
+			if (comboBoxType.getSelectedItem() == "Integer") {
 				txtBitsPerVariable.setVisible(false);
 				lblBitsPerVariable.setVisible(false);
 				for (int i = 0; i < tableVariable.getRowCount(); i++) {
@@ -793,6 +796,7 @@ public class MainLayout {
 					if (listVariable.get(i).getForbidden() != null)
 						modelVariable.setValueAt(Integer.parseInt(listVariable.get(i).getForbidden()), i, 3);
 				}
+			}
 			if (comboBoxType.getSelectedItem() == "Binary") {
 				txtBitsPerVariable.setVisible(true);
 				lblBitsPerVariable.setVisible(true);
@@ -848,7 +852,6 @@ public class MainLayout {
 		ArrayList<TableRowCriteria> listCriteria = new ArrayList<TableRowCriteria>();
 		for (int i = 0; i < tableCriteria.getRowCount(); i++) {
 			TableRowCriteria m = new TableRowCriteria();
-			
 			m.setName(tableCriteria.getValueAt(i, 0).toString());
 			m.setPath(tableCriteria.getValueAt(i, 1).toString());
 			listCriteria.add(m);
@@ -937,27 +940,31 @@ public class MainLayout {
 		try {
 			ArrayList<String> listAlgorithms = (ArrayList<String>) k
 					.getAlgorithmsFor((String) comboBoxType.getSelectedItem());
-			tableAlgorithms = new JTable();
-			DefaultTableModel modelTable;
-			tableAlgorithms.setModel(modelTable = new DefaultTableModel(
-
-					new Object[][] {}, new String[] { "Algorithms", "Active" }) {
-				private static final long serialVersionUID = 1L;
-				@SuppressWarnings("rawtypes")
-				Class[] columnTypes = new Class[] { String.class, Boolean.class };
-
-				public Class<?> getColumnClass(int columnIndex) {
-					return columnTypes[columnIndex];
-				}
-			});
+			DefaultTableModel modelAlgorithms = modelAlgorithms();
 			for (int i = 0; i < listAlgorithms.size(); i++) {
-				modelTable.addRow(new Object[] { listAlgorithms.get(i), false });
+				modelAlgorithms.addRow(new Object[] { listAlgorithms.get(i), false });
 			}
 			scrollPanelAlgorithms.setViewportView(tableAlgorithms);
-			tableAlgorithms.setModel(modelTable);
+			tableAlgorithms.setModel(modelAlgorithms);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	private DefaultTableModel modelAlgorithms() {
+		tableAlgorithms = new JTable();
+		DefaultTableModel modelAlgorithms;
+		tableAlgorithms.setModel(
+				modelAlgorithms = new DefaultTableModel(new Object[][] {}, new String[] { "Algorithms", "Active" }) {
+					private static final long serialVersionUID = 1L;
+					@SuppressWarnings("rawtypes")
+					Class[] columnTypes = new Class[] { String.class, Boolean.class };
+
+					public Class<?> getColumnClass(int columnIndex) {
+						return columnTypes[columnIndex];
+					}
+				});
+		return modelAlgorithms;
 	}
 
 	/**
