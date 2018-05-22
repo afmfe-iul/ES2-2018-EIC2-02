@@ -22,7 +22,7 @@ public class TableRowCriteriaTest {
 		TableRowCriteria instance = new TableRowCriteria();
 		String Path = "path";
 		instance.setPath(Path);
-		assertEquals("The getter for the field 'Path' is not returning the same value that was setted.", instance.getName(), Path);
+		assertEquals("The getter for the field 'Path' is not returning the same value that was setted.", instance.getPath(), Path);
 
 	}
 
