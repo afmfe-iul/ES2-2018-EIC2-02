@@ -44,8 +44,7 @@ public class DataVisualization  extends JFXPanel{
 	public DataVisualization(List<String> algorithmsNames, List<String> rsFilePaths, 
 			List<String> rfFilePaths, List<String> decisionVariables, Integer knownSolution) {
 		Collections.sort(algorithmsNames);
-		if(algorithmsNames.size() != rsFilePaths.size() || algorithmsNames.size() != rfFilePaths.size() ||
-				algorithmsNames.size() == 0 || rsFilePaths.size() == 0 || rfFilePaths.size() == 0){
+		if(algorithmsNames.size() != rfFilePaths.size() || algorithmsNames.size() == 0 || rfFilePaths.size() == 0){
 			dataFileBuiltSuccessfuly = false;
 		}else{
 			VERSION++;

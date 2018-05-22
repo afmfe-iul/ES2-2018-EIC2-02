@@ -602,14 +602,14 @@ public class Builders {
 		if (algorithmsSelected.contains("NSGAIII")) {
 			for (int i = 0; i < problemList.size(); i++) {
 		    double crossoverProbability = 0.9 ;
-		   CrossoverOperator<BinarySolution> crossover = new SinglePointCrossover(crossoverProbability) ;
+		    CrossoverOperator<BinarySolution> crossover = new SinglePointCrossover(crossoverProbability) ;
 
 		    BinaryTournamentSelection<BinarySolution> selection = new BinaryTournamentSelection<BinarySolution>();
 		    
 		    Algorithm<List<BinarySolution>> algorithm = new NSGAIIIBuilder<BinarySolution>(problemList.get(i).getProblem())
 		            .setCrossoverOperator(crossover)
 		            .setSelectionOperator(selection)
-		            .setMaxIterations(300)
+		            .setMaxIterations(maxEvaluations)
 		            .build() ;
 		    
 		    algorithms.add(new ExperimentAlgorithm<>(algorithm, "NSGAIII", problemList.get(i).getTag()));

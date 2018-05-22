@@ -514,6 +514,7 @@ public class MainLayout {
 		// If problem name contains spaces or special characters
 		Pattern Namepattern = Pattern.compile("[^a-z0-9 ]", Pattern.CASE_INSENSITIVE);
 		Matcher matcherName = Namepattern.matcher(txtProblemName.getText());
+		// TODO this patterns doesnt let you run names with "acentos"
 		Pattern stringPattern = Pattern.compile("[^a-z ]", Pattern.CASE_INSENSITIVE);
 		Pattern numbersPattern = Pattern.compile("[^0-9]", Pattern.CASE_INSENSITIVE);
 		Matcher matcher;
@@ -537,6 +538,7 @@ public class MainLayout {
 		}
 		matcher = numbersPattern.matcher(txtMaximumTime.getText());
 		textboxText = txtMaximumTime.getText();
+		// TODO should let null values
 		if (textboxText.isEmpty() || matcher.find()) {
 			promptUser("Maximum Time contains invalid input", true);
 			return false;
@@ -549,6 +551,7 @@ public class MainLayout {
 		}
 		matcher = numbersPattern.matcher(txtSolutionKnown.getText());
 		textboxText = txtSolutionKnown.getText();
+		// TODO should let null values
 		if (textboxText.isEmpty() || matcher.find()) {
 			promptUser("Solution Known contains invalid input", true);
 			return false;

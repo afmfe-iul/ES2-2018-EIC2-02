@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<layoutProblem>
+    <automatic>false</automatic>
+    <bitsPerVariable>512</bitsPerVariable>
+    <email>sdfdsfsd</email>
+    <listAlgorithms>
+        <listAlgorithms>SPEA2</listAlgorithms>
+    </listAlgorithms>
+    <listCriteria>
+        <listCriteria>
+            <name>Num 0s</name>
+            <path>C:\Users\André Freire\Desktop\input\ZeroMax.jar</path>
+        </listCriteria>
+        <listCriteria>
+            <name>Num 1s</name>
+            <path>C:\Users\André Freire\Desktop\input\OneMax.jar</path>
+        </listCriteria>
+    </listCriteria>
+    <listVariable>
+        <listVariable>
+            <forbidden>0</forbidden>
+            <name>A minha sequência de bits</name>
+        </listVariable>
+    </listVariable>
+    <maxWaitingTime>5</maxWaitingTime>
+    <numberCriteria>2</numberCriteria>
+    <numberVariables>1</numberVariables>
+    <problemDescription>Maximização de 0s e 1s</problemDescription>
+    <problemTitle>OneZeroMax</problemTitle>
+    <solutionKnown>1</solutionKnown>
+    <type>Binary</type>
+    <variablesName>As minhas variaveis binarias</variablesName>
+</layoutProblem>
