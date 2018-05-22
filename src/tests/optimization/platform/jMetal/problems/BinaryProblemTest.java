@@ -16,7 +16,7 @@ public class BinaryProblemTest {
 		BinaryProblem instance;
 		BinarySolution solution = null; 
 		for(int i = 0; i<2;i++) {
-			jarPaths.add("testJars/FalseNegatives.jar");
+			jarPaths.add("input/FalseNegatives.jar");
 		}
 		try {
 			instance = new BinaryProblem(2, jarPaths, null, 5);

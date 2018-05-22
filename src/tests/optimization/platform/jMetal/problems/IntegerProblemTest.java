@@ -19,7 +19,7 @@ public class IntegerProblemTest {
 		IntegerSolution solution =null;
 		
 		for (int i = 0; i < 2; i++) {
-			jarPaths.add("testJars/FalseNegatives.jar");
+			jarPaths.add("input/FalseNegatives.jar");
 		}
 
 		IntegerProblem instance;
