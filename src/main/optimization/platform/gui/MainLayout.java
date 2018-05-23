@@ -163,7 +163,18 @@ public class MainLayout {
 		JButton btnloadTableVariable = new JButton("Load Table");
 		btnloadTableVariable.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if (comboBoxType.getSelectedItem().toString() == "Binary") {
+				Pattern numbersPattern = Pattern.compile("[^0-9]", Pattern.CASE_INSENSITIVE);
+				Matcher matcher;
+				matcher = numbersPattern.matcher(txtNumberVariables.getText());
+				if (txtNumberVariables.getText().isEmpty() || matcher.find()) {
+					promptUser("Variables number contains invalid input", true);
+					return;
+				}
+				currentProblem.setType(comboBoxType.getSelectedItem().toString());
+				if(chckbxManual.isSelected())
+					loadTableAlgorithm();
+				loadTableVariable();
+				if (currentProblem.getType().equals("Binary")) {
 					txtBitsPerVariable.setVisible(true);
 					lblBitsPerVariable.setVisible(true);
 				}
@@ -171,7 +182,6 @@ public class MainLayout {
 					txtBitsPerVariable.setVisible(false);
 					lblBitsPerVariable.setVisible(false);
 				}
-				loadTableVariable();
 
 			}
 		});
@@ -584,7 +594,7 @@ public class MainLayout {
 		}
 		matcher = numbersPattern.matcher(txtBitsPerVariable.getText());
 		textboxText = txtBitsPerVariable.getText();
-		if (comboBoxType.getSelectedItem().toString() == "Binary" && (matcher.find() || textboxText.isEmpty())) {
+		if (currentProblem.getType().equals("Binary") && (matcher.find() || textboxText.isEmpty())) {
 			promptUser("BitsPerVariable contains invalid input",true);
 			return false;
 		}
@@ -685,7 +695,7 @@ public class MainLayout {
 
 	private DefaultTableModel modelVariable() {
 		DefaultTableModel modelVariable = null;
-		if (comboBoxType.getSelectedItem().toString() == "Integer") {
+		if (currentProblem.getType().equals("Integer")) {
 			modelVariable = new DefaultTableModel(new Object[][] {},
 					new String[] { "Name", "Minimum", "Maximum", "Forbidden" }) {
 				Class[] columnTypes = new Class[] { String.class, Integer.class, Integer.class, Integer.class };
@@ -695,7 +705,7 @@ public class MainLayout {
 				}
 			};
 		}
-		if (comboBoxType.getSelectedItem().toString() == "Double") {
+		if (currentProblem.getType().equals("Double")) {
 			modelVariable = new DefaultTableModel(new Object[][] {},
 					new String[] { "Name", "Minimum", "Maximum", "Forbidden" }) {
 				Class[] columnTypes = new Class[] { String.class, Double.class, Double.class, Double.class };
@@ -705,7 +715,7 @@ public class MainLayout {
 				}
 			};
 		}
-		if (comboBoxType.getSelectedItem().toString() == "Binary") {
+		if (currentProblem.getType().equals("Binary")) {
 			modelVariable = new DefaultTableModel(new Object[][] {}, new String[] { "Name", "Forbidden" }) {
 				Class[] columnTypes = new Class[] { String.class, Integer.class };
 
@@ -775,7 +785,7 @@ public class MainLayout {
 			List<TableRowCriteria> listCriteria = currentProblem.getListCriteria();
 			TableModel modelVariable = tableVariable.getModel();
 			TableModel modelCriteria = tableCriteria.getModel();
-			if (comboBoxType.getSelectedItem() == "Double") {
+			if (currentProblem.getType().equals("Double")) {
 				txtBitsPerVariable.setVisible(false);
 			lblBitsPerVariable.setVisible(false);
 				for (int i = 0; i < tableVariable.getRowCount(); i++) {
@@ -787,7 +797,7 @@ public class MainLayout {
 				}
 			}
 
-			if (comboBoxType.getSelectedItem() == "Integer") {
+			if (currentProblem.getType().equals("Integer")) {
 				txtBitsPerVariable.setVisible(false);
 				lblBitsPerVariable.setVisible(false);
 				for (int i = 0; i < tableVariable.getRowCount(); i++) {
@@ -798,7 +808,7 @@ public class MainLayout {
 						modelVariable.setValueAt(Integer.parseInt(listVariable.get(i).getForbidden()), i, 3);
 				}
 			}
-			if (comboBoxType.getSelectedItem() == "Binary") {
+			if (currentProblem.getType().equals("Binary")) {
 				txtBitsPerVariable.setVisible(true);
 				lblBitsPerVariable.setVisible(true);
 				txtBitsPerVariable.setText(Integer.toString(currentProblem.getBitsPerVariable()));
@@ -824,7 +834,7 @@ public class MainLayout {
 	 * Reads the problem inputed by the user on the optimization platform
 	 */
 	private void readProblemFromInterface() {
-		String problemType = comboBoxType.getSelectedItem().toString();
+		String problemType = currentProblem.getType();
 		currentProblem = new LayoutProblem();
 		if (!txtMaximumTime.getText().isEmpty())
 			currentProblem.setMaxWaitingTime(Integer.parseInt(txtMaximumTime.getText()));
@@ -836,7 +846,7 @@ public class MainLayout {
 		currentProblem.setProblemDescription(txtProblemDescription.getText());
 		currentProblem.setProblemTitle(txtProblemName.getText());
 		currentProblem.setEmail(txtEmail.getText());
-		currentProblem.setType(comboBoxType.getSelectedItem().toString());
+		currentProblem.setType(problemType);
 		if (chckbxAutomatic.isSelected()) {
 			currentProblem.setAutomatic(true);
 		} else {
@@ -940,7 +950,7 @@ public class MainLayout {
 		OptimizationProcess k = new OptimizationProcess();
 		try {
 			ArrayList<String> listAlgorithms = (ArrayList<String>) k
-					.getAlgorithmsFor((String) comboBoxType.getSelectedItem());
+					.getAlgorithmsFor(currentProblem.getType());
 			DefaultTableModel modelAlgorithms = modelAlgorithms();
 			for (int i = 0; i < listAlgorithms.size(); i++) {
 				modelAlgorithms.addRow(new Object[] { listAlgorithms.get(i), false });
