@@ -7,6 +7,8 @@ import org.junit.Test;
 import org.uma.jmetal.problem.impl.AbstractDoubleProblem;
 import org.uma.jmetal.solution.DoubleSolution;
 
+import main.optimization.platform.gui.MainLayout;
+import main.optimization.platform.jMetal.OptimizationProcess;
 import main.optimization.platform.jMetal.problems.DoubleProblem;
 
 public class DoubleProblemTest {
@@ -22,7 +24,7 @@ public class DoubleProblemTest {
 		DoubleProblem instance;
 		DoubleSolution solution =null;
 		try {
-			instance = new DoubleProblem(2, upperbounds, lowerbounds, jarPaths, "teste");
+			instance = new DoubleProblem(new OptimizationProcess(new MainLayout()), 2, upperbounds, lowerbounds, jarPaths, "teste");
 			assertTrue("DoubleProblem intances should extend the AbstractDoubleProblem class.",
 			instance.getClass().getSuperclass().equals(AbstractDoubleProblem.class));
 			

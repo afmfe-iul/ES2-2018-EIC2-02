@@ -6,6 +6,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import org.junit.Test;
+
+import main.optimization.platform.gui.MainLayout;
 import main.optimization.platform.jMetal.OptimizationProcess;
 import main.optimization.platform.jMetal.OptimizationProcess.DATA_TYPES;
 
@@ -27,7 +29,7 @@ public class OptimizationProcessTest {
 	
 	@Test
 	public void getAlgorithmsForShouldReturnANonEmptyListWithTheApllicableAlgorithmsForAGivenDataType() throws Exception{
-		OptimizationProcess instance = new OptimizationProcess();
+		OptimizationProcess instance = new OptimizationProcess(new MainLayout());
 		String dataType = "Double";
 		
 		List<String> results = instance.getAlgorithmsFor(dataType);

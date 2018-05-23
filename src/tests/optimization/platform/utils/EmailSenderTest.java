@@ -1,12 +1,8 @@
 package tests.optimization.platform.utils;
 
 import static org.junit.Assert.assertEquals;
-
 import java.util.ArrayList;
-import java.util.Properties;
-
 import org.junit.Test;
-
 import main.optimization.platform.utils.EmailSender;
 
 public class EmailSenderTest {

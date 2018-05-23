@@ -1,5 +1,6 @@
 package main.optimization.platform.jMetal;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,9 +9,11 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 import main.optimization.platform.gui.LayoutProblem;
+import main.optimization.platform.gui.MainLayout;
 import main.optimization.platform.gui.TableRowCriteria;
 import main.optimization.platform.gui.TableRowVariable;
 import main.optimization.platform.utils.Builders;
+import main.optimization.platform.utils.EmailSender;
 
 public class OptimizationProcess {
 	public static enum DATA_TYPES {
@@ -25,6 +28,16 @@ public class OptimizationProcess {
 		public String toString() {
 			return type;
 		}
+	}
+	
+	private MainLayout mainLayout;
+	private LayoutProblem problem;
+	private int optimizationTotalIterations; 
+	private int optimizationProgress = 0;
+	
+	
+	public OptimizationProcess(MainLayout mainLayout) {
+		this.mainLayout = mainLayout;
 	}
 
 	/**
@@ -105,47 +118,50 @@ public class OptimizationProcess {
 	 *            user input on the GUI about the problem to be optimized
 	 */
 	public boolean run(LayoutProblem currentProblem) {
-		List<TableRowVariable> rows = currentProblem.getListVariable();
-		List<TableRowCriteria> jarRows = currentProblem.getListCriteria();
+		this.problem = currentProblem;
+		List<TableRowVariable> rows = problem.getListVariable();
+		List<TableRowCriteria> jarRows = problem.getListCriteria();
 		List<String> jarPaths = new ArrayList<>();
 		for (int i = 0; i < jarRows.size(); i++) {
 			jarPaths.add(jarRows.get(i).getPath());
 		}
 
 		// In case the user did not specified a max running time, we use a default
-		if (currentProblem.getMaxWaitingTime() == 0) {
-			currentProblem.setMaxWaitingTime(Builders.DEFAULT_ITERATIONS);
+		if (problem.getMaxWaitingTime() <= 0) {
+			problem.setMaxWaitingTime(Builders.DEFAULT_ITERATIONS);
 		}
-
+		
+		sendEmail(0);
+		optimizationTotalIterations = (int)(problem.getMaxWaitingTime() * problem.getListAlgorithms().size());
 		// Build a Double Problem
-		if (currentProblem.getType().equals("Double")) {
+		if (problem.getType().equals("Double")) {
 			List<Double> lowerBounds = new ArrayList<>();
 			List<Double> upperBounds = new ArrayList<>();
 			for (int i = 0; i < rows.size(); i++) {
 				lowerBounds.add(Double.parseDouble(rows.get(i).getMinimo()));
 				upperBounds.add(Double.parseDouble(rows.get(i).getMaximo()));
 			}
-			return Builders.DoubleBuilder(currentProblem.getListVariable().size(), currentProblem.getProblemTitle(),
-					currentProblem.getListAlgorithms(), lowerBounds, upperBounds, jarPaths,
-					currentProblem.getMaxWaitingTime());
+			return Builders.DoubleBuilder(this, problem.getListVariable().size(), problem.getProblemTitle(),
+					problem.getListAlgorithms(), lowerBounds, upperBounds, jarPaths,
+					problem.getMaxWaitingTime());
 
 			// Build a Integer Problem
-		} else if (currentProblem.getType().equals("Integer")) {
+		} else if (problem.getType().equals("Integer")) {
 			List<Integer> lowerBounds = new ArrayList<>();
 			List<Integer> upperBounds = new ArrayList<>();
 			for (int i = 0; i < rows.size(); i++) {
 				lowerBounds.add(Integer.valueOf(rows.get(i).getMinimo()));
 				upperBounds.add(Integer.valueOf(rows.get(i).getMaximo()));
 			}
-			return Builders.IntegerBuilder(currentProblem.getListVariable().size(), currentProblem.getProblemTitle(),
-					currentProblem.getListAlgorithms(), lowerBounds, upperBounds, jarPaths,
-					currentProblem.getMaxWaitingTime());
+			return Builders.IntegerBuilder(this, problem.getListVariable().size(), problem.getProblemTitle(),
+					problem.getListAlgorithms(), lowerBounds, upperBounds, jarPaths,
+					problem.getMaxWaitingTime());
 
 			// Build a Binary Problem
-		} else if (currentProblem.getType().equals("Binary")) {
-			return Builders.BinaryBuilder(currentProblem.getListVariable().size(), currentProblem.getProblemTitle(),
-					currentProblem.getListAlgorithms(), jarPaths, currentProblem.getBitsPerVariable(),
-					currentProblem.getMaxWaitingTime());
+		} else if (problem.getType().equals("Binary")) {
+			return Builders.BinaryBuilder(this, problem.getListVariable().size(), problem.getProblemTitle(),
+					problem.getListAlgorithms(), jarPaths, problem.getBitsPerVariable(),
+					problem.getMaxWaitingTime());
 		}
 		return false;
 	}
@@ -199,4 +215,41 @@ public class OptimizationProcess {
 		}
 	}
 
+	
+	public synchronized void callBack() {
+		optimizationProgress++;
+		if((double) optimizationProgress / optimizationTotalIterations == 0.25) {
+			sendEmail(25);
+		}else if((double) optimizationProgress / optimizationTotalIterations == 0.5) {
+			sendEmail(50);
+		}else if((double) optimizationProgress / optimizationTotalIterations == 0.75) {
+			sendEmail(75);
+		}else if((double) optimizationProgress / optimizationTotalIterations == 1) {
+			sendEmail(100);
+		}
+	}
+
+	private void sendEmail(int percentageCompleted) {
+		List<String> to = new ArrayList<>();
+		to.add(problem.getEmail());
+		
+		String subject = "Optimização em curso: " + problem.getProblemTitle();
+		String body;
+		if(percentageCompleted == 0) {
+			body = "Muito obrigado por usar esta plataforma de otimização. Será informado por email "
+					+ "sobre o progresso do processo de otimização, quando o processo de otimização tiver atingido 25%, 50%, "
+					+ "75% do total do número de avaliações, e também quando o processo tiver "
+					+ "terminado, com sucesso ou devido à ocorrência de erros.";
+		}else {
+			body = "De momento o processo de otimização encontra-se a " + percentageCompleted + "% do número de avaliações!";
+		}
+		File attachment = new File("temp.xml");
+		mainLayout.writeXmlToFile(attachment, problem);
+		
+		EmailSender email = new EmailSender(mainLayout.getAdminMail(), mainLayout.getAdminPass(), to, subject, body);
+		email.addToCC(mainLayout.getAdminMail());
+		email.addAttachment(attachment);
+		email.sendFromGMail();
+		attachment.delete();
+	}
 }

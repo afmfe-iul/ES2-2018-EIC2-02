@@ -78,18 +78,14 @@ public class HelpPage extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				ArrayList<String> to = new ArrayList<>();
-
 				to.add(adminEmail);
 				
-
 				EmailSender sender =  new EmailSender(textField.getText(), new String(passwordField.getPassword()),to, textField_1.getText(), textArea.getText());
-
 				sender.sendFromGMail();
 				JOptionPane.showMessageDialog(frame, "Email was sent");
 		}});
 		
 		getContentPane().add(btnSend);
-		
 		setLocationRelativeTo(frame);
 		setModal(true);
 		setResizable(false);

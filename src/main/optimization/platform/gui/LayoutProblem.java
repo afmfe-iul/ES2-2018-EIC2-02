@@ -233,7 +233,6 @@ public class LayoutProblem {
 	 * @param bitsPerVariable Int representing BitsPervariable that you want to attribute to the problem.
 	*/
 	public void setBitsPerVariable(int bitsPerVariable) {
-		// TODO this method is not beeing called by the UI yet
 		this.bitsPerVariable = bitsPerVariable;
 	}
 }

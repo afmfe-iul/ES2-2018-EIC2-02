@@ -1,14 +1,21 @@
 package main.optimization.platform.utils;
 
+import java.io.File;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
+import javax.activation.DataHandler;
 import javax.mail.Message;
 import javax.mail.MessagingException;
+import javax.mail.Multipart;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 
 /**
  * Class responsible for mailing feature
@@ -16,13 +23,13 @@ import javax.mail.internet.MimeMessage;
  *
  */
 public class EmailSender{
-
-		
 	private String from;
 	private String pass;
-	private ArrayList<String> to;
-	private String subject;
+	private List<String> to;
+	private List<String> cc;
+ 	private String subject;
 	private String body;
+	private File attachment;
 	
 	/**
 	 * Instantiates an Email Sender
@@ -32,13 +39,13 @@ public class EmailSender{
 	 * @param subject String indicates the subject of the email
 	 * @param body String indicates the body of the email
 	 */
-	public EmailSender(String from, String pass, ArrayList<String> to, String subject, String body) {
-		
+	public EmailSender(String from, String pass, List<String> to, String subject, String body) {
+		this.to = to;
+		this.cc = new ArrayList<>();
 		setFrom(from);
 		setPass(pass);
 		setBody(body);
 		setSubject(subject);
-		this.to = to;
 	}
 
  /**
@@ -60,7 +67,9 @@ public class EmailSender{
         try {
             message.setFrom(new InternetAddress(from));
             InternetAddress[] toAddress = new InternetAddress[to.size()];
+            InternetAddress[] ccAddress = new InternetAddress[cc.size()];
 
+            
             // To get the array of addresses
             for( int i = 0; i < to.size(); i++ ) {
                 toAddress[i] = new InternetAddress(to.get(i));
@@ -70,9 +79,38 @@ public class EmailSender{
                 message.addRecipient(Message.RecipientType.TO, toAddress[i]);
             }
             
-            System.out.println("sended");
+            
+            // To get the array of CCs
+            for( int i = 0; i < cc.size(); i++ ) {
+                ccAddress[i] = new InternetAddress(cc.get(i));
+            }
+            
+            for( int i = 0; i < ccAddress.length; i++) {
+                message.addRecipient(Message.RecipientType.CC, ccAddress[i]);
+            }
+            
             message.setSubject(subject);
-            message.setText(body);
+
+            // Adds the body to the message
+            Multipart multipart = new MimeMultipart();
+            MimeBodyPart textBodyPart = new MimeBodyPart();
+            textBodyPart.setText(body);
+            multipart.addBodyPart(textBodyPart);
+            
+            // Adds the attachment to the message
+            if(attachment != null) {
+            	MimeBodyPart attachmentBodyPart = new MimeBodyPart();
+    			try {
+    				attachmentBodyPart.setDataHandler(new DataHandler(attachment.toURI().toURL()));
+    			} catch (MalformedURLException e) {
+    				e.printStackTrace();
+    			}
+                
+    			attachmentBodyPart.setFileName(attachment.getName());
+                multipart.addBodyPart(attachmentBodyPart);	
+            }
+            message.setContent(multipart);
+            
             Transport transport = session.getTransport("smtp");
             transport.connect(host, from, pass);
             transport.sendMessage(message, message.getAllRecipients());
@@ -140,5 +178,13 @@ public class EmailSender{
 	*/
 	public void setBody(String body) {
 		this.body = body;
+	}
+	
+	public void addToCC(String email) {
+		cc.add(email);
+	}
+
+	public void addAttachment(File attachment) {
+		this.attachment = attachment;
 	}
 }

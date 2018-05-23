@@ -39,10 +39,15 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
+
+import org.uma.jmetal.util.JMetalException;
+
 import main.optimization.platform.gui.external.DataVisualization;
 import main.optimization.platform.jMetal.OptimizationProcess;
 import main.optimization.platform.jMetal.OptimizationProcess.DATA_TYPES;
 import main.optimization.platform.utils.Builders;
+import main.optimization.platform.utils.EmailSender;
+
 import javax.swing.JCheckBox;
 import javax.swing.JToolBar;
 
@@ -86,6 +91,7 @@ public class MainLayout {
 	private JLabel lblOptimizationImpliesMinimizing;
 	private LayoutProblem currentProblem;
 	private String emailAdmin;
+	private String passAdmin;
 	private JTextField txtSolutionKnown;
 	private Container mainPanel;
 	private JTextField txtBitsPerVariable;
@@ -112,6 +118,7 @@ public class MainLayout {
 			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 			AdminXmlObject adminXmlObject = (AdminXmlObject) jaxbUnmarshaller.unmarshal(file);
 			emailAdmin = adminXmlObject.getEmail();
+			passAdmin = adminXmlObject.getPassword();
 			PATH_INPUT = adminXmlObject.getpathInput();
 			PATH_OUTPUT = adminXmlObject.getpathOutput();
 		} catch (JAXBException e) {
@@ -677,7 +684,6 @@ public class MainLayout {
 	 * Loads a different table model for the problem variables for each problem type
 	 * inputed by the user
 	 */
-	@SuppressWarnings({ "serial", "rawtypes" })
 	private void loadTableVariable() {
 		DefaultTableModel modelVariable = modelVariable();
 		try {
@@ -693,6 +699,7 @@ public class MainLayout {
 
 	}
 
+	@SuppressWarnings({ "serial", "rawtypes" })
 	private DefaultTableModel modelVariable() {
 		DefaultTableModel modelVariable = null;
 		if (currentProblem.getType().equals("Integer")) {
@@ -921,24 +928,27 @@ public class MainLayout {
 	private void saveXmlProblem() {
 		if (validateProblemFields()) {
 			readProblemFromInterface();
-			try {
-				Calendar calobj = Calendar.getInstance();
-				DateFormat df = new SimpleDateFormat("dd-MM-yy HH-mm-ss");
+			Calendar calobj = Calendar.getInstance();
+			DateFormat df = new SimpleDateFormat("dd-MM-yy HH-mm-ss");
 
-				File file = new File(PATH_INPUT + "savedProblems" + File.separator + txtProblemName.getText()
-						+ df.format(calobj.getTime()) + ".xml");
-				JAXBContext jaxbContext = JAXBContext.newInstance(LayoutProblem.class);
-				Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
-
-				// output pretty printed
-				jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-
-				jaxbMarshaller.marshal(currentProblem, file);
-				jaxbMarshaller.marshal(currentProblem, System.out);
-
-			} catch (JAXBException e) {
-				e.printStackTrace();
-			}
+			File file = new File(PATH_INPUT + "savedProblems" + File.separator + txtProblemName.getText()
+					+ df.format(calobj.getTime()) + ".xml");
+			writeXmlToFile(file, currentProblem);
+		}
+	}
+	
+	// TODO test this
+	public void writeXmlToFile(File file, LayoutProblem problem) {
+		try {
+			JAXBContext jaxbContext = JAXBContext.newInstance(LayoutProblem.class);
+			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+		
+			// output pretty printed
+			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+		
+			jaxbMarshaller.marshal(problem, file);
+		} catch (JAXBException e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -947,7 +957,7 @@ public class MainLayout {
 	 * type inputed
 	 */
 	private void loadTableAlgorithm() {
-		OptimizationProcess k = new OptimizationProcess();
+		OptimizationProcess k = new OptimizationProcess(this);
 		try {
 			ArrayList<String> listAlgorithms = (ArrayList<String>) k
 					.getAlgorithmsFor(currentProblem.getType());
@@ -982,12 +992,20 @@ public class MainLayout {
 	 * Runs problem
 	 */
 	private void runDemo() {
-		OptimizationProcess op = new OptimizationProcess();
+		OptimizationProcess op = new OptimizationProcess(this);
 		Thread t = new Thread(new Runnable() {
 			@Override
 			public void run() {
 				try {
 					op.run(currentProblem);
+				}catch (JMetalException e) {
+					List<String> emails = new ArrayList<>();
+					emails.add(currentProblem.getEmail());
+					EmailSender email = new EmailSender(emailAdmin, passAdmin, emails, "JMetal Problem Quality Indicator",
+							"The problem " + e.getMessage() + " failed to find results with good quality. Try rerunning the"
+									+ " experiment with different parameters.");
+					email.addToCC(emailAdmin);
+					email.sendFromGMail();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -1048,8 +1066,15 @@ public class MainLayout {
 				promptUser(dv.getBuildErrorMessage(), true);
 			}
 		} else {
-			promptUser("Before trying to visualize results, you must load a Problem or define a new one and run it.",
-					true);
+			promptUser("Before trying to visualize results, you must load a Problem or define a new one and run it.", true);
 		}
+	}
+
+	public String getAdminMail() {
+		return emailAdmin;
+	}
+
+	public String getAdminPass() {
+		return passAdmin;
 	}
 }

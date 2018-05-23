@@ -7,6 +7,8 @@ import org.junit.Test;
 import org.uma.jmetal.problem.impl.AbstractIntegerProblem;
 import org.uma.jmetal.solution.IntegerSolution;
 
+import main.optimization.platform.gui.MainLayout;
+import main.optimization.platform.jMetal.OptimizationProcess;
 import main.optimization.platform.jMetal.problems.IntegerProblem;
 
 public class IntegerProblemTest {
@@ -24,7 +26,7 @@ public class IntegerProblemTest {
 
 		IntegerProblem instance;
 		try {
-			instance = new IntegerProblem(2, lowerbounds, upperbounds, null, jarPaths);
+			instance = new IntegerProblem(new OptimizationProcess(new MainLayout()), 2, lowerbounds, upperbounds, null, jarPaths);
 			
 			assertTrue("IntegerProblem intances should extend the AbstractIntegerProblem class.",
 					instance.getClass().getSuperclass().equals(AbstractIntegerProblem.class));
