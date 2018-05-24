@@ -1,0 +1,121 @@
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////				Long Methods			////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+main.optimization.platform.gui.MainLayout	private void readDoubleProblemFromInterface(List<main.optimization.platform.gui.TableRowVariable>) 	listVariable	B2	0/8
+main.optimization.platform.gui.MainLayout	private void readIntegerProblemFromInterface(List<main.optimization.platform.gui.TableRowVariable>) 	listVariable	B2	0/8
+main.optimization.platform.gui.MainLayout	private void readProblemFromInterface() 	listVariable	B15	0/8
+tests.optimization.platform.jMetal.problems.BinaryProblemTest	public void constructorMustReturnAnObjectThatInheritsFromIntegerProblem() 	instance	B1	0/8
+tests.optimization.platform.jMetal.problems.BinaryProblemTest	public void constructorMustReturnAnObjectThatInheritsFromIntegerProblem() 	instance	B2	0/5
+tests.optimization.platform.jMetal.problems.BinaryProblemTest	public void constructorMustReturnAnObjectThatInheritsFromIntegerProblem() 	instance	B4	0/2
+main.optimization.platform.gui.MainLayout	private void loadTableAlgorithm() 	tableAlgorithms	B1	0/7
+main.optimization.platform.gui.MainLayout	private void readDoubleProblemFromInterface(List<main.optimization.platform.gui.TableRowVariable>) 	m	B2	0/7
+main.optimization.platform.gui.MainLayout	private void readIntegerProblemFromInterface(List<main.optimization.platform.gui.TableRowVariable>) 	m	B2	0/7
+main.optimization.platform.gui.MainLayout	private void readBinaryProblemFromInterface(List<main.optimization.platform.gui.TableRowVariable>) 	listVariable	B2	0/7
+main.optimization.platform.gui.MainLayout	private void readBinaryProblemFromInterface(List<main.optimization.platform.gui.TableRowVariable>) 	listVariable	B3	0/6
+tests.optimization.platform.gui.external.DataVisualizationTest	public void constructorMustReturnAnObjectThatInheritsFromJComponent() 	instance	B1	0/6
+tests.optimization.platform.utils.EmailSenderTest	public final void testSendFromGMail() 	instance	B1	0/6
+main.optimization.platform.gui.MainLayout	private void readProblemFromInterface() 	listCriteria	B12	0/6
+main.optimization.platform.gui.MainLayout	private void readProblemFromInterface() 	listCriteria	B13	0/5
+main.optimization.platform.gui.MainLayout	private void readProblemFromInterface() 	listCriteria	B14	0/4
+main.optimization.platform.gui.MainLayout	private void loadTableVariable() 	tableVariable	B1	0/6
+main.optimization.platform.gui.MainLayout	private void loadTableVariable() 	tableVariable	B2	0/3
+main.optimization.platform.gui.MainLayout	private void readBinaryProblemFromInterface(List<main.optimization.platform.gui.TableRowVariable>) 	m	B3	0/5
+tests.optimization.platform.jMetal.problems.DoubleProblemTest	public void constructorMustReturnAnObjectThatInheritsFromIntegerProblem() 	instance	B4	0/5
+main.optimization.platform.gui.MainLayout	private void readProblemFromInterface() 	listAlgorithms	B8	0/5
+main.optimization.platform.gui.MainLayout	private void readProblemFromInterface() 	listAlgorithms	B9	0/3
+main.optimization.platform.gui.MainLayout	private void readProblemFromInterface() 	listAlgorithms	B10	0/2
+main.optimization.platform.gui.MainLayout	private void loadTableVariable() 	modelVariable	B1	0/5
+main.optimization.platform.gui.MainLayout	private void loadTableVariable() 	modelVariable	B2	0/2
+main.optimization.platform.gui.MainLayout	private void saveXmlProblem() 	file	B2	0/4
+main.optimization.platform.jMetal.OptimizationProcess	private void sendEmail(int) 	body	B1	0/4
+tests.optimization.platform.jMetal.problems.IntegerProblemTest	public void constructorMustReturnAnObjectThatInheritsFromIntegerProblem() 	instance	B4	0/4
+main.optimization.platform.gui.MainLayout	private void loadTableCriteria() 	buttonColumn	B2	0/4
+main.optimization.platform.gui.MainLayout	private void readProblemFromInterface() 	m	B14	0/3
+main.optimization.platform.gui.MainLayout	public boolean validateProblemFields() 	stringPattern	B1	0/3
+main.optimization.platform.gui.MainLayout	public void resetTableModels() 	tableCriteria	B1	0/3
+main.optimization.platform.gui.MainLayout	public void resetTableModels() 	tableVariable	B1	0/3
+main.optimization.platform.gui.external.DataVisualization	private javafx.scene.layout.HBox getButtonPanel() 	btnBack	B1	0/3
+main.optimization.platform.gui.external.DataVisualization	private javafx.scene.layout.HBox getButtonPanel() 	btnReload	B1	0/3
+main.optimization.platform.utils.Builders	private static List<ExperimentAlgorithm<org.uma.jmetal.solution.BinarySolution,List<org.uma.jmetal.solution.BinarySolution>>> configureBinaryAlgorithmList(List<ExperimentProblem<org.uma.jmetal.solution.BinarySolution>>, List<java.lang.String>, int) 	referencePoint	B21	0/3
+main.optimization.platform.utils.Builders	public static boolean BinaryBuilder(main.optimization.platform.jMetal.OptimizationProcess, int, java.lang.String, List<java.lang.String>, List<java.lang.String>, int, int) 	problem	B1	0/3
+main.optimization.platform.utils.Builders	public static boolean BinaryBuilder(main.optimization.platform.jMetal.OptimizationProcess, int, java.lang.String, List<java.lang.String>, List<java.lang.String>, int, int) 	problem	B1	0/3
+main.optimization.platform.utils.Builders	public static boolean DoubleBuilder(main.optimization.platform.jMetal.OptimizationProcess, int, java.lang.String, List<java.lang.String>, List<java.lang.Double>, List<java.lang.Double>, List<java.lang.String>, int) 	problem	B1	0/3
+main.optimization.platform.utils.Builders	public static boolean DoubleBuilder(main.optimization.platform.jMetal.OptimizationProcess, int, java.lang.String, List<java.lang.String>, List<java.lang.Double>, List<java.lang.Double>, List<java.lang.String>, int) 	problem	B1	0/3
+main.optimization.platform.utils.Builders	public static boolean IntegerBuilder(main.optimization.platform.jMetal.OptimizationProcess, int, java.lang.String, List<java.lang.String>, List<java.lang.Integer>, List<java.lang.Integer>, List<java.lang.String>, int) 	problem	B1	0/3
+main.optimization.platform.utils.Builders	public static boolean IntegerBuilder(main.optimization.platform.jMetal.OptimizationProcess, int, java.lang.String, List<java.lang.String>, List<java.lang.Integer>, List<java.lang.Integer>, List<java.lang.String>, int) 	problem	B1	0/3
+tests.optimization.platform.utils.EmailSenderTest	public final void testGetterAndSetterBody() 	instance	B1	0/3
+tests.optimization.platform.utils.EmailSenderTest	public final void testGetterAndSetterFrom() 	instance	B1	0/3
+tests.optimization.platform.utils.EmailSenderTest	public final void testGetterAndSetterPass() 	instance	B1	0/3
+tests.optimization.platform.utils.EmailSenderTest	public final void testGetterAndSetterSubject() 	instance	B1	0/3
+main.optimization.platform.utils.EmailSender	public void sendFromGMail() throws javax.mail.internet.AddressException, javax.mail.MessagingException	toAddress	B1	0/3
+main.optimization.platform.utils.EmailSender	public void sendFromGMail() throws javax.mail.internet.AddressException, javax.mail.MessagingException	toAddress	B2	0/2
+main.optimization.platform.utils.EmailSender	public void sendFromGMail() throws javax.mail.internet.AddressException, javax.mail.MessagingException	ccAddress	B1	0/3
+main.optimization.platform.utils.EmailSender	public void sendFromGMail() throws javax.mail.internet.AddressException, javax.mail.MessagingException	ccAddress	B6	0/2
+main.optimization.platform.gui.MainLayout	private void loadTableAlgorithm() 	scrollPanelAlgorithms	B4	0/2
+main.optimization.platform.gui.MainLayout	private void loadTableCriteria() 	scrollPanelTableCriteria	B1	0/2
+main.optimization.platform.gui.MainLayout	private void visualizeDemo(main.optimization.platform.gui.LayoutProblem) 	frame	B13	0/2
+main.optimization.platform.gui.MainLayout	public void initialize() 	txtEmail	B4	0/2
+main.optimization.platform.gui.MainLayout	public void initialize() 	txtMaximumTime	B4	0/2
+main.optimization.platform.gui.MainLayout	public void initialize() 	txtNumberVariables	B4	0/2
+main.optimization.platform.gui.MainLayout	public void initialize() 	txtProblemName	B4	0/2
+main.optimization.platform.gui.MainLayout	public void initialize() 	txtVariablesName	B4	0/2
+main.optimization.platform.gui.MainLayout	public void loadData() 	scrollPanelTableVariable	B4	0/2
+main.optimization.platform.gui.external.DataVisualization	private void writeVisualizationFiles(java.lang.String, java.lang.String[], java.lang.String, java.lang.String) 	header	B8	0/2
+main.optimization.platform.utils.Builders	private static List<ExperimentAlgorithm<org.uma.jmetal.solution.DoubleSolution,List<org.uma.jmetal.solution.DoubleSolution>>> configureDoubleAlgorithmList(List<ExperimentProblem<org.uma.jmetal.solution.DoubleSolution>>, List<java.lang.String>, int) 	maxEvaluations	B29	0/2
+main.optimization.platform.gui.MainLayout	private void loadTableAlgorithm() 	modelAlgorithms	B2	0/2
+main.optimization.platform.jMetal.OptimizationProcess	private void getGenericAlgo(ArrayList<java.lang.String>, java.lang.String) throws java.io.IOException	list	B3	2/12
+main.optimization.platform.jMetal.OptimizationProcess	private void getGenericAlgo(ArrayList<java.lang.String>, java.lang.String) throws java.io.IOException	list	B4	1/11
+main.optimization.platform.jMetal.OptimizationProcess	private void getGenericAlgo(ArrayList<java.lang.String>, java.lang.String) throws java.io.IOException	list	B5	0/9
+main.optimization.platform.gui.MainLayout	private void loadTableCriteria() 	modelTableButton	B1	1/5
+main.optimization.platform.gui.MainLayout	private void loadTableCriteria() 	modelTableButton	B2	0/2
+main.optimization.platform.gui.MainLayout	private void loadTableVariable() 	scrollPanelTableVariable	B1	1/3
+main.optimization.platform.gui.MainLayout	private void loadTableVariable() 	scrollPanelTableVariable	B4	0/2
+main.optimization.platform.utils.EmailSender	public void sendFromGMail() throws javax.mail.internet.AddressException, javax.mail.MessagingException	props	B1	1/8
+main.optimization.platform.gui.MainLayout	private void loadXmlProblem(java.lang.String) 	comboBoxType	B1	1/7
+main.optimization.platform.gui.MainLayout	private void loadXmlProblem(java.lang.String) 	tableVariable	B1	1/7
+main.optimization.platform.gui.MainLayout	private void loadXmlProblem(java.lang.String) 	jaxbContext	B1	1/3
+main.optimization.platform.gui.MainLayout	public void loadAdminCfgFile() 	jaxbContext	B1	1/3
+main.optimization.platform.jMetal.OptimizationProcess	public boolean run(main.optimization.platform.gui.LayoutProblem) 	lowerBounds	B9	1/3
+main.optimization.platform.jMetal.OptimizationProcess	public boolean run(main.optimization.platform.gui.LayoutProblem) 	lowerBounds	B10	1/2
+main.optimization.platform.jMetal.OptimizationProcess	public boolean run(main.optimization.platform.gui.LayoutProblem) 	lowerBounds	B14	1/3
+main.optimization.platform.jMetal.OptimizationProcess	public boolean run(main.optimization.platform.gui.LayoutProblem) 	lowerBounds	B15	1/2
+main.optimization.platform.jMetal.OptimizationProcess	public boolean run(main.optimization.platform.gui.LayoutProblem) 	upperBounds	B9	1/3
+main.optimization.platform.jMetal.OptimizationProcess	public boolean run(main.optimization.platform.gui.LayoutProblem) 	upperBounds	B10	1/2
+main.optimization.platform.jMetal.OptimizationProcess	public boolean run(main.optimization.platform.gui.LayoutProblem) 	upperBounds	B14	1/3
+main.optimization.platform.jMetal.OptimizationProcess	public boolean run(main.optimization.platform.gui.LayoutProblem) 	upperBounds	B15	1/2
+main.optimization.platform.gui.MainLayout	private void loadXmlProblem(java.lang.String) 	lblBitsPerVariable	B12	1/2
+main.optimization.platform.gui.MainLayout	private void loadXmlProblem(java.lang.String) 	txtBitsPerVariable	B12	1/2
+main.optimization.platform.gui.MainLayout	private void loadXmlProblem(java.lang.String) 	tableAlgorithms	B7	2/3
+main.optimization.platform.jMetal.OptimizationProcess	private void getGenericAlgo(ArrayList<java.lang.String>, java.lang.String) throws java.io.IOException	classNames	B1	5/7
+main.optimization.platform.utils.Builders	private static List<ExperimentAlgorithm<org.uma.jmetal.solution.DoubleSolution,List<org.uma.jmetal.solution.DoubleSolution>>> configureDoubleAlgorithmList(List<ExperimentProblem<org.uma.jmetal.solution.DoubleSolution>>, List<java.lang.String>, int) 	builder	B12	3/4
+main.optimization.platform.jMetal.OptimizationProcess	private void sendEmail(int) 	attachment	B4	4/5
+main.optimization.platform.jMetal.OptimizationProcess	private void sendEmail(int) 	email	B4	4/5
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////				God Class			//////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+main.optimization.platform.gui.external.DataVisualization	[main.optimization.platform.gui.external.DataVisualization::javafx.scene.control.Button btnBack, main.optimization.platform.gui.external.DataVisualization::addBackButtonActionListener(javax.swing.JFrame, java.awt.Container):void, main.optimization.platform.gui.external.DataVisualization::javafx.scene.control.Button btnReload, main.optimization.platform.gui.external.DataVisualization::getButtonPanel():javafx.scene.layout.HBox, main.optimization.platform.gui.external.DataVisualization::javafx.scene.web.WebEngine webEngine]
+main.optimization.platform.gui.external.DataVisualization	[main.optimization.platform.gui.external.DataVisualization::javafx.scene.control.Button btnReload, main.optimization.platform.gui.external.DataVisualization::getButtonPanel():javafx.scene.layout.HBox, main.optimization.platform.gui.external.DataVisualization::javafx.scene.web.WebEngine webEngine]
+main.optimization.platform.gui.external.DataVisualization	[main.optimization.platform.gui.external.DataVisualization::boolean dataFileBuiltSuccessfuly, main.optimization.platform.gui.external.DataVisualization::run():boolean, main.optimization.platform.gui.external.DataVisualization::writeVisualizationFiles(java.lang.String, java.lang.String[], java.lang.String, java.lang.String):void, main.optimization.platform.gui.external.DataVisualization::deleteDirectory(java.io.File):boolean, main.optimization.platform.gui.external.DataVisualization::javafx.scene.control.Button btnBack, main.optimization.platform.gui.external.DataVisualization::addBackButtonActionListener(javax.swing.JFrame, java.awt.Container):void, main.optimization.platform.gui.external.DataVisualization::javafx.scene.control.Button btnReload, main.optimization.platform.gui.external.DataVisualization::getButtonPanel():javafx.scene.layout.HBox, main.optimization.platform.gui.external.DataVisualization::javafx.scene.web.WebEngine webEngine]
+main.optimization.platform.gui.ButtonColumn	[main.optimization.platform.gui.ButtonColumn::int mnemonic, main.optimization.platform.gui.ButtonColumn::setMnemonic(int):void, main.optimization.platform.gui.ButtonColumn::javax.swing.JButton renderButton]
+main.optimization.platform.gui.MainLayout	[main.optimization.platform.gui.MainLayout::java.lang.String emailAdmin, main.optimization.platform.gui.MainLayout::java.lang.String passAdmin, main.optimization.platform.gui.MainLayout::loadAdminCfgFile():void, main.optimization.platform.gui.MainLayout::runDemo():void]
+main.optimization.platform.jMetal.OptimizationProcess	[main.optimization.platform.jMetal.OptimizationProcess::getAlgorithmsFor(java.lang.String):java.util.List<java.lang.String>, main.optimization.platform.jMetal.OptimizationProcess::getGenericAlgo(java.util.ArrayList<java.lang.String>, java.lang.String):void, main.optimization.platform.jMetal.OptimizationProcess::isDesiredEntry(java.util.zip.ZipEntry):boolean]
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////				Feature Envy			////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+Refactoring Type	Source Entity	Target Class	Source/Target accessed members	Rate it!
+Move Method	main.optimization.platform.jMetal.OptimizationProcess::sendEmail(int):void	main.optimization.platform.gui.MainLayout	2/3	
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////				Type Checking			////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

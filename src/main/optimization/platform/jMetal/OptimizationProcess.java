@@ -261,19 +261,11 @@ public class OptimizationProcess {
 		EmailSender email = new EmailSender(mainLayout.getAdminMail(), mainLayout.getAdminPass(), to, subject, body);
 		email.addToCC(mainLayout.getAdminMail());
 		email.addAttachment(attachment);
-		
-		Thread t = new Thread(new Runnable() {
-			@Override
-			public void run() {
-				
-				try {
-					email.sendFromGMail();
-				} catch (MessagingException e) {
-					e.printStackTrace();
-				}
-				attachment.delete();
-			}
-		});
-		t.start();
+		try {
+			email.sendFromGMail();
+		} catch (MessagingException e) {
+			e.printStackTrace();
+		}
+		attachment.delete();
 	}
 }

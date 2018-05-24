@@ -1,4 +1,4 @@
-## ES2-2018-EIC2-G02
+## ES2-2018-EIC2-02
 
 [Youtube Video](https://www.youtube.com/channel/UClGTNoiD46rmv8BjEM7o4Sw?&ab_channel=tiagofeliciano)
 
