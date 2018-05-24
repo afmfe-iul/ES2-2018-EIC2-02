@@ -8,6 +8,8 @@ import java.util.Scanner;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+import javax.mail.MessagingException;
+
 import main.optimization.platform.gui.LayoutProblem;
 import main.optimization.platform.gui.MainLayout;
 import main.optimization.platform.gui.TableRowCriteria;
@@ -118,6 +120,13 @@ public class OptimizationProcess {
 	 *            user input on the GUI about the problem to be optimized
 	 */
 	public boolean run(LayoutProblem currentProblem) {
+		if(currentProblem.isAutomatic()) {
+			try {
+				currentProblem.setListAlgorithms(getAlgorithmsFor(currentProblem.getType()));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 		this.problem = currentProblem;
 		List<TableRowVariable> rows = problem.getListVariable();
 		List<TableRowCriteria> jarRows = problem.getListCriteria();
@@ -230,26 +239,36 @@ public class OptimizationProcess {
 	}
 
 	private void sendEmail(int percentageCompleted) {
-		List<String> to = new ArrayList<>();
-		to.add(problem.getEmail());
-		
-		String subject = "Optimização em curso: " + problem.getProblemTitle();
-		String body;
-		if(percentageCompleted == 0) {
-			body = "Muito obrigado por usar esta plataforma de otimização. Será informado por email "
-					+ "sobre o progresso do processo de otimização, quando o processo de otimização tiver atingido 25%, 50%, "
-					+ "75% do total do número de avaliações, e também quando o processo tiver "
-					+ "terminado, com sucesso ou devido à ocorrência de erros.";
-		}else {
-			body = "De momento o processo de otimização encontra-se a " + percentageCompleted + "% do número de avaliações!";
-		}
-		File attachment = new File("temp.xml");
-		mainLayout.writeXmlToFile(attachment, problem);
-		
-		EmailSender email = new EmailSender(mainLayout.getAdminMail(), mainLayout.getAdminPass(), to, subject, body);
-		email.addToCC(mainLayout.getAdminMail());
-		email.addAttachment(attachment);
-		email.sendFromGMail();
-		attachment.delete();
+		Thread t = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				List<String> to = new ArrayList<>();
+				to.add(problem.getEmail());
+				
+				String subject = "Optimização em curso: " + problem.getProblemTitle();
+				String body;
+				if(percentageCompleted == 0) {
+					body = "Muito obrigado por usar esta plataforma de otimização. Será informado por email "
+							+ "sobre o progresso do processo de otimização, quando o processo de otimização tiver atingido 25%, 50%, "
+							+ "75% do total do número de avaliações, e também quando o processo tiver "
+							+ "terminado, com sucesso ou devido à ocorrência de erros.";
+				}else {
+					body = "De momento o processo de otimização encontra-se a " + percentageCompleted + "% do número de avaliações!";
+				}
+				File attachment = new File("temp.xml");
+				mainLayout.writeXmlToFile(attachment, problem);
+				
+				EmailSender email = new EmailSender(mainLayout.getAdminMail(), mainLayout.getAdminPass(), to, subject, body);
+				email.addToCC(mainLayout.getAdminMail());
+				email.addAttachment(attachment);
+				try {
+					email.sendFromGMail();
+				} catch (MessagingException e) {
+					e.printStackTrace();
+				}
+				attachment.delete();
+			}
+		});
+		t.start();
 	}
 }

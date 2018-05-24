@@ -2,6 +2,9 @@ package tests.optimization.platform.utils;
 
 import static org.junit.Assert.assertEquals;
 import java.util.ArrayList;
+
+import javax.mail.MessagingException;
+
 import org.junit.Test;
 import main.optimization.platform.utils.EmailSender;
 
@@ -38,7 +41,11 @@ public class EmailSenderTest {
 		to.add("tmrfo1@gmail.com");
 		instance.setSubject("subject");
 		instance.setBody("testJUnit");
-		instance.sendFromGMail();
+		try {
+			instance.sendFromGMail();
+		} catch (MessagingException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@Test

@@ -23,6 +23,7 @@ import javax.mail.internet.MimeMultipart;
  *
  */
 public class EmailSender{
+	// Admin e-mail: es2.2018.eic2.02@gmail.com
 	private String from;
 	private String pass;
 	private List<String> to;
@@ -50,8 +51,10 @@ public class EmailSender{
 
  /**
   * Sends an email
+ * @throws MessagingException 
+ * @throws AddressException 
   */
-	public void sendFromGMail() {
+	public void sendFromGMail() throws AddressException, MessagingException {
         Properties props = System.getProperties();
         String host = "smtp.gmail.com";
         props.put("mail.smtp.starttls.enable", "true");
@@ -64,64 +67,56 @@ public class EmailSender{
         Session session = Session.getDefaultInstance(props);
         MimeMessage message = new MimeMessage(session);
 
-        try {
-            message.setFrom(new InternetAddress(from));
-            InternetAddress[] toAddress = new InternetAddress[to.size()];
-            InternetAddress[] ccAddress = new InternetAddress[cc.size()];
+        message.setFrom(new InternetAddress(from));
+        InternetAddress[] toAddress = new InternetAddress[to.size()];
+        InternetAddress[] ccAddress = new InternetAddress[cc.size()];
 
-            
-            // To get the array of addresses
-            for( int i = 0; i < to.size(); i++ ) {
-                toAddress[i] = new InternetAddress(to.get(i));
-            }
+        
+        // To get the array of addresses
+        for( int i = 0; i < to.size(); i++ ) {
+            toAddress[i] = new InternetAddress(to.get(i));
+        }
 
-            for( int i = 0; i < toAddress.length; i++) {
-                message.addRecipient(Message.RecipientType.TO, toAddress[i]);
-            }
-            
-            
-            // To get the array of CCs
-            for( int i = 0; i < cc.size(); i++ ) {
-                ccAddress[i] = new InternetAddress(cc.get(i));
-            }
-            
-            for( int i = 0; i < ccAddress.length; i++) {
-                message.addRecipient(Message.RecipientType.CC, ccAddress[i]);
-            }
-            
-            message.setSubject(subject);
+        for( int i = 0; i < toAddress.length; i++) {
+            message.addRecipient(Message.RecipientType.TO, toAddress[i]);
+        }
+        
+        
+        // To get the array of CCs
+        for( int i = 0; i < cc.size(); i++ ) {
+            ccAddress[i] = new InternetAddress(cc.get(i));
+        }
+        
+        for( int i = 0; i < ccAddress.length; i++) {
+            message.addRecipient(Message.RecipientType.CC, ccAddress[i]);
+        }
+        
+        message.setSubject(subject);
 
-            // Adds the body to the message
-            Multipart multipart = new MimeMultipart();
-            MimeBodyPart textBodyPart = new MimeBodyPart();
-            textBodyPart.setText(body);
-            multipart.addBodyPart(textBodyPart);
+        // Adds the body to the message
+        Multipart multipart = new MimeMultipart();
+        MimeBodyPart textBodyPart = new MimeBodyPart();
+        textBodyPart.setText(body);
+        multipart.addBodyPart(textBodyPart);
+        
+        // Adds the attachment to the message
+        if(attachment != null) {
+        	MimeBodyPart attachmentBodyPart = new MimeBodyPart();
+			try {
+				attachmentBodyPart.setDataHandler(new DataHandler(attachment.toURI().toURL()));
+			} catch (MalformedURLException e) {
+				e.printStackTrace();
+			}
             
-            // Adds the attachment to the message
-            if(attachment != null) {
-            	MimeBodyPart attachmentBodyPart = new MimeBodyPart();
-    			try {
-    				attachmentBodyPart.setDataHandler(new DataHandler(attachment.toURI().toURL()));
-    			} catch (MalformedURLException e) {
-    				e.printStackTrace();
-    			}
-                
-    			attachmentBodyPart.setFileName(attachment.getName());
-                multipart.addBodyPart(attachmentBodyPart);	
-            }
-            message.setContent(multipart);
-            
-            Transport transport = session.getTransport("smtp");
-            transport.connect(host, from, pass);
-            transport.sendMessage(message, message.getAllRecipients());
-            transport.close();
+			attachmentBodyPart.setFileName(attachment.getName());
+            multipart.addBodyPart(attachmentBodyPart);	
         }
-        catch (AddressException ae) {
-            ae.printStackTrace();
-        }
-        catch (MessagingException me) {
-            me.printStackTrace();
-        }
+        message.setContent(multipart);
+        
+        Transport transport = session.getTransport("smtp");
+        transport.connect(host, from, pass);
+        transport.sendMessage(message, message.getAllRecipients());
+        transport.close();
     }
 	
 	/** Gets the sender´s email.

@@ -15,6 +15,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+
+import javax.mail.MessagingException;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.BorderFactory;
@@ -305,7 +307,7 @@ public class MainLayout {
 		bttHelp.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new HelpPage(frame, emailAdmin);
+				new HelpPage(frame, emailAdmin, passAdmin);
 			}
 		});
 
@@ -957,7 +959,6 @@ public class MainLayout {
 			for (int i = 0; i < listAlgorithms.size(); i++) {
 				modelAlgorithms.addRow(new Object[] { listAlgorithms.get(i), false });
 			}
-			// TODO it's possible to edit this cells and it shouldnt
 			scrollPanelAlgorithms.setViewportView(tableAlgorithms);
 			tableAlgorithms.setModel(modelAlgorithms);
 		} catch (Exception e) {
@@ -1008,7 +1009,11 @@ public class MainLayout {
 									+ " failed to find results with good quality. Try rerunning the"
 									+ " experiment with different parameters.");
 					email.addToCC(emailAdmin);
-					email.sendFromGMail();
+					try {
+						email.sendFromGMail();
+					} catch (MessagingException e1) {
+						e1.printStackTrace();
+					}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -1057,7 +1062,7 @@ public class MainLayout {
 					decisionVariables, problem.getSolutionKnown());
 
 			if (dv.run()) {
-				dv.addBackButtonActionListener(frame, mainPanel, dv);
+				dv.addBackButtonActionListener(frame, mainPanel);
 				frame.remove(mainPanel);
 				frame.setContentPane(new Container());
 				frame.getContentPane().setLayout(new BorderLayout());
