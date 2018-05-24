@@ -2,9 +2,8 @@
 <layoutProblem>
     <automatic>false</automatic>
     <bitsPerVariable>0</bitsPerVariable>
-    <email>hugito10@gmail.com</email>
+    <email>tmrfo1@iscte-iul.pt</email>
     <listAlgorithms>
-        <listAlgorithms>SPEA2</listAlgorithms>
         <listAlgorithms>NSGAII</listAlgorithms>
     </listAlgorithms>
     <listCriteria>
@@ -1694,7 +1693,7 @@
             <name>FUZZY_PHENT</name>
         </listVariable>
     </listVariable>
-    <maxWaitingTime>50000</maxWaitingTime>
+    <maxWaitingTime>5000</maxWaitingTime>
     <numberCriteria>2</numberCriteria>
     <numberVariables>335</numberVariables>
     <problemDescription>testDescription</problemDescription>

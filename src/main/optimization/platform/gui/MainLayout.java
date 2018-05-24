@@ -1047,7 +1047,7 @@ public class MainLayout {
 	 *            LayoutProblem
 	 */
 	private void visualizeDemo(LayoutProblem problem) {
-		if (problem != null) {
+		if (problem.getProblemTitle() != null) {
 			List<String> rfFilePaths = new ArrayList<String>();
 			List<String> rsFilePaths = new ArrayList<String>();
 
