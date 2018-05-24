@@ -71,7 +71,8 @@ import main.optimization.platform.jMetal.problems.IntegerProblem;
 public class Builders {
 	public static final int DEFAULT_ITERATIONS = 2500;
 	private static final int INDEPENDENT_RUNS = 1;
-	public static final String BASE_DIRECTORY = MainLayout.PATH_OUTPUT + "/experimentsBaseDirectory" + File.separator;
+	public static final String BASE_DIRECTORY = (MainLayout.PATH_OUTPUT.endsWith(File.separator) ? MainLayout.PATH_OUTPUT : 
+		MainLayout.PATH_OUTPUT + File.separator) + "experimentsBaseDirectory" + File.separator;
 
 	/**
 	 * Method that instantiates and runs every chosen algorithm from GUI for Double

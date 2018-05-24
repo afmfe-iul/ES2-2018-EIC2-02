@@ -943,7 +943,8 @@ public class MainLayout {
 			Calendar calobj = Calendar.getInstance();
 			DateFormat df = new SimpleDateFormat("dd-MM-yy HH-mm-ss");
 
-			File file = new File(PATH_INPUT + "savedProblems" + File.separator + txtProblemName.getText()
+			String fixedPath = PATH_INPUT.endsWith(File.separator) ? PATH_INPUT : PATH_INPUT + File.separator;
+			File file = new File(fixedPath + txtProblemName.getText()
 					+ df.format(calobj.getTime()) + ".xml");
 			writeXmlToFile(file, currentProblem);
 		}
