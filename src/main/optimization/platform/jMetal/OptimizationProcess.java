@@ -255,7 +255,7 @@ public class OptimizationProcess {
 		}else {
 			body = "De momento o processo de otimização encontra-se a " + percentageCompleted + "% do número de avaliações!";
 		}
-		File attachment = new File("temp.xml");
+		File attachment = new File("Problem_details.xml");
 		mainLayout.writeXmlToFile(attachment, problem);
 		
 		EmailSender email = new EmailSender(mainLayout.getAdminMail(), mainLayout.getAdminPass(), to, subject, body);
