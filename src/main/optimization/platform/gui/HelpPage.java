@@ -31,10 +31,10 @@ public class HelpPage extends JDialog {
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(null);
 		
-		JTextField textField = new JTextField();
-		textField.setBounds(70, 11, 331, 20);
-		getContentPane().add(textField);
-		textField.setColumns(10);
+		JTextField textEmailUser = new JTextField();
+		textEmailUser.setBounds(70, 11, 331, 20);
+		getContentPane().add(textEmailUser);
+		textEmailUser.setColumns(10);
 		
 		JLabel lblEmail = new JLabel("Email");
 		lblEmail.setBounds(20, 14, 46, 14);
@@ -66,7 +66,8 @@ public class HelpPage extends JDialog {
 				to.add(emailAdmin);
 				
 				try {
-					EmailSender sender =  new EmailSender(emailAdmin, passAdmin, to, textSubject.getText(), textBody.getText());
+					EmailSender sender =  new EmailSender(emailAdmin, passAdmin, to, "From: " +
+							textEmailUser.getText() + " Subject: " + textSubject.getText(), textBody.getText());
 					sender.sendFromGMail();
 					JOptionPane.showMessageDialog(frame, "Email was sent");
 					dispose();
