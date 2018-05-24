@@ -216,7 +216,7 @@ public class MainLayout {
 			}
 		});
 
-		JButton btnRunDemo = new JButton("Run Demo");
+		JButton btnRunDemo = new JButton("Run Experiment");
 		btnRunDemo.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -227,7 +227,7 @@ public class MainLayout {
 			}
 		});
 
-		JButton btnVisDemo = new JButton("Visualize Demo");
+		JButton btnVisDemo = new JButton("Visualize Experiment");
 		btnVisDemo.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
