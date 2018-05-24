@@ -97,7 +97,7 @@
 		      	.text(algorithms[i]);
 			
 			yScale.domain(extent);
-			var chartHeight = d3.select(".mainSVG").node().getBoundingClientRect()["bottom"] + 20;
+			var chartHeight = d3.select("#left_part").node().getBoundingClientRect()["bottom"] + 55;
 			// variable name tooltip
 			tooltips.push(
 					d3.select("body")
@@ -179,7 +179,7 @@
 			});
 	}
 	
-	d3.tsv("data.tsv", convert, render);
+	
 
 
 
@@ -214,7 +214,8 @@
 			
 			if(data[1].Result < 0){
 				leftX.domain([data[1].Result - 0.1, d3.max(data, function(d) { return d.Result; })]);
-			}else{	
+			}else{
+				console.log("else ")
 				leftX.domain([-.1, d3.max(data, function(d) { return d.Result; })]);	
 			}
 			leftY.domain(data.map(function(d) { return d.Algorithm; }));
@@ -255,6 +256,7 @@
 		       		}
 		       	});
 			}
+			d3.tsv("data.tsv", convert, render);
 		}
 	);
 
