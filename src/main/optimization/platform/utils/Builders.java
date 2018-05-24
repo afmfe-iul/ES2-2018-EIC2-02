@@ -11,6 +11,7 @@ import org.uma.jmetal.algorithm.multiobjective.gde3.GDE3Builder;
 import org.uma.jmetal.algorithm.multiobjective.ibea.IBEABuilder;
 import org.uma.jmetal.algorithm.multiobjective.mocell.MOCellBuilder;
 import org.uma.jmetal.algorithm.multiobjective.mochc.MOCHCBuilder;
+import org.uma.jmetal.algorithm.multiobjective.moead.AbstractMOEAD;
 import org.uma.jmetal.algorithm.multiobjective.moead.MOEADBuilder;
 import org.uma.jmetal.algorithm.multiobjective.moead.MOEADBuilder.Variant;
 import org.uma.jmetal.algorithm.multiobjective.nsgaii.NSGAIIBuilder;
@@ -36,6 +37,7 @@ import org.uma.jmetal.operator.impl.mutation.UniformMutation;
 import org.uma.jmetal.operator.impl.selection.BinaryTournamentSelection;
 import org.uma.jmetal.operator.impl.selection.RandomSelection;
 import org.uma.jmetal.operator.impl.selection.RankingAndCrowdingSelection;
+import org.uma.jmetal.problem.Problem;
 import org.uma.jmetal.qualityindicator.impl.hypervolume.PISAHypervolume;
 import org.uma.jmetal.solution.BinarySolution;
 import org.uma.jmetal.solution.DoubleSolution;
@@ -75,7 +77,7 @@ public class Builders {
 	 * Method that instantiates and runs every chosen algorithm from GUI for Double
 	 * Problems
 	 * @param optimizationProcess 
-	 * 
+	 *			  the parent Optimization Process reference that will be passed to the problem 	
 	 * @param numberOfVariables
 	 *            Int that represents the number of variables for the problem
 	 *            instantiated
@@ -95,7 +97,6 @@ public class Builders {
 	 * @param maxEvaluations
 	 * @return
 	 */
-	// TODO change the doc, new parameter
 	public static boolean DoubleBuilder(OptimizationProcess optimizationProcess, int numberOfVariables, String problemName, List<String> algorithmsSelected,
 			List<Double> lowerBounds, List<Double> upperBounds, List<String> jarPaths, int maxEvaluations) {
 
@@ -147,16 +148,47 @@ public class Builders {
 			List<ExperimentProblem<DoubleSolution>> problemList, List<String> algorithmsSelected, int maxEvaluations) {
 		List<ExperimentAlgorithm<DoubleSolution, List<DoubleSolution>>> algorithms = new ArrayList<>();
 
-		// TODO if i choose MOEAD and MOEADDRA for example this logic will not work
-		if (algorithmsSelected.contains("MOEAD") || algorithmsSelected.contains("ConstraintMOEAD")
-				|| algorithmsSelected.contains("MOEADDRA") || algorithmsSelected.contains("MOEADSTM")
-				|| algorithmsSelected.contains("MOEADD")) {
-
+		if (algorithmsSelected.contains("MOEAD")) {
 			for (int i = 0; i < problemList.size(); i++) {
-				Algorithm<List<DoubleSolution>> algorithm6 = new MOEADBuilder(problemList.get(i).getProblem(),
+				Algorithm<List<DoubleSolution>> algorithm = new MOEADBuilder(problemList.get(i).getProblem(),
 						Variant.MOEAD).setMaxEvaluations(maxEvaluations).build();
+				algorithms.add(new ExperimentAlgorithm<>(algorithm, "MOEAD", problemList.get(i).getTag()));
+			}
+		}
 
-				algorithms.add(new ExperimentAlgorithm<>(algorithm6, "MOEAD", problemList.get(i).getTag()));
+		if(algorithmsSelected.contains("MOEADDRA")) {
+			for (int i = 0; i < problemList.size(); i++) {
+				Algorithm<List<DoubleSolution>> algorithm = new MOEADBuilder(problemList.get(i).getProblem(),
+						Variant.MOEADDRA).setMaxEvaluations(maxEvaluations).build();
+				algorithms.add(new ExperimentAlgorithm<>(algorithm, "MOEADDRA", problemList.get(i).getTag()));
+			}
+		}
+
+		if(algorithmsSelected.contains("MOEADSTM")) {
+			for (int i = 0; i < problemList.size(); i++) {
+				Algorithm<List<DoubleSolution>> algorithm = new MOEADBuilder(problemList.get(i).getProblem(),
+						Variant.MOEADSTM).setMaxEvaluations(maxEvaluations).build();
+				algorithms.add(new ExperimentAlgorithm<>(algorithm, "MOEADSTM", problemList.get(i).getTag()));
+			}
+		}
+
+		if(algorithmsSelected.contains("MOEADD")) {
+			for (int i = 0; i < problemList.size(); i++) {
+				Problem<DoubleSolution> problem = problemList.get(i).getProblem();
+			    MutationOperator<DoubleSolution> mutation = new PolynomialMutation(1.0 / problem.getNumberOfVariables(), 20.0);
+			    MOEADBuilder builder =  new MOEADBuilder(problem, MOEADBuilder.Variant.MOEADD);
+			    builder.setCrossover(new SBXCrossover(1.0, 30.0))
+			            .setMutation(mutation)
+			            .setMaxEvaluations(maxEvaluations)
+			            .setPopulationSize(100)
+			            .setResultPopulationSize(300)
+			            .setNeighborhoodSelectionProbability(0.9)
+			            .setMaximumNumberOfReplacedSolutions(1)
+			            .setNeighborSize(20)
+			            .setFunctionType(AbstractMOEAD.FunctionType.PBI)
+			            .setDataDirectory("MOEAD_Weights");
+			    Algorithm<List<DoubleSolution>> algorithm = builder.build();
+				algorithms.add(new ExperimentAlgorithm<>(algorithm, "MOEADD", problemList.get(i).getTag()));
 			}
 		}
 
@@ -290,7 +322,7 @@ public class Builders {
 	 * Method that instantiates and runs every chosen algorithm from GUI for Integer
 	 * Problems
 	 * @param optimizationProcess 
-	 * 
+	 * 			  the parent Optimization Process reference that will be passed to the problem
 	 * @param numberOfVariables
 	 *            Int that represents the number of variables for the problem
 	 *            instantiated
@@ -310,7 +342,6 @@ public class Builders {
 	 * @param maxEvaluations
 	 * @return
 	 */
-	// TODO change the doc, new parameter
 	public static boolean IntegerBuilder(OptimizationProcess optimizationProcess, int numberOfVariables, String problemName, List<String> algorithmsSelected,
 			List<Integer> lowerBounds, List<Integer> upperBounds, List<String> jarPaths, int maxEvaluations) {
 		List<ExperimentProblem<IntegerSolution>> problemList = new ArrayList<>();
@@ -443,7 +474,7 @@ public class Builders {
 	 * Method that instantiates and runs every chosen algorithm from GUI for Binary
 	 * Problems
 	 * @param optimizationProcess 
-	 * 
+	 * 			  the parent Optimization Process reference that will be passed to the problem
 	 * @param numberOfVariables
 	 *            Int that represents the number of variables for the problem
 	 *            instantiated
@@ -459,7 +490,6 @@ public class Builders {
 	 * @param maxEvaluations
 	 * @return
 	 */
-	// TODO change the doc, new parameter
 	public static boolean BinaryBuilder(OptimizationProcess optimizationProcess, int numberOfVariables, String problemName, List<String> algorithmsSelected,
 			List<String> jarPaths, int bitsPerVariable, int maxEvaluations) {
 		List<ExperimentProblem<BinarySolution>> problemList = new ArrayList<>();
@@ -606,9 +636,9 @@ public class Builders {
 
 		if (algorithmsSelected.contains("RandomSearch")) {
 			for (int i = 0; i < problemList.size(); i++) {
-				Algorithm<List<BinarySolution>> algorithm6 = new RandomSearchBuilder<>(problemList.get(i).getProblem())
+				Algorithm<List<BinarySolution>> algorithm = new RandomSearchBuilder<>(problemList.get(i).getProblem())
 						.setMaxEvaluations(maxEvaluations).build();
-				algorithms.add(new ExperimentAlgorithm<>(algorithm6, "RandomSearch", problemList.get(i).getTag()));
+				algorithms.add(new ExperimentAlgorithm<>(algorithm, "RandomSearch", problemList.get(i).getTag()));
 			}
 		}
 

@@ -792,9 +792,12 @@ public class MainLayout {
 			List<TableRowCriteria> listCriteria = currentProblem.getListCriteria();
 			TableModel modelVariable = tableVariable.getModel();
 			TableModel modelCriteria = tableCriteria.getModel();
+			
+			boolean isBinaryProblem = currentProblem.getType().equals("Binary");
+			txtBitsPerVariable.setVisible(isBinaryProblem);
+			lblBitsPerVariable.setVisible(isBinaryProblem);
+			
 			if (currentProblem.getType().equals("Double")) {
-				txtBitsPerVariable.setVisible(false);
-			lblBitsPerVariable.setVisible(false);
 				for (int i = 0; i < tableVariable.getRowCount(); i++) {
 					modelVariable.setValueAt(listVariable.get(i).getName(), i, 0);
 					modelVariable.setValueAt(Double.parseDouble(listVariable.get(i).getMinimo()), i, 1);
@@ -805,8 +808,6 @@ public class MainLayout {
 			}
 
 			if (currentProblem.getType().equals("Integer")) {
-				txtBitsPerVariable.setVisible(false);
-				lblBitsPerVariable.setVisible(false);
 				for (int i = 0; i < tableVariable.getRowCount(); i++) {
 					modelVariable.setValueAt(listVariable.get(i).getName(), i, 0);
 					modelVariable.setValueAt(Integer.parseInt(listVariable.get(i).getMinimo()), i, 1);
@@ -815,9 +816,7 @@ public class MainLayout {
 						modelVariable.setValueAt(Integer.parseInt(listVariable.get(i).getForbidden()), i, 3);
 				}
 			}
-			if (currentProblem.getType().equals("Binary")) {
-				txtBitsPerVariable.setVisible(true);
-				lblBitsPerVariable.setVisible(true);
+			if (isBinaryProblem) {
 				txtBitsPerVariable.setText(Integer.toString(currentProblem.getBitsPerVariable()));
 				for (int i = 0; i < tableVariable.getRowCount(); i++) {
 					modelVariable.setValueAt(listVariable.get(i).getName(), i, 0);
@@ -874,7 +873,7 @@ public class MainLayout {
 			m.setPath(tableCriteria.getValueAt(i, 1).toString());
 			listCriteria.add(m);
 		}
-		if (problemType == "Integer") {
+		if (problemType.equals("Integer")) {
 			for (int i = 0; i < tableVariable.getRowCount(); i++) {
 				TableRowVariable m = new TableRowVariable();
 				m.setName((String) tableVariable.getValueAt(i, 0));
@@ -889,7 +888,7 @@ public class MainLayout {
 				listVariable.add(m);
 			}
 		}
-		if (problemType == "Double") {
+		if (problemType.equals("Double")) {
 			for (int i = 0; i < tableVariable.getRowCount(); i++) {
 				TableRowVariable m = new TableRowVariable();
 				m.setName((String) tableVariable.getValueAt(i, 0));
@@ -903,7 +902,7 @@ public class MainLayout {
 				listVariable.add(m);
 			}
 		}
-		if (problemType == "Binary") {
+		if (problemType.equals("Binary")) {
 			currentProblem.setBitsPerVariable(Integer.parseInt(txtBitsPerVariable.getText()));
 			for (int i = 0; i < tableVariable.getRowCount(); i++) {
 				TableRowVariable m = new TableRowVariable();
@@ -937,7 +936,6 @@ public class MainLayout {
 		}
 	}
 	
-	// TODO test this
 	public void writeXmlToFile(File file, LayoutProblem problem) {
 		try {
 			JAXBContext jaxbContext = JAXBContext.newInstance(LayoutProblem.class);
@@ -960,11 +958,13 @@ public class MainLayout {
 		OptimizationProcess k = new OptimizationProcess(this);
 		try {
 			ArrayList<String> listAlgorithms = (ArrayList<String>) k
+					// TODO this line is throws an exception when you ask for manual algorithms without opening a problem
 					.getAlgorithmsFor(currentProblem.getType());
 			DefaultTableModel modelAlgorithms = modelAlgorithms();
 			for (int i = 0; i < listAlgorithms.size(); i++) {
 				modelAlgorithms.addRow(new Object[] { listAlgorithms.get(i), false });
 			}
+			// TODO it's possible to edit this cells and it shouldnt
 			scrollPanelAlgorithms.setViewportView(tableAlgorithms);
 			tableAlgorithms.setModel(modelAlgorithms);
 		} catch (Exception e) {

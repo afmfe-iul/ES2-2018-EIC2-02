@@ -20,14 +20,13 @@ public class BinaryProblem extends AbstractBinaryProblem {
 
 	/**
 	 * Constructor that instantiates a Binary Problem
-	 * @param optimizationProcess 
+	 * @param optimizationProcess the parent Optimization Process of this problem
 	 * @param numberOfVariables Int that represents the  number of variables for the problem instantiated
 	 * @param jarPaths List with paths for each decision variable jar with evaluate method
 	 * @param name String Problem name
 	 * @param bitsPerVariable Int bitsPerVariable
 	 * @throws Exception
 	 */
-	// TODO change the doc, new parameter
 	public BinaryProblem(OptimizationProcess optimizationProcess, int numberOfVariables, List<String> jarPaths, String name, int bitsPerVariable) throws Exception {
 		this.optimizationProcess = optimizationProcess;
 		numberOfObjectives = jarPaths.size();

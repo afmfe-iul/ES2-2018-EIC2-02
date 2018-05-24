@@ -54,13 +54,13 @@ public class OptimizationProcess {
 
 		ArrayList<String> totalAlgo = new ArrayList<String>();
 		getGenericAlgo(totalAlgo, dataType);
-		if (dataType.equals("Double") || dataType.equals("IntegerDouble")) {
+		if (dataType.equals("Double")) {
 			for (ZipEntry entry = zip.getNextEntry(); entry != null; entry = zip.getNextEntry()) {
 				if (!entry.isDirectory() && entry.getName().endsWith(".java")
 						&& entry.getName().contains("multiobjective") && !entry.getName().contains("util")
 						&& !entry.getName().contains("Builder") && !entry.getName().contains("Measures")
 						&& !entry.getName().contains("45") && !entry.getName().contains("Steady")
-						&& !entry.getName().contains("Stopping")) {
+						&& !entry.getName().contains("Stopping") && !entry.getName().contains("ConstraintMOEAD")) {
 					String className = entry.getName().replace('/', '.'); // including ".class"
 					classNames.add(className.substring(0, className.length() - ".class".length() + 1));
 

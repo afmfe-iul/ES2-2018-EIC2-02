@@ -19,7 +19,7 @@ public class IntegerProblem extends AbstractIntegerProblem {
 
 	/**
 	 * Constructor that instantiates a Integer Problem
-	 * @param optimizationProcess 
+	 * @param optimizationProcess the parent Optimization Process of this problem
 	 * @param numberOfVariables Int that represents the number of variables for the problem instantiated
 	 * @param lowerBounds List of Integers that represent the minimum value for each problem variable
 	 * @param upperBound List of Integers that represent the maximum value for each problem variable
@@ -27,7 +27,6 @@ public class IntegerProblem extends AbstractIntegerProblem {
 	 * @param jarPaths List with paths for each decision variable jar with evaluate method
 	 * @throws Exception
 	 */
-	// TODO change the doc, new parameter
 	public IntegerProblem(OptimizationProcess optimizationProcess, int numberOfVariables, List<Integer> lowerBounds , List<Integer> upperBound,String problemname , List<String> jarPaths) throws Exception {
 		this.optimizationProcess = optimizationProcess;
 		numberOfObjectives = jarPaths.size();
