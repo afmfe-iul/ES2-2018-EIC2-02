@@ -89,7 +89,7 @@ public class MainLayout {
 	private JCheckBox chckbxManual;
 	private JCheckBox chckbxAutomatic;
 	private JLabel lblOptimizationImpliesMinimizing;
-	private LayoutProblem currentProblem;
+	private LayoutProblem currentProblem = new LayoutProblem();
 	private String emailAdmin;
 	private String passAdmin;
 	private JTextField txtSolutionKnown;
@@ -178,14 +178,13 @@ public class MainLayout {
 					return;
 				}
 				currentProblem.setType(comboBoxType.getSelectedItem().toString());
-				if(chckbxManual.isSelected())
+				if (chckbxManual.isSelected())
 					loadTableAlgorithm();
 				loadTableVariable();
 				if (currentProblem.getType().equals("Binary")) {
 					txtBitsPerVariable.setVisible(true);
 					lblBitsPerVariable.setVisible(true);
-				}
-				else {
+				} else {
 					txtBitsPerVariable.setVisible(false);
 					lblBitsPerVariable.setVisible(false);
 				}
@@ -259,6 +258,7 @@ public class MainLayout {
 			}
 		});
 
+		currentProblem.setType("Binary");
 		chckbxManual = new JCheckBox("Manual");
 		chckbxManual.addActionListener(new ActionListener() {
 			@Override
@@ -602,7 +602,7 @@ public class MainLayout {
 		matcher = numbersPattern.matcher(txtBitsPerVariable.getText());
 		textboxText = txtBitsPerVariable.getText();
 		if (currentProblem.getType().equals("Binary") && (matcher.find() || textboxText.isEmpty())) {
-			promptUser("BitsPerVariable contains invalid input",true);
+			promptUser("BitsPerVariable contains invalid input", true);
 			return false;
 		}
 
@@ -755,30 +755,25 @@ public class MainLayout {
 			txtProblemDescription.setText(currentProblem.getProblemDescription());
 			txtProblemName.setText(currentProblem.getProblemTitle());
 			txtVariablesName.setText(currentProblem.getVariablesName());
-			
-			if(currentProblem.getMaxWaitingTime()!=0) {
+
+			if (currentProblem.getMaxWaitingTime() != 0) {
 				txtMaximumTime.setText(Integer.toString(currentProblem.getMaxWaitingTime()));
-			}
-			else {
+			} else {
 				txtMaximumTime.setText("");
 			}
-			if(currentProblem.getSolutionKnown()!=0) {
+			if (currentProblem.getSolutionKnown() != 0) {
 				txtSolutionKnown.setText(Integer.toString(currentProblem.getSolutionKnown()));
-			}
-			else {
+			} else {
 				txtSolutionKnown.setText("");
 			}
-			
+
 			loadTableVariable();
 			loadTableCriteria();
 			List<String> listAlgorithm = currentProblem.getListAlgorithms();
-
-			if (currentProblem.isAutomatic()) {
-				chckbxAutomatic.setSelected(true);
-				chckbxManual.setSelected(false);
-			} else {
-				chckbxAutomatic.setSelected(false);
-				chckbxManual.setSelected(true);
+			boolean isAutomatic = currentProblem.isAutomatic();
+			chckbxAutomatic.setSelected(isAutomatic);
+			chckbxManual.setSelected(!isAutomatic);
+			if (!isAutomatic) {
 				loadTableAlgorithm();
 				int counter = 0;
 				for (int i = 0; i < tableAlgorithms.getRowCount() && counter < listAlgorithm.size(); i++) {
@@ -792,11 +787,11 @@ public class MainLayout {
 			List<TableRowCriteria> listCriteria = currentProblem.getListCriteria();
 			TableModel modelVariable = tableVariable.getModel();
 			TableModel modelCriteria = tableCriteria.getModel();
-			
+
 			boolean isBinaryProblem = currentProblem.getType().equals("Binary");
 			txtBitsPerVariable.setVisible(isBinaryProblem);
 			lblBitsPerVariable.setVisible(isBinaryProblem);
-			
+
 			if (currentProblem.getType().equals("Double")) {
 				for (int i = 0; i < tableVariable.getRowCount(); i++) {
 					modelVariable.setValueAt(listVariable.get(i).getName(), i, 0);
@@ -935,15 +930,15 @@ public class MainLayout {
 			writeXmlToFile(file, currentProblem);
 		}
 	}
-	
+
 	public void writeXmlToFile(File file, LayoutProblem problem) {
 		try {
 			JAXBContext jaxbContext = JAXBContext.newInstance(LayoutProblem.class);
 			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
-		
+
 			// output pretty printed
 			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-		
+
 			jaxbMarshaller.marshal(problem, file);
 		} catch (JAXBException e) {
 			e.printStackTrace();
@@ -957,9 +952,7 @@ public class MainLayout {
 	private void loadTableAlgorithm() {
 		OptimizationProcess k = new OptimizationProcess(this);
 		try {
-			ArrayList<String> listAlgorithms = (ArrayList<String>) k
-					// TODO this line is throws an exception when you ask for manual algorithms without opening a problem
-					.getAlgorithmsFor(currentProblem.getType());
+			ArrayList<String> listAlgorithms = (ArrayList<String>) k.getAlgorithmsFor(currentProblem.getType());
 			DefaultTableModel modelAlgorithms = modelAlgorithms();
 			for (int i = 0; i < listAlgorithms.size(); i++) {
 				modelAlgorithms.addRow(new Object[] { listAlgorithms.get(i), false });
@@ -984,6 +977,14 @@ public class MainLayout {
 					public Class<?> getColumnClass(int columnIndex) {
 						return columnTypes[columnIndex];
 					}
+
+					public boolean isCellEditable(int row, int column) {
+						if (column == 0)
+							return false;
+						// This causes all cells to be not editable
+						else
+							return true;
+					}
 				});
 		return modelAlgorithms;
 	}
@@ -998,11 +999,13 @@ public class MainLayout {
 			public void run() {
 				try {
 					op.run(currentProblem);
-				}catch (JMetalException e) {
+				} catch (JMetalException e) {
 					List<String> emails = new ArrayList<>();
 					emails.add(currentProblem.getEmail());
-					EmailSender email = new EmailSender(emailAdmin, passAdmin, emails, "JMetal Problem Quality Indicator",
-							"The problem " + e.getMessage() + " failed to find results with good quality. Try rerunning the"
+					EmailSender email = new EmailSender(emailAdmin, passAdmin, emails,
+							"JMetal Problem Quality Indicator",
+							"The problem " + e.getMessage()
+									+ " failed to find results with good quality. Try rerunning the"
 									+ " experiment with different parameters.");
 					email.addToCC(emailAdmin);
 					email.sendFromGMail();
@@ -1066,7 +1069,8 @@ public class MainLayout {
 				promptUser(dv.getBuildErrorMessage(), true);
 			}
 		} else {
-			promptUser("Before trying to visualize results, you must load a Problem or define a new one and run it.", true);
+			promptUser("Before trying to visualize results, you must load a Problem or define a new one and run it.",
+					true);
 		}
 	}
 
