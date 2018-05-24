@@ -186,20 +186,12 @@ public class OptimizationProcess {
 	 */
 	@SuppressWarnings("resource")
 	private void getGenericAlgo(ArrayList<String> list, String dataType) throws IOException {
-
 		ArrayList<String> classNames = new ArrayList<String>();
 		ZipInputStream zip;
 		zip = new ZipInputStream(this.getClass().getResourceAsStream("/jmetal-algorithm-5.5.1-sources.jar"));
 
 		for (ZipEntry entry = zip.getNextEntry(); entry != null; entry = zip.getNextEntry()) {
-			if (!entry.isDirectory() && entry.getName().endsWith(".java") && entry.getName().contains("multiobjective")
-					&& !entry.getName().contains("CellDE") && !entry.getName().contains("GWASFGA")
-					&& !entry.getName().contains("MOMBI") && !entry.getName().contains("util")
-					&& !entry.getName().contains("Builder") && !entry.getName().contains("Measures")
-					&& !entry.getName().contains("45") && !entry.getName().contains("Steady")
-					&& !entry.getName().contains("Stopping") && !entry.getName().contains("DMOPSO")
-					&& !entry.getName().contains("SMPSO") && !entry.getName().contains("RNSGAII")
-					&& !entry.getName().contains("WASFGA") && !entry.getName().contains("PESA2")) {
+			if (isDesiredEntry(entry)) {
 				String className = entry.getName().replace('/', '.'); // including ".class"
 				classNames.add(className.substring(0, className.length() - ".class".length() + 1));
 				Scanner sc = new Scanner(zip);
@@ -225,6 +217,17 @@ public class OptimizationProcess {
 	}
 
 	
+	private boolean isDesiredEntry(ZipEntry entry) {
+		return !entry.isDirectory() && entry.getName().endsWith(".java") && entry.getName().contains("multiobjective")
+				&& !entry.getName().contains("CellDE") && !entry.getName().contains("GWASFGA")
+				&& !entry.getName().contains("MOMBI") && !entry.getName().contains("util")
+				&& !entry.getName().contains("Builder") && !entry.getName().contains("Measures")
+				&& !entry.getName().contains("45") && !entry.getName().contains("Steady")
+				&& !entry.getName().contains("Stopping") && !entry.getName().contains("DMOPSO")
+				&& !entry.getName().contains("SMPSO") && !entry.getName().contains("RNSGAII")
+				&& !entry.getName().contains("WASFGA") && !entry.getName().contains("PESA2");
+	}
+
 	public synchronized void callBack() {
 		optimizationProgress++;
 		if((double) optimizationProgress / optimizationTotalIterations == 0.25) {
@@ -239,28 +242,30 @@ public class OptimizationProcess {
 	}
 
 	private void sendEmail(int percentageCompleted) {
+		List<String> to = new ArrayList<>();
+		to.add(problem.getEmail());
+		
+		String subject = "Optimização em curso: " + problem.getProblemTitle();
+		String body;
+		if(percentageCompleted == 0) {
+			body = "Muito obrigado por usar esta plataforma de otimização. Será informado por email "
+					+ "sobre o progresso do processo de otimização, quando o processo de otimização tiver atingido 25%, 50%, "
+					+ "75% do total do número de avaliações, e também quando o processo tiver "
+					+ "terminado, com sucesso ou devido à ocorrência de erros.";
+		}else {
+			body = "De momento o processo de otimização encontra-se a " + percentageCompleted + "% do número de avaliações!";
+		}
+		File attachment = new File("temp.xml");
+		mainLayout.writeXmlToFile(attachment, problem);
+		
+		EmailSender email = new EmailSender(mainLayout.getAdminMail(), mainLayout.getAdminPass(), to, subject, body);
+		email.addToCC(mainLayout.getAdminMail());
+		email.addAttachment(attachment);
+		
 		Thread t = new Thread(new Runnable() {
 			@Override
 			public void run() {
-				List<String> to = new ArrayList<>();
-				to.add(problem.getEmail());
 				
-				String subject = "Optimização em curso: " + problem.getProblemTitle();
-				String body;
-				if(percentageCompleted == 0) {
-					body = "Muito obrigado por usar esta plataforma de otimização. Será informado por email "
-							+ "sobre o progresso do processo de otimização, quando o processo de otimização tiver atingido 25%, 50%, "
-							+ "75% do total do número de avaliações, e também quando o processo tiver "
-							+ "terminado, com sucesso ou devido à ocorrência de erros.";
-				}else {
-					body = "De momento o processo de otimização encontra-se a " + percentageCompleted + "% do número de avaliações!";
-				}
-				File attachment = new File("temp.xml");
-				mainLayout.writeXmlToFile(attachment, problem);
-				
-				EmailSender email = new EmailSender(mainLayout.getAdminMail(), mainLayout.getAdminPass(), to, subject, body);
-				email.addToCC(mainLayout.getAdminMail());
-				email.addAttachment(attachment);
 				try {
 					email.sendFromGMail();
 				} catch (MessagingException e) {

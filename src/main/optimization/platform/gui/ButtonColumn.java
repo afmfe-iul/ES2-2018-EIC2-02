@@ -156,7 +156,6 @@ public class ButtonColumn extends AbstractCellEditor
 			renderButton.setBorder( originalBorder );
 		}
 
-//		renderButton.setText( (value == null) ? "" : value.toString() );
 		if (value == null)
 		{
 			renderButton.setText( "" );
@@ -176,9 +175,6 @@ public class ButtonColumn extends AbstractCellEditor
 		return renderButton;
 	}
 
-//
-//  Implement ActionListener interface
-//
 	/*
 	 *	The button has been pressed. Stop editing and invoke the custom Action
 	 */
@@ -196,9 +192,6 @@ public class ButtonColumn extends AbstractCellEditor
 		action.actionPerformed(event);
 	}
 
-//
-//  Implement MouseListener interface
-//
 	/*
 	 *  When the mouse is pressed the editor is invoked. If you then then drag
 	 *  the mouse to another cell before releasing it, the editor is still

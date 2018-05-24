@@ -871,52 +871,68 @@ public class MainLayout {
 			listCriteria.add(m);
 		}
 		if (problemType.equals("Integer")) {
-			for (int i = 0; i < tableVariable.getRowCount(); i++) {
-				TableRowVariable m = new TableRowVariable();
-				m.setName((String) tableVariable.getValueAt(i, 0));
-				m.setMinimo(Integer.toString((int) tableVariable.getValueAt(i, 1)));
-				m.setMaximo(Integer.toString((int) tableVariable.getValueAt(i, 2)));
-				if (tableVariable.getValueAt(i, 3) != null) {
-					m.setForbidden(Integer.toString((int) tableVariable.getValueAt(i, 3)));
-
-				} else {
-					m.setForbidden(null);
-				}
-				listVariable.add(m);
-			}
+			readIntegerProblemFromInterface(listVariable);
 		}
 		if (problemType.equals("Double")) {
-			for (int i = 0; i < tableVariable.getRowCount(); i++) {
-				TableRowVariable m = new TableRowVariable();
-				m.setName((String) tableVariable.getValueAt(i, 0));
-				m.setMinimo(Double.toString((Double) tableVariable.getValueAt(i, 1)));
-				m.setMaximo(Double.toString((Double) tableVariable.getValueAt(i, 2)));
-				if (tableVariable.getValueAt(i, 3) != null) {
-					m.setForbidden(Double.toString((Double) tableVariable.getValueAt(i, 3)));
-				} else {
-					m.setForbidden(null);
-				}
-				listVariable.add(m);
-			}
+			readDoubleProblemFromInterface(listVariable);
 		}
 		if (problemType.equals("Binary")) {
-			currentProblem.setBitsPerVariable(Integer.parseInt(txtBitsPerVariable.getText()));
-			for (int i = 0; i < tableVariable.getRowCount(); i++) {
-				TableRowVariable m = new TableRowVariable();
-				m.setName((String) tableVariable.getValueAt(i, 0));
-
-				if (tableVariable.getValueAt(i, 1) != null) {
-					m.setForbidden(Integer.toString((int) tableVariable.getValueAt(i, 1)));
-				} else {
-					m.setForbidden(null);
-				}
-				listVariable.add(m);
-			}
+			readBinaryProblemFromInterface(listVariable);
 		}
 		currentProblem.setListVariable(listVariable);
 		currentProblem.setListCriteria(listCriteria);
 	}
 
+	
+	private void readIntegerProblemFromInterface(List<TableRowVariable> listVariable) {
+		for (int i = 0; i < tableVariable.getRowCount(); i++) {
+			TableRowVariable m = new TableRowVariable();
+			m.setName((String) tableVariable.getValueAt(i, 0));
+			m.setMinimo(Integer.toString((int) tableVariable.getValueAt(i, 1)));
+			m.setMaximo(Integer.toString((int) tableVariable.getValueAt(i, 2)));
+			if (tableVariable.getValueAt(i, 3) != null) {
+				m.setForbidden(Integer.toString((int) tableVariable.getValueAt(i, 3)));
+
+			} else {
+				m.setForbidden(null);
+			}
+			listVariable.add(m);
+		}
+	}
+	
+	
+	private void readDoubleProblemFromInterface(List<TableRowVariable> listVariable) {
+		for (int i = 0; i < tableVariable.getRowCount(); i++) {
+			TableRowVariable m = new TableRowVariable();
+			m.setName((String) tableVariable.getValueAt(i, 0));
+			m.setMinimo(Double.toString((Double) tableVariable.getValueAt(i, 1)));
+			m.setMaximo(Double.toString((Double) tableVariable.getValueAt(i, 2)));
+			if (tableVariable.getValueAt(i, 3) != null) {
+				m.setForbidden(Double.toString((Double) tableVariable.getValueAt(i, 3)));
+			} else {
+				m.setForbidden(null);
+			}
+			listVariable.add(m);
+		}
+	}
+	
+	
+	private void readBinaryProblemFromInterface(List<TableRowVariable> listVariable) {
+		currentProblem.setBitsPerVariable(Integer.parseInt(txtBitsPerVariable.getText()));
+		for (int i = 0; i < tableVariable.getRowCount(); i++) {
+			TableRowVariable m = new TableRowVariable();
+			m.setName((String) tableVariable.getValueAt(i, 0));
+
+			if (tableVariable.getValueAt(i, 1) != null) {
+				m.setForbidden(Integer.toString((int) tableVariable.getValueAt(i, 1)));
+			} else {
+				m.setForbidden(null);
+			}
+			listVariable.add(m);
+		}
+	}
+	
+	
 	/**
 	 * Saves a problem definition inputed by the user to a .xml file on the input
 	 * directory

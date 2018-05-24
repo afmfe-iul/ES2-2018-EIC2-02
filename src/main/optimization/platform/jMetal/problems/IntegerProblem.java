@@ -47,7 +47,7 @@ public class IntegerProblem extends AbstractIntegerProblem {
 	/**
 	 * Evaluates the fitness of a vector of weights.
 	 * Calls the evaluate inside the specific jar for each decision variable thru the ProblemHelper class 
-	 * @param DoubleSolution
+	 * @param solution
 	 */
 	@Override
 	public void evaluate(IntegerSolution solution) {
