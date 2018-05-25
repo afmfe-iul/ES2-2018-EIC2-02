@@ -1,0 +1,10 @@
+Sprint review 
+Neste Sprint procedemos ao acabamento de todas as componentes da interface gráfica Main Layout e validações de inputs por parte do utilizador.
+Também foi melhorada e introduzida lógica adicional para representar os resultados produzidos pela framework JMetal.
+Foram encontrados problemas a nível da implementação dos Builders de problemas Binários devido à falta de documentação do framework em utilização JMetal. Também foi necessário reformular alguma lógica em relação à representação de resultados produzidos pelo JMetal através da biblioteca D3. Como tal o número de horas gasto pelos membros foi maior que o esperado. 
+A cobertura de testes foi aumentada ainda mais a para cumprir os requisitos do projecto.
+Todas as funcionalidades acordadas foram desenvolvidas.
+
+Sprint retrospective
+Praticamente o que o grupo se comprometeu a realizar no Sprint backlog foi realizado. Melhoramos  bastante ao nível da frequência dos commits realizados para o repositório demonstrando um trabalho contínuo e igualmente distribuído por todos. 
+No entanto a estimativa de horas ainda não o foi corretamente feita (devido a problemas referidos no Sprint review).
